@@ -1,4 +1,4 @@
-package io.shamash.onboarding
+package io.shamash.feature.onboarding
 
 import android.graphics.Bitmap
 import android.graphics.Canvas

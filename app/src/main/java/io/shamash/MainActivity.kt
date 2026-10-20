@@ -21,7 +21,7 @@ import androidx.tv.material3.Text
 import io.shamash.app.ServiceLocator
 import io.shamash.data.KNOWN_STREAMING
 import io.shamash.domain.Profile
-import io.shamash.onboarding.Onboarding
+import io.shamash.feature.onboarding.Onboarding
 import io.shamash.ui.Palette
 import io.shamash.ui.ShamashTheme
 import kotlinx.coroutines.launch
