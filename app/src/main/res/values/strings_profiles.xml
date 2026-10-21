@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Profiles, PIN, Kids and Guest, time limits and bedtime (PRF-04..16, PRF-19). -->
+<resources>
+    <string name="settings_profiles">Profiles</string>
+    <string name="profile_picker_title">Who is watching?</string>
+    <string name="profile_guest">Guest</string>
+    <string name="profile_add">Add profile</string>
+    <string name="profile_switch">Switch profile</string>
+    <string name="profile_back">Back</string>
+    <string name="profile_cancel">Cancel</string>
+    <string name="profile_delete">Delete</string>
+    <string name="profile_delete_sure">Press again to delete %1$s</string>
+    <string name="profile_save">Save</string>
+    <string name="profile_owner_tag">Owner</string>
+
+    <string name="pin_enter">Enter PIN</string>
+    <string name="pin_for">PIN for %1$s</string>
+    <string name="pin_owner">Owner\'s PIN</string>
+    <string name="pin_wrong">Wrong PIN. %1$d tries left.</string>
+    <string name="pin_locked">Too many wrong PINs. Try again in %1$d min.</string>
+    <string name="pin_new">Choose a 4-digit PIN</string>
+    <string name="pin_confirm">Type the PIN again</string>
+    <string name="pin_mismatch">The PINs did not match. Try again.</string>
+    <string name="pin_delete_key">Delete</string>
+    <string name="pin_set">Set PIN</string>
+    <string name="pin_change">Change PIN</string>
+    <string name="pin_remove">Remove PIN</string>
+    <string name="pin_none">No PIN</string>
+    <string name="pin_has">PIN on</string>
+    <string name="pin_nudge">Set an owner PIN so Kids and limits cannot be changed without it.</string>
+    <string name="pin_owner_to_edit">Enter the owner\'s PIN to change profiles</string>
+
+    <string name="hold_ok_confirm">Hold OK for 3 seconds to confirm</string>
+    <string name="hold_ok_leave_kids">Leaving Kids. Hold OK for 3 seconds. Set an owner PIN in Settings to protect this.</string>
+    <string name="hold_ok_progress">%1$d%%</string>
+
+    <string name="lock_bedtime">Bedtime. Back at %1$s.</string>
+    <string name="lock_daily">Today\'s watching time is up.</string>
+    <string name="lock_unlock">Owner PIN to unlock</string>
+    <string name="lock_unlock_hold">Hold OK for 3 seconds to unlock</string>
+    <string name="lock_warning">%1$d minutes left today</string>
+
+    <string name="kind_adult">Adult</string>
+    <string name="kind_kids">Kids</string>
+    <string name="keys_shared">Use the owner\'s keys</string>
+    <string name="keys_own">Its own keys</string>
+
+    <string name="profile_name">Name</string>
+    <string name="profile_colour">Colour</string>
+    <string name="profile_kind">Who is it for</string>
+    <string name="profile_level">What it may show</string>
+    <string name="profile_keys">Keys (TMDB, YouTube)</string>
+    <string name="profile_copy_from">Copy setup from</string>
+    <string name="profile_copy_none">Start fresh</string>
+    <string name="profile_limit_daily">Daily watching time</string>
+    <string name="profile_limit_none">No limit</string>
+    <string name="profile_limit_minutes">%1$d min</string>
+    <string name="profile_bedtime">Bedtime (every day)</string>
+    <string name="profile_bedtime_off">Off</string>
+    <string name="profile_bedtime_window">%1$s to %2$s</string>
+    <string name="profile_apps">Apps it may open</string>
+    <string name="profile_apps_explain">Kids opens only the apps picked here (none until you pick). Family opens everything until you pick.</string>
+    <string name="profile_usage_note">Time is counted while Shamash is in front. Time spent inside other apps is not measured.</string>
+    <string name="profile_ask_launch">Ask who is watching when Shamash opens</string>
+    <string name="profile_guest_on">Offer a Guest profile (nothing is saved, cleared when it ends)</string>
+    <string name="profile_guest_level">Guest may show</string>
+    <string name="profile_full">Six profiles is the most.</string>
+    <string name="profile_blocked_app">That app is not allowed on this profile</string>
+    <string name="profile_on">On</string>
+    <string name="profile_off">Off</string>
+
+    <string name="colour_gold">Gold</string>
+    <string name="colour_coral">Coral</string>
+    <string name="colour_sky">Sky</string>
+    <string name="colour_mint">Mint</string>
+    <string name="colour_violet">Violet</string>
+    <string name="colour_rose">Rose</string>
+</resources>

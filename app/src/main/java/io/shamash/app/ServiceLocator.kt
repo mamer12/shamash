@@ -6,6 +6,11 @@ import io.shamash.data.Http
 import io.shamash.data.Preferences
 import io.shamash.data.Sources
 import io.shamash.data.TvApps
+import io.shamash.feature.profiles.ProfileSession
+import io.shamash.feature.profiles.SecurityStore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 
 /** The object graph, built once per process (manual DI). SPEC: ARCH-02 */
 class ServiceLocator private constructor(context: Context) {
@@ -21,7 +26,10 @@ class ServiceLocator private constructor(context: Context) {
     val matches by lazy { Sources.matches(http) }
     val weather by lazy { Sources.weather(http) }
     val links by lazy { Sources.links(http) }
-    val opener by lazy { Opener(appContext, apps, links, history, prefs) }
+    val session by lazy {
+        ProfileSession(prefs, SecurityStore(prefs.stores), CoroutineScope(SupervisorJob() + Dispatchers.Default), appContext.packageName)
+    }
+    val opener by lazy { Opener(appContext, apps, links, history, prefs).also { it.policy = session } }
 
     companion object {
         @Volatile private var instance: ServiceLocator? = null

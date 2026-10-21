@@ -55,6 +55,16 @@ class CinemanaAddon private constructor(
     }
 
     companion object {
+        /** The registration (PEX-01): off until the profile enables it; behaviour is as before. */
+        val addOn = io.shamash.domain.AddOn(
+            id = CinemanaProvider.ID, nameRes = R.string.settings_cinemana, descRes = R.string.settings_cinemana_text,
+        ) { deps ->
+            val http = deps.service(Http::class.java)
+            val prefs = deps.service(Preferences::class.java)
+            if (http == null || prefs == null) null
+            else create(http, prefs, deps::isInstalled, deps.service(Context::class.java))
+        }
+
         fun create(http: Http, prefs: Preferences, installed: (String) -> Boolean, context: Context?): Provider {
             val api = CinemanaApi(http)
             val tmdb = CinemanaTmdb(http)

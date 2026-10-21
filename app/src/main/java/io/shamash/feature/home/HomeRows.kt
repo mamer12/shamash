@@ -7,6 +7,7 @@ import io.shamash.domain.Kind
 import io.shamash.domain.Match
 import io.shamash.domain.MediaItem
 import io.shamash.domain.Moment
+import io.shamash.domain.MomentRule
 import io.shamash.domain.Moments
 import io.shamash.domain.OpenTarget
 import io.shamash.domain.Profile
@@ -38,17 +39,20 @@ object HomeRows {
         val matches = Carousel.markMine(loaded.matches, p)
         val moment = Moment.at(input.hour)
         val names = loaded.installed.associate { it.packageName to it.label }
+        val rule = HomeLayout.ruleAt(p, input.now)
+        val laid = HomeLayout.lay(homeRows(p, shelves, matches, history, moment, input.now), p, rule)
         return HomeUi(
             ready = loaded.started && loaded.pending.isEmpty(),
             greeting = Moments.greeting(moment, p.name),
             moment = moment,
-            featured = featured(loaded, matches, input.now, names),
-            home = homeRows(p, shelves, matches, history, moment, input.now),
+            featured = featured(loaded, matches, input.now, names, p, rule),
+            home = laid.shown,
+            editableRows = laid.editable,
             discover = discoverRows(shelves),
             appsRow = appsRow(p, loaded.installed, loaded.recent),
             recentApps = loaded.recent.take(RECENT_MAX),
             allApps = loaded.installed,
-            weather = loaded.weather?.let { weatherNow(it, p) },
+            weather = loaded.weather?.let { HomeLayout.weather(it, p) },
             city = p.city,
         )
     }
@@ -72,10 +76,14 @@ object HomeRows {
     }
 
     /** The billboard: the user's match day first, then the providers in turns. SPEC: HOME-10, MC-03 */
-    fun featured(loaded: Loaded, matches: List<Match>, now: Long, names: Map<String, String>): List<Featured> {
+    fun featured(
+        loaded: Loaded, matches: List<Match>, now: Long, names: Map<String, String>,
+        p: Profile = Profile(), rule: MomentRule? = null,
+    ): List<Featured> {
         val lead = Carousel.matchDay(matches, now)?.let { Carousel.matchItem(it) }
-        val byProvider = loaded.providers.mapValues { it.value.featured }
-        return Carousel.mix(lead, byProvider).map { Featured(it, appName(it, names)) }
+        val byProvider = loaded.providers.filterKeys { it !in p.layout.mixOff }.mapValues { it.value.featured }
+        val order = rule?.mix?.takeIf { it.isNotEmpty() } ?: p.layout.mix.takeIf { it.isNotEmpty() } ?: Carousel.ORDER
+        return Carousel.mix(lead, byProvider, order = order).map { Featured(it, appName(it, names)) }
     }
 
     /**

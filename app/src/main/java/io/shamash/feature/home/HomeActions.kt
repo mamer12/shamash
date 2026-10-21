@@ -44,12 +44,15 @@ class HomeActions(
         locator.opener.openApp(app.packageName)
     }
 
+    /** Kids cannot reach Inputs or TV Settings. SPEC: PRF-10 */
+    val canUseInputs get() = locator.session.restrictions.inputs
+
     fun openInput(input: TvInput) {
-        TvInputs.open(context, input)
+        if (canUseInputs) TvInputs.open(context, input)
     }
 
     fun tvSettings() {
-        TvInputs.openTvSettings(context)
+        if (locator.session.restrictions.tvSettings) TvInputs.openTvSettings(context)
     }
 
     fun search() {
@@ -57,7 +60,7 @@ class HomeActions(
     }
 
     fun settings() {
-        locator.opener.internal(ROUTE_SETTINGS)
+        if (locator.session.restrictions.settings) locator.opener.internal(ROUTE_SETTINGS)
     }
 
     private companion object {

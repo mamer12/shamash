@@ -93,30 +93,6 @@ data class Keys(val tmdb: String, val youtubeId: String, val youtubeSecret: Stri
     }
 }
 
-/** The Cinemana add-on and what it may show. SPEC: PRV-14, CIN-08 */
-@Composable
-internal fun AddonsPanel(p: Profile, save: (Profile) -> Unit) {
-    ListItem(
-        selected = false, onClick = { save(p.withAddon("cinemana", !p.cinemanaAddon)) },
-        headlineContent = { Text(stringResource(R.string.settings_cinemana)) },
-        supportingContent = { Text(stringResource(R.string.settings_cinemana_text)) },
-        trailingContent = { Switch(checked = p.cinemanaAddon, onCheckedChange = null) },
-    )
-    if (!p.cinemanaAddon) return
-    Spacer(Modifier.height(16.dp))
-    Text(stringResource(R.string.settings_level), color = Palette.Dim)
-    Spacer(Modifier.height(8.dp))
-    OnePicker(ContentLevel.entries, p.contentLevel, { save(p.copy(contentLevel = it)) }) { level ->
-        stringResource(
-            when (level) {
-                ContentLevel.ALL -> R.string.level_all
-                ContentLevel.FAMILY -> R.string.level_family
-                ContentLevel.KIDS -> R.string.level_kids
-            }
-        )
-    }
-}
-
 /** Apps not closed when the user goes back Home. SPEC: HOME-15 */
 @Composable
 internal fun KeepPanel(p: Profile, save: (Profile) -> Unit, locator: ServiceLocator) {

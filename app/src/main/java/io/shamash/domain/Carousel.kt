@@ -14,9 +14,11 @@ object Carousel {
      * The billboard's items: [lead] (the user's team's match) first, then one item per provider in turn, only those
      * with wide art, each once, at most [max]. SPEC: HOME-10
      */
-    fun mix(lead: MediaItem?, featured: Map<String, List<MediaItem>>, max: Int = MAX): List<MediaItem> {
+    fun mix(
+        lead: MediaItem?, featured: Map<String, List<MediaItem>>, max: Int = MAX, order: List<String> = ORDER,
+    ): List<MediaItem> {
         val queues = featured.entries
-            .sortedBy { (id, _) -> ORDER.indexOf(id).let { if (it < 0) ORDER.size else it } }
+            .sortedBy { (id, _) -> order.indexOf(id).let { if (it < 0) order.size else it } }
             .map { (_, items) -> items.filter { !it.backdropUrl.isNullOrBlank() } }
         val out = ArrayList<MediaItem>(max)
         val seen = HashSet<String>()

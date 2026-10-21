@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_layout">التخطيط</string>
+    <string name="layout_locked_kids">المالك وحده يغيّر تخطيط هذا الملف.</string>
+
+    <string name="layout_preset_title">كيف تريد أن تبدو الشاشة الرئيسية؟</string>
+    <string name="layout_preset_text">اختر نقطة بداية. يمكنك تغيير كل صف لاحقاً من الإعدادات.</string>
+    <string name="preset_cinema">سينما</string>
+    <string name="preset_cinema_desc">متابعة المشاهدة، اختياراتك، خدماتك وأفضل 10.</string>
+    <string name="preset_sports">رياضة</string>
+    <string name="preset_sports_desc">المباريات أولاً، المباشرة والقادمة، ثم ما كنت تشاهده.</string>
+    <string name="preset_kids">أطفال</string>
+    <string name="preset_kids_desc">صفوف الأطفال فقط، بطاقات كبيرة، بلا مباريات.</string>
+    <string name="preset_minimal">بسيط</string>
+    <string name="preset_minimal_desc">تطبيقاتك، متابعة المشاهدة واقتراح واحد. لا شيء غير ذلك.</string>
+
+    <string name="layout_rows_title">الصفوف</string>
+    <string name="layout_rows_text">حرّك صفوف الرئيسية أو أخفِها أو أعد تسميتها أو ثبّتها. التغيير فوري.</string>
+    <string name="layout_no_rows">تظهر الصفوف هنا بعد تحميل الشاشة الرئيسية.</string>
+    <string name="layout_up">أعلى</string>
+    <string name="layout_down">أسفل</string>
+    <string name="layout_hide">إخفاء</string>
+    <string name="layout_show">إظهار</string>
+    <string name="layout_pin">تثبيت</string>
+    <string name="layout_unpin">إلغاء التثبيت</string>
+    <string name="layout_rename">إعادة تسمية</string>
+    <string name="layout_rename_label">اسم الصف (الفارغ يعيد الاسم الأصلي)</string>
+    <string name="layout_rename_save">حفظ الاسم</string>
+    <string name="layout_hidden_tag">مخفي</string>
+    <string name="layout_reset">إعادة ضبط التخطيط</string>
+    <string name="layout_reset_confirm">اضغط مرة أخرى للتأكيد</string>
+
+    <string name="layout_rules_title">قواعد اللحظة</string>
+    <string name="layout_rules_text">في أيام وأوقات تختارها، ارفع صفاً إلى ما تحت اللوحة مباشرة.</string>
+    <string name="rule_add">إضافة قاعدة</string>
+    <string name="rule_delete">حذف</string>
+    <string name="rule_from">من</string>
+    <string name="rule_to">إلى</string>
+    <string name="rule_row">الصف المرفوع</string>
+    <string name="rule_label">عنوان جديد له (اختياري)</string>
+    <string name="rule_summary">%1$s %2$s إلى %3$s: %4$s</string>
+    <string name="rule_err_days">اختر يوماً واحداً على الأقل.</string>
+    <string name="rule_err_time">يجب أن يختلف وقت البداية عن النهاية.</string>
+    <string name="rule_err_row">اختر صفاً.</string>
+    <string name="rule_err_full">ثماني قواعد على الأكثر.</string>
+    <string name="day_1">الإثنين</string>
+    <string name="day_2">الثلاثاء</string>
+    <string name="day_3">الأربعاء</string>
+    <string name="day_4">الخميس</string>
+    <string name="day_5">الجمعة</string>
+    <string name="day_6">السبت</string>
+    <string name="day_7">الأحد</string>
+
+    <string name="layout_look_title">المظهر</string>
+    <string name="layout_accent">لون التمييز</string>
+    <string name="accent_gold">ذهبي</string>
+    <string name="accent_sky">سماوي</string>
+    <string name="accent_mint">نعناعي</string>
+    <string name="accent_coral">مرجاني</string>
+    <string name="accent_violet">بنفسجي</string>
+    <string name="accent_rose">وردي</string>
+    <string name="accent_orange">برتقالي</string>
+    <string name="accent_teal">فيروزي</string>
+    <string name="layout_card_size">حجم البطاقات</string>
+    <string name="size_s">صغير</string>
+    <string name="size_m">متوسط</string>
+    <string name="size_l">كبير</string>
+    <string name="layout_clock">الساعة</string>
+    <string name="clock_follow">مثل التلفاز</string>
+    <string name="clock_12">12 ساعة</string>
+    <string name="clock_24">24 ساعة</string>
+    <string name="layout_date">التاريخ</string>
+    <string name="date_weekday">اليوم والتاريخ</string>
+    <string name="date_numeric">أرقام</string>
+    <string name="layout_temp">الحرارة</string>
+    <string name="temp_auto">حسب المنطقة</string>
+    <string name="temp_c">مئوية</string>
+    <string name="temp_f">فهرنهايت</string>
+    <string name="layout_weather_show">إظهار الطقس</string>
+    <string name="layout_arabic_layout">تخطيط عربي (عكس الرئيسية)</string>
+    <string name="layout_arabic_digits">الأرقام الهندية</string>
+    <string name="layout_on">يعمل</string>
+    <string name="layout_off">متوقف</string>
+    <string name="layout_mix_title">مصادر اللوحة</string>
+</resources>

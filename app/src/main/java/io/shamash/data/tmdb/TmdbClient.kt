@@ -46,6 +46,12 @@ class TmdbClient(
     suspend fun services(key: String, title: TmdbTitle, region: String): List<StreamingService> =
         TmdbJson.flatrate(get(key, "${path(title.kind)}/${title.id}/watch/providers"), region)
 
+    /** The title's age rating in [region] (or the US), null when unknown. SPEC: PRF-12 */
+    suspend fun certification(key: String, title: TmdbTitle, region: String): String? {
+        val path = if (title.kind == Kind.SERIES) "tv/${title.id}/content_ratings" else "movie/${title.id}/release_dates"
+        return TmdbJson.certification(get(key, path), title.kind, region)
+    }
+
     suspend fun findByImdb(key: String, imdbId: String): TmdbTitle? =
         TmdbJson.found(get(key, "find/$imdbId", mapOf("external_source" to "imdb_id")))
 

@@ -5,6 +5,7 @@ import io.shamash.data.Refresh
 import io.shamash.data.TimedCache
 import io.shamash.data.softly
 import io.shamash.data.youtube.YouTubeMix.toItem
+import io.shamash.domain.ContentLevel
 import io.shamash.domain.MediaItem
 import io.shamash.domain.OpenTarget
 import io.shamash.domain.Profile
@@ -32,7 +33,7 @@ class YouTubeProvider(
 ) : Provider {
     override val id = YouTubeMix.PROVIDER_ID
 
-    private val cache = TimedCache<Int, List<MediaItem>>(clock, Refresh.every(3 * Refresh.HOUR))
+    private val cache = TimedCache<Pair<Int, ContentLevel>, List<MediaItem>>(clock, Refresh.every(3 * Refresh.HOUR))
 
     override fun isEnabled(profile: Profile) = profile.hasYoutubeClient && isInstalled(YouTubeMix.APP)
 
@@ -47,27 +48,28 @@ class YouTubeProvider(
         if (!isEnabled(profile) || query.isBlank()) return emptyList()
         return softly("YouTube search", emptyList()) {
             val token = auth.accessToken() ?: return@softly emptyList()
-            videos(token, searchIds(token, query.trim(), SEARCH_MAX))
+            val level = profile.contentLevel
+            videos(token, searchIds(token, query.trim(), SEARCH_MAX, level), safeSearched = level != ContentLevel.ALL)
         }
     }
 
     private suspend fun recommended(profile: Profile): List<MediaItem> {
         if (!isEnabled(profile)) return emptyList()
         val account = auth.account() ?: return emptyList()
-        return cache.get(account) {
+        return cache.get(account to profile.contentLevel) {
             softly("YouTube recommendations", emptyList()) {
-                auth.accessToken()?.let { fetchRecommended(it) }.orEmpty()
+                auth.accessToken()?.let { fetchRecommended(it, profile.contentLevel) }.orEmpty()
             }
         }
     }
 
-    private suspend fun fetchRecommended(token: String): List<MediaItem> = coroutineScope {
+    private suspend fun fetchRecommended(token: String, level: ContentLevel): List<MediaItem> = coroutineScope {
         val watched = watchedVideos()
         val liked = YouTubeJson.videos(api(token, "videos", "part" to "snippet", "myRating" to "like", "maxResults" to "10"))
         val seeds = YouTubeMix.seeds(watched.map { (_, title) -> title }, liked.map { it.title })
         val uploads = async { subscriptionUploads(token) }
         val perSeed = seeds.map { seed ->
-            async { softly("YouTube seed search", emptyList()) { searchIds(token, YouTubeMix.searchWords(seed), PER_SEED) } }
+            async { softly("YouTube seed search", emptyList()) { searchIds(token, YouTubeMix.searchWords(seed), PER_SEED, level) } }
         }
         val exclude = (watched.map { (id, _) -> id } + liked.map { it.id }).toSet()
         videos(token, YouTubeMix.pick(perSeed.awaitAll(), uploads.await(), exclude))
@@ -96,15 +98,23 @@ class YouTubeProvider(
         )
     }
 
-    private suspend fun searchIds(token: String, query: String, max: Int): List<String> =
+    private suspend fun searchIds(token: String, query: String, max: Int, level: ContentLevel): List<String> =
         if (query.isBlank()) emptyList()
-        else YouTubeJson.searchIds(api(token, "search", "part" to "id", "type" to "video", "maxResults" to "$max", "q" to query))
+        else YouTubeJson.searchIds(
+            api(
+                token, "search", "part" to "id", "type" to "video", "maxResults" to "$max", "q" to query,
+                "safeSearch" to safeSearch(level),   // SPEC: PRF-12
+            ),
+        )
 
-    private suspend fun videos(token: String, ids: List<String>): List<MediaItem> {
+    /** YouTube's own filter: strict for FAMILY and KIDS, which can't be switched off by the query. */
+    private fun safeSearch(level: ContentLevel) = if (level == ContentLevel.ALL) "moderate" else "strict"
+
+    private suspend fun videos(token: String, ids: List<String>, safeSearched: Boolean = false): List<MediaItem> {
         if (ids.isEmpty()) return emptyList()
-        val answer = api(token, "videos", "part" to "snippet", "id" to ids.joinToString(","))
+        val answer = api(token, "videos", "part" to "snippet,contentDetails,status", "id" to ids.joinToString(","))
         val byId = YouTubeJson.videos(answer).associateBy { it.id }
-        return ids.mapNotNull { byId[it]?.toItem() }
+        return ids.mapNotNull { byId[it]?.toItem(safeSearched) }
     }
 
     private suspend fun api(token: String, path: String, vararg params: Pair<String, String>): String {

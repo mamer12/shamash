@@ -34,6 +34,7 @@ import androidx.tv.material3.Text
 import io.shamash.R
 import io.shamash.app.ServiceLocator
 import io.shamash.domain.Profile
+import io.shamash.feature.profiles.ProfilesPanel
 import io.shamash.feature.tvcontrol.TvControl
 import io.shamash.ui.Palette
 import kotlinx.coroutines.launch
@@ -41,7 +42,9 @@ import kotlinx.coroutines.launch
 /** The Settings sections, in menu order. Remote buttons show only on TVs that have them. SPEC: ONB-06, TVC-05 */
 enum class Section(val title: Int) {
     HOME(R.string.settings_home),
+    LAYOUT(R.string.settings_layout),
     YOU(R.string.settings_you),
+    PROFILES(R.string.settings_profiles),
     KEYS(R.string.settings_keys),
     YOUTUBE(R.string.settings_youtube),
     PHONE(R.string.settings_phone),
@@ -100,11 +103,13 @@ private fun Panel(section: Section, p: Profile, save: (Profile) -> Unit, locator
         Spacer(Modifier.height(16.dp))
         when (section) {
             Section.HOME -> HomePanel()
+            Section.LAYOUT -> io.shamash.feature.layout.LayoutPanel(p, save, locator)
             Section.YOU -> YouPanel(p, save)
+            Section.PROFILES -> ProfilesPanel(locator)
             Section.KEYS -> KeysPanel(p, save)
             Section.YOUTUBE -> YouTubePanel(p, locator)
             Section.PHONE -> PhonePanel(locator)
-            Section.ADDONS -> AddonsPanel(p, save)
+            Section.ADDONS -> AddonsPanel(p, save, locator)
             Section.BUTTONS -> ButtonsPanel(locator)
             Section.KEEP -> KeepPanel(p, save, locator)
             Section.TV -> TvPanel()

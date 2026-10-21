@@ -47,7 +47,7 @@ fun MediaRow(
     modifier: Modifier = Modifier,
     previews: PreviewController? = null,
 ) {
-    RowFrame(shelfTitle(shelf.titleKey, shelf.titleArg), modifier) {
+    RowFrame(shelf.title ?: shelfTitle(shelf.titleKey, shelf.titleArg), modifier) {
         when (shelf.style) {
             ShelfStyle.POSTER, ShelfStyle.RANKED ->
                 ExpandingRow(shelf.items, shelf.style == ShelfStyle.RANKED, onOpen, previews)

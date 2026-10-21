@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- الإضافات: لوحة الإعدادات المشتركة. -->
+<resources>
+    <string name="addons_intro">مصادر اختيارية للشاشة الرئيسية. كل مصدر متوقف حتى تشغّله.</string>
+    <string name="addons_guide">تريد كتابة إضافتك؟ راجع دليل كتابة الإضافات في المشروع.</string>
+    <string name="addon_credential_saved">محفوظ على هذا التلفاز. اكتب قيمة جديدة لاستبداله.</string>
+    <string name="addon_credential_required">مطلوب</string>
+    <string name="addon_save">حفظ</string>
+    <string name="addon_test">اختبار الاتصال</string>
+    <string name="addon_testing">جارٍ الاختبار…</string>
+    <string name="addon_test_missing">املأ الحقول المطلوبة واحفظها أولاً.</string>
+    <string name="addon_test_failed">لم يكتمل الاختبار. تحقق من البيانات وحاول مجدداً.</string>
+    <string name="addon_remove">إزالة</string>
+    <string name="addon_remove_text">يمسح ما حُفظ لهذه الإضافة ويوقفها.</string>
+    <string name="addon_rows">الصفوف في الرئيسية</string>
+    <string name="addon_row_rename">اسمك لهذا الصف</string>
+</resources>

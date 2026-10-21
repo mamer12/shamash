@@ -35,8 +35,20 @@ object YouTubeMix {
     /** The newest uploads first. */
     fun newest(uploads: List<Upload>): List<String> = uploads.sortedByDescending { it.publishedAt }.map { it.videoId }
 
+    /**
+     * What the content gate reads. Made-for-kids is TV-Y; age-restricted is TV-MA; anything else YouTube doesn't rate:
+     * it is TV-PG only when it came through a `safeSearch=strict` request ([safeSearched]), else unknown (hidden for
+     * restricted profiles). SPEC: PRF-12
+     */
+    fun YouTubeVideo.rating(safeSearched: Boolean): String? = when {
+        ageRestricted -> "TV-MA"
+        madeForKids -> "TV-Y"
+        safeSearched -> "TV-PG"
+        else -> null
+    }
+
     /** A video opens in the YouTube app on its watch page. SPEC: PRV-08 */
-    fun YouTubeVideo.toItem() = MediaItem(
+    fun YouTubeVideo.toItem(safeSearched: Boolean = false) = MediaItem(
         id = "$PROVIDER_ID:$id",
         providerId = PROVIDER_ID,
         title = title,
@@ -47,5 +59,6 @@ object YouTubeMix {
         posterUrl = thumbnail,
         backdropUrl = maxres,
         appPackage = APP,
+        rating = rating(safeSearched),
     )
 }

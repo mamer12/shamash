@@ -31,6 +31,8 @@ data class YouTubeVideo(
     val description: String,
     val thumbnail: String?,
     val maxres: String?,
+    val madeForKids: Boolean = false,      // `status.madeForKids` (the creator's own declaration)
+    val ageRestricted: Boolean = false,    // `contentDetails.contentRating.ytRating == ytAgeRestricted`
 )
 
 data class Upload(val videoId: String, val publishedAt: String)
@@ -58,7 +60,16 @@ object YouTubeJson {
     @Serializable private data class Items<T>(val items: List<T> = emptyList())
     @Serializable private data class SearchHit(val id: SearchId? = null)
     @Serializable private data class SearchId(val videoId: String? = null)
-    @Serializable private data class Video(val id: String, val snippet: Snippet? = null)
+    @Serializable
+    private data class Video(
+        val id: String,
+        val snippet: Snippet? = null,
+        val status: Status? = null,
+        val contentDetails: VideoDetails? = null,
+    )
+    @Serializable private data class Status(val madeForKids: Boolean = false)
+    @Serializable private data class VideoDetails(val contentRating: ContentRating? = null)
+    @Serializable private data class ContentRating(val ytRating: String? = null)
     @Serializable private data class Thumb(val url: String)
     @Serializable private data class Subscription(val snippet: SubscriptionSnippet? = null)
     @Serializable private data class SubscriptionSnippet(val resourceId: ResourceId? = null)
@@ -92,7 +103,7 @@ object YouTubeJson {
     fun searchIds(text: String): List<String> =
         json.decodeFromString<Items<SearchHit>>(text).items.mapNotNull { it.id?.videoId }
 
-    /** `videos?part=snippet`: medium (16:9) thumbnail for cards, maxres (when there is one) as wide art. SPEC: PRV-07 */
+    /** `videos?part=snippet,contentDetails,status`: medium (16:9) thumbnail for cards, maxres (when there is one) as wide art. SPEC: PRV-07 */
     fun videos(text: String): List<YouTubeVideo> =
         json.decodeFromString<Items<Video>>(text).items.mapNotNull { v ->
             val s = v.snippet ?: return@mapNotNull null
@@ -103,6 +114,8 @@ object YouTubeJson {
                 description = s.description.lineSequence().firstOrNull().orEmpty(),
                 thumbnail = (s.thumbnails["medium"] ?: s.thumbnails["default"])?.url,
                 maxres = s.thumbnails["maxres"]?.url,
+                madeForKids = v.status?.madeForKids == true,
+                ageRestricted = v.contentDetails?.contentRating?.ytRating == "ytAgeRestricted",
             )
         }
 

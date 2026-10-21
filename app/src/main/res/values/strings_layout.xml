@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Layout: row editor, presets, moment rules, look (LAY-18). -->
+<resources>
+    <string name="settings_layout">Layout</string>
+    <string name="layout_locked_kids">Only the owner can change this profile\'s layout.</string>
+
+    <string name="layout_preset_title">How should Home look?</string>
+    <string name="layout_preset_text">Pick a starting point. You can change every row later in Settings.</string>
+    <string name="preset_cinema">Cinema</string>
+    <string name="preset_cinema_desc">Continue watching, picks, your services and the Top 10.</string>
+    <string name="preset_sports">Sports</string>
+    <string name="preset_sports_desc">Matches first, live and upcoming, then what you were watching.</string>
+    <string name="preset_kids">Kids</string>
+    <string name="preset_kids_desc">Only kids\' rows, large cards, no matches.</string>
+    <string name="preset_minimal">Minimal</string>
+    <string name="preset_minimal_desc">Your apps, continue watching and one pick. Nothing else.</string>
+
+    <string name="layout_rows_title">Rows</string>
+    <string name="layout_rows_text">Move, hide, rename or pin the rows on Home. Changes show at once.</string>
+    <string name="layout_no_rows">Rows appear here once Home has loaded.</string>
+    <string name="layout_up">Up</string>
+    <string name="layout_down">Down</string>
+    <string name="layout_hide">Hide</string>
+    <string name="layout_show">Show</string>
+    <string name="layout_pin">Pin</string>
+    <string name="layout_unpin">Unpin</string>
+    <string name="layout_rename">Rename</string>
+    <string name="layout_rename_label">Row name (empty restores the default)</string>
+    <string name="layout_rename_save">Save name</string>
+    <string name="layout_hidden_tag">hidden</string>
+    <string name="layout_reset">Reset layout</string>
+    <string name="layout_reset_confirm">Press again to reset</string>
+
+    <string name="layout_rules_title">Moment rules</string>
+    <string name="layout_rules_text">At chosen days and times, lift a row to just under the billboard.</string>
+    <string name="rule_add">Add rule</string>
+    <string name="rule_delete">Delete</string>
+    <string name="rule_from">From</string>
+    <string name="rule_to">To</string>
+    <string name="rule_row">Row to lift</string>
+    <string name="rule_label">New title for it (optional)</string>
+    <string name="rule_summary">%1$s %2$s to %3$s: %4$s</string>
+    <string name="rule_err_days">Pick at least one day.</string>
+    <string name="rule_err_time">The start and the end must differ.</string>
+    <string name="rule_err_row">Pick a row.</string>
+    <string name="rule_err_full">At most 8 rules.</string>
+    <string name="day_1">Mon</string>
+    <string name="day_2">Tue</string>
+    <string name="day_3">Wed</string>
+    <string name="day_4">Thu</string>
+    <string name="day_5">Fri</string>
+    <string name="day_6">Sat</string>
+    <string name="day_7">Sun</string>
+
+    <string name="layout_look_title">Look</string>
+    <string name="layout_accent">Accent colour</string>
+    <string name="accent_gold">Gold</string>
+    <string name="accent_sky">Sky</string>
+    <string name="accent_mint">Mint</string>
+    <string name="accent_coral">Coral</string>
+    <string name="accent_violet">Violet</string>
+    <string name="accent_rose">Rose</string>
+    <string name="accent_orange">Orange</string>
+    <string name="accent_teal">Teal</string>
+    <string name="layout_card_size">Card size</string>
+    <string name="size_s">Small</string>
+    <string name="size_m">Medium</string>
+    <string name="size_l">Large</string>
+    <string name="layout_clock">Clock</string>
+    <string name="clock_follow">Like the TV</string>
+    <string name="clock_12">12 hour</string>
+    <string name="clock_24">24 hour</string>
+    <string name="layout_date">Date</string>
+    <string name="date_weekday">Weekday and day</string>
+    <string name="date_numeric">Numbers</string>
+    <string name="layout_temp">Temperature</string>
+    <string name="temp_auto">By region</string>
+    <string name="temp_c">Celsius</string>
+    <string name="temp_f">Fahrenheit</string>
+    <string name="layout_weather_show">Show weather</string>
+    <string name="layout_arabic_layout">Arabic layout (mirror Home)</string>
+    <string name="layout_arabic_digits">Arabic-Indic digits</string>
+    <string name="layout_on">On</string>
+    <string name="layout_off">Off</string>
+    <string name="layout_mix_title">Billboard sources</string>
+</resources>

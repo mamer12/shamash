@@ -1,10 +1,14 @@
 package io.shamash.data.tmdb
 
+import io.shamash.data.Certification
 import io.shamash.data.json
 import io.shamash.domain.Kind
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.jsonObject
 
@@ -76,6 +80,23 @@ object TmdbJson {
         return json.decodeFromJsonElement<Offers>(offers).flatrate
             .mapNotNull { StreamingService.fromProviderName(it.name) }
             .distinct()
+    }
+
+    /**
+     * The age rating from `/movie/{id}/release_dates` or `/tv/{id}/content_ratings`: [region]'s first, else the US one,
+     * normalized for the content gate; null when neither says (the title stays hidden for restricted profiles).
+     * SPEC: PRF-12
+     */
+    fun certification(text: String, kind: Kind, region: String): String? {
+        val results = json.parseToJsonElement(text).jsonObject["results"] as? JsonArray ?: return null
+        fun rated(country: String): String? = results.firstNotNullOfOrNull { entry ->
+            val o = entry as? JsonObject ?: return@firstNotNullOfOrNull null
+            if (o["iso_3166_1"]?.jsonPrimitive?.contentOrNull != country) return@firstNotNullOfOrNull null
+            val raw = if (kind == Kind.SERIES) listOf(o["rating"]?.jsonPrimitive?.contentOrNull)
+            else (o["release_dates"] as? JsonArray).orEmpty().map { (it as? JsonObject)?.get("certification")?.jsonPrimitive?.contentOrNull }
+            raw.firstNotNullOfOrNull { Certification.normalize(it) }
+        }
+        return rated(region.uppercase()) ?: rated("US")
     }
 
     /** `/find/{imdb}`: the title with a wide picture, a movie before a show. */

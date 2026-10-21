@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_profiles">الملفات الشخصية</string>
+    <string name="profile_picker_title">من يشاهد؟</string>
+    <string name="profile_guest">ضيف</string>
+    <string name="profile_add">إضافة ملف</string>
+    <string name="profile_switch">تبديل الملف</string>
+    <string name="profile_back">رجوع</string>
+    <string name="profile_cancel">إلغاء</string>
+    <string name="profile_delete">حذف</string>
+    <string name="profile_delete_sure">اضغط مرة أخرى لحذف %1$s</string>
+    <string name="profile_save">حفظ</string>
+    <string name="profile_owner_tag">المالك</string>
+
+    <string name="pin_enter">أدخل رمز PIN</string>
+    <string name="pin_for">رمز PIN لـ %1$s</string>
+    <string name="pin_owner">رمز PIN الخاص بالمالك</string>
+    <string name="pin_wrong">رمز غير صحيح. تبقّت %1$d محاولات.</string>
+    <string name="pin_locked">محاولات خاطئة كثيرة. حاول بعد %1$d دقيقة.</string>
+    <string name="pin_new">اختر رمز PIN من 4 أرقام</string>
+    <string name="pin_confirm">أعد كتابة الرمز</string>
+    <string name="pin_mismatch">الرمزان غير متطابقين. حاول مرة أخرى.</string>
+    <string name="pin_delete_key">مسح</string>
+    <string name="pin_set">تعيين PIN</string>
+    <string name="pin_change">تغيير PIN</string>
+    <string name="pin_remove">إزالة PIN</string>
+    <string name="pin_none">بلا PIN</string>
+    <string name="pin_has">PIN مفعّل</string>
+    <string name="pin_nudge">عيّن رمز PIN للمالك حتى لا يمكن تغيير ملف الأطفال والحدود بدونه.</string>
+    <string name="pin_owner_to_edit">أدخل رمز PIN الخاص بالمالك لتعديل الملفات</string>
+
+    <string name="hold_ok_confirm">اضغط مطولًا على OK لمدة 3 ثوانٍ للتأكيد</string>
+    <string name="hold_ok_leave_kids">مغادرة ملف الأطفال. اضغط مطولًا على OK لمدة 3 ثوانٍ. عيّن رمز PIN للمالك في الإعدادات لحماية هذا.</string>
+    <string name="hold_ok_progress">%1$d%%</string>
+
+    <string name="lock_bedtime">وقت النوم. نعود عند %1$s.</string>
+    <string name="lock_daily">انتهى وقت المشاهدة لهذا اليوم.</string>
+    <string name="lock_unlock">رمز PIN الخاص بالمالك للفتح</string>
+    <string name="lock_unlock_hold">اضغط مطولًا على OK لمدة 3 ثوانٍ للفتح</string>
+    <string name="lock_warning">تبقّى %1$d دقائق لهذا اليوم</string>
+
+    <string name="kind_adult">بالغ</string>
+    <string name="kind_kids">أطفال</string>
+    <string name="keys_shared">استخدام مفاتيح المالك</string>
+    <string name="keys_own">مفاتيحه الخاصة</string>
+
+    <string name="profile_name">الاسم</string>
+    <string name="profile_colour">اللون</string>
+    <string name="profile_kind">لمن هذا الملف</string>
+    <string name="profile_level">ما يمكنه عرضه</string>
+    <string name="profile_keys">المفاتيح (TMDB، يوتيوب)</string>
+    <string name="profile_copy_from">نسخ الإعداد من</string>
+    <string name="profile_copy_none">البدء من جديد</string>
+    <string name="profile_limit_daily">وقت المشاهدة اليومي</string>
+    <string name="profile_limit_none">بلا حد</string>
+    <string name="profile_limit_minutes">%1$d دقيقة</string>
+    <string name="profile_bedtime">وقت النوم (كل يوم)</string>
+    <string name="profile_bedtime_off">متوقف</string>
+    <string name="profile_bedtime_window">من %1$s إلى %2$s</string>
+    <string name="profile_apps">التطبيقات المسموح بفتحها</string>
+    <string name="profile_apps_explain">ملف الأطفال لا يفتح إلا التطبيقات المختارة هنا (لا شيء قبل الاختيار). الملف العائلي يفتح كل شيء حتى تختار.</string>
+    <string name="profile_usage_note">يُحتسب الوقت أثناء ظهور شمس على الشاشة. الوقت داخل التطبيقات الأخرى غير مقاس.</string>
+    <string name="profile_ask_launch">اسأل من يشاهد عند فتح شمس</string>
+    <string name="profile_guest_on">إتاحة ملف ضيف (لا يُحفظ شيء ويُمسح عند الانتهاء)</string>
+    <string name="profile_guest_level">ما يمكن للضيف عرضه</string>
+    <string name="profile_full">الحد الأقصى ستة ملفات.</string>
+    <string name="profile_blocked_app">هذا التطبيق غير مسموح في هذا الملف</string>
+    <string name="profile_on">مفعّل</string>
+    <string name="profile_off">متوقف</string>
+
+    <string name="colour_gold">ذهبي</string>
+    <string name="colour_coral">مرجاني</string>
+    <string name="colour_sky">سماوي</string>
+    <string name="colour_mint">نعناعي</string>
+    <string name="colour_violet">بنفسجي</string>
+    <string name="colour_rose">وردي</string>
+</resources>

@@ -85,10 +85,18 @@ suspend fun <T> softly(what: String, fallback: T, block: suspend () -> T): T =
 
 /** Credentials must not become disk-cache metadata, even when a server says its answer is cacheable. SPEC: ARCH-06 */
 internal object HttpPrivacy {
+    /** A request carrying this header (any value) is never cached; the header is not sent. SPEC: PEX-04 */
+    const val PRIVATE = "X-Shamash-Private"
+    private val SECRET_PARAMS = setOf("api_key", "token", "x-plex-token", "api-key", "apikey", "password", "pw", "auth")
+    private val SECRET_HEADERS = listOf("Authorization", "X-Plex-Token", "X-Emby-Token", "X-MediaBrowser-Token", "X-Api-Key")
+
     fun request(request: Request): Request {
-        val sensitive = request.url.queryParameterNames.any { it.equals("api_key", ignoreCase = true) } ||
-            request.header("Authorization") != null
-        return if (sensitive) request.newBuilder()
-            .cacheControl(CacheControl.Builder().noCache().noStore().build()).build() else request
+        val tagged = request.header(PRIVATE) != null
+        val sensitive = tagged ||
+            request.url.queryParameterNames.any { it.lowercase() in SECRET_PARAMS } ||
+            SECRET_HEADERS.any { request.header(it) != null }
+        if (!sensitive) return request
+        return request.newBuilder().removeHeader(PRIVATE)
+            .cacheControl(CacheControl.Builder().noCache().noStore().build()).build()
     }
 }

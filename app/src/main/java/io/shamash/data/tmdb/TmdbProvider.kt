@@ -28,6 +28,8 @@ class TmdbProvider(
 
     private data class RowsKey(val key: String, val region: String, val services: List<StreamingService>)
 
+    private val ratings = TmdbRatings(client)
+
     private val cache = TimedCache<RowsKey, Rows>(clock) {
         if (it.popular.isEmpty()) Refresh.RETRY_EMPTY else EVERY
     }
@@ -36,14 +38,15 @@ class TmdbProvider(
 
     override suspend fun shelves(profile: Profile): List<Shelf> {
         val rows = rows(profile)
-        val top = Shelf("tmdb_top10", "top10", ShelfStyle.RANKED, rows.top)
+        val top = Shelf("tmdb_top10", "top10", ShelfStyle.RANKED, ratings.rate(rows.top, profile))
         val popular = rows.popular.map { (service, items) ->
-            Shelf("tmdb_popular_${service.name.lowercase()}", "popular_on", ShelfStyle.WIDE, items, service.displayName)
+            Shelf("tmdb_popular_${service.name.lowercase()}", "popular_on", ShelfStyle.WIDE, ratings.rate(items, profile), service.displayName)
         }
         return (listOf(top) + popular).filter { it.items.isNotEmpty() }
     }
 
-    override suspend fun featured(profile: Profile): List<MediaItem> = TmdbCatalog.featured(rows(profile).popular)
+    override suspend fun featured(profile: Profile): List<MediaItem> =
+        ratings.rate(TmdbCatalog.featured(rows(profile).popular), profile)
 
     override suspend fun search(query: String, profile: Profile): List<MediaItem> {
         val mine = myServices(profile)
@@ -54,7 +57,7 @@ class TmdbProvider(
             val withServices = coroutineScope {
                 hits.map { title -> async { title to services(profile.tmdbKey, title, region) } }.awaitAll()
             }
-            TmdbCatalog.bySearch(withServices, mine)
+            ratings.rate(TmdbCatalog.bySearch(withServices, mine), profile)
         }
     }
 

@@ -55,6 +55,7 @@ data class Shelf(
     val style: ShelfStyle,
     val items: List<MediaItem>,
     val titleArg: String? = null,
+    val title: String? = null,          // the user's own name for the row (LAY-06); shown as-is
 )
 
 enum class MatchState { PRE, LIVE, DONE }

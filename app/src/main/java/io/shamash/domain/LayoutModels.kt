@@ -26,6 +26,11 @@ data class Layout(
     val presetId: String = LayoutPreset.CINEMA,
     val rows: List<RowPref> = emptyList(),   // empty = the default HOME-04 order
     val cardSize: CardSize = CardSize.M,
+    val hideRest: Boolean = false,           // rows with no pref are hidden (Kids, Minimal)
+    val rules: List<MomentRule> = emptyList(),   // SPEC: LAY-10
+    val mix: List<String> = emptyList(),     // carousel source order; empty = HOME-10 default (LAY-12)
+    val mixOff: Set<String> = emptySet(),    // carousel sources switched off
+    val look: Look = Look(),
 )
 
 @Serializable
@@ -39,6 +44,8 @@ data class LayoutPreset(
     val carouselMix: List<String> = emptyList(),
     val cardSize: CardSize = CardSize.M,
     val tabs: List<String> = emptyList(),
+    val hideRest: Boolean = false,
+    val rules: List<MomentRule> = emptyList(),
 ) {
     companion object {
         const val CINEMA = "cinema"

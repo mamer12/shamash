@@ -52,10 +52,11 @@ fun WideCard(item: MediaItem, onClick: () -> Unit, modifier: Modifier = Modifier
         MatchCard(item.match, onClick, modifier)
         return
     }
-    Column(modifier.width(Dimens.WideW)) {
-        FocusCard(onClick, Modifier.size(Dimens.WideW, Dimens.WideH)) {
+    val d = LocalCardDims.current
+    Column(modifier.width(d.wideW)) {
+        FocusCard(onClick, Modifier.size(d.wideW, d.wideH)) {
             Box(Modifier.fillMaxSize().background(Palette.Card))
-            Picture(item.backdropUrl ?: item.posterUrl, Dimens.WideW, Dimens.WideH, Modifier.fillMaxSize())
+            Picture(item.backdropUrl ?: item.posterUrl, d.wideW, d.wideH, Modifier.fillMaxSize())
             ProgressBar(item.progress)
         }
         Spacer(Modifier.height(8.dp))
@@ -66,10 +67,11 @@ fun WideCard(item: MediaItem, onClick: () -> Unit, modifier: Modifier = Modifier
 /** A video: the 16:9 thumbnail, its title (two lines) and the channel. */
 @Composable
 fun VideoCard(item: MediaItem, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    Column(modifier.width(Dimens.WideW)) {
-        FocusCard(onClick, Modifier.size(Dimens.WideW, Dimens.WideH)) {
+    val d = LocalCardDims.current
+    Column(modifier.width(d.wideW)) {
+        FocusCard(onClick, Modifier.size(d.wideW, d.wideH)) {
             Box(Modifier.fillMaxSize().background(Palette.Card))
-            Picture(item.backdropUrl ?: item.posterUrl, Dimens.WideW, Dimens.WideH, Modifier.fillMaxSize())
+            Picture(item.backdropUrl ?: item.posterUrl, d.wideW, d.wideH, Modifier.fillMaxSize())
             ProgressBar(item.progress)
         }
         Spacer(Modifier.height(8.dp))
@@ -83,9 +85,10 @@ fun VideoCard(item: MediaItem, onClick: () -> Unit, modifier: Modifier = Modifie
 /** An app's own TV banner. */
 @Composable
 fun AppTile(packageName: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    FocusCard(onClick, modifier.size(Dimens.AppW, Dimens.AppH)) {
+    val d = LocalCardDims.current
+    FocusCard(onClick, modifier.size(d.appW, d.appH)) {
         Box(Modifier.fillMaxSize().background(Palette.Card))
-        Picture(AppBanner(packageName), Dimens.AppW, Dimens.AppH, Modifier.fillMaxSize(), fade = false)
+        Picture(AppBanner(packageName), d.appW, d.appH, Modifier.fillMaxSize(), fade = false)
     }
 }
 

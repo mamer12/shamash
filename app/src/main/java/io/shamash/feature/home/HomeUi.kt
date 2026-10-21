@@ -40,6 +40,7 @@ data class HomeUi(
     val moment: Moment = Moment.EVENING,
     val featured: List<Featured> = emptyList(),
     val home: List<Shelf> = emptyList(),
+    val editableRows: List<Shelf> = emptyList(),   // every row in the layout's order, hidden ones too (LAY-02)
     val discover: List<Shelf> = emptyList(),
     val appsRow: List<TvApp> = emptyList(),
     val recentApps: List<TvApp> = emptyList(),

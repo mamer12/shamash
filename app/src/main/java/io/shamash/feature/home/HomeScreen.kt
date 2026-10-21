@@ -25,6 +25,7 @@ import androidx.lifecycle.compose.LifecycleStartEffect
 import io.shamash.R
 import io.shamash.app.ServiceLocator
 import io.shamash.domain.Moments
+import io.shamash.feature.profiles.ProfileChip
 import io.shamash.ui.BillboardBackdrop
 import io.shamash.ui.Motion
 import io.shamash.ui.ProviderPage
@@ -99,7 +100,8 @@ fun HomeScreen(locator: ServiceLocator) {
                 if (index < focus.tabs.size) tab = index else locator.opener.internal(pages[index - focus.tabs.size].entryUri)
             },
             tabRequesters = focus.tabs + pageFocus,
-            actions = remember(actions) { TopActions(actions::search, { inputsOpen = true }, actions::tvSettings) },
+            actions = remember(actions) { TopActions(actions::search, { if (actions.canUseInputs) inputsOpen = true }, actions::tvSettings) },
+            leading = { ProfileChip(locator.session) },
             weather = ui.weather,
             city = ui.city,
             onTabsFocused = { tabsFocused = it },

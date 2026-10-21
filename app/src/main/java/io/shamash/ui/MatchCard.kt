@@ -46,7 +46,8 @@ private val CREST = 40.dp
 @Composable
 fun MatchCard(match: Match, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val shape = RoundedCornerShape(Dimens.Radius)
-    FocusCard(onClick, modifier.size(Dimens.WideW, MatchCardHeight)) {
+    val d = LocalCardDims.current
+    FocusCard(onClick, modifier.size(d.wideW, d.matchH)) {
         Column(
             Modifier
                 .fillMaxSize()

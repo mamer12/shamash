@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Add-ons: the shared settings panel (PEX-05, PEX-06, PEX-30). -->
+<resources>
+    <string name="addons_intro">Optional sources for Home. Each is off until you turn it on.</string>
+    <string name="addons_guide">Want to write your own? See the add-on authoring guide in the project.</string>
+    <string name="addon_credential_saved">Saved on this TV. Type a new value to replace it.</string>
+    <string name="addon_credential_required">Required</string>
+    <string name="addon_save">Save</string>
+    <string name="addon_test">Test connection</string>
+    <string name="addon_testing">Testing…</string>
+    <string name="addon_test_missing">Fill in the required fields and save first.</string>
+    <string name="addon_test_failed">The test did not finish. Check the details and try again.</string>
+    <string name="addon_remove">Remove</string>
+    <string name="addon_remove_text">Clears what was saved for this add-on and turns it off.</string>
+    <string name="addon_rows">Rows on Home</string>
+    <string name="addon_row_rename">Your name for this row</string>
+</resources>

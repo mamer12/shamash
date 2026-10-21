@@ -105,8 +105,11 @@ object TodCatalog {
         backdropUrl = image.url(WIDE_W, WIDE_H),
         appPackage = APP,
         startsAt = startsAt,
+        rating = rating ?: if (kind == Kind.LIVE) SPORT_RATING else null,
     )
 
+    /** Live sport carries no age label: it shows for FAMILY like a match does, not for KIDS. SPEC: PRF-12 */
+    private const val SPORT_RATING = "TV-PG"
     private const val CARD_W = 640
     private const val CARD_H = 360
     private const val WIDE_W = 1280

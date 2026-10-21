@@ -33,6 +33,10 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Text
 import io.shamash.R
+import io.shamash.domain.ClockFormat
+import io.shamash.domain.DateStyle
+import io.shamash.domain.Digits
+import io.shamash.domain.Look
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -61,12 +65,14 @@ fun TopBar(
     city: String,
     onTabsFocused: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
+    leading: @Composable () -> Unit = {},
 ) {
     Box(modifier.fillMaxWidth().height(Dimens.TopBarHeight).padding(start = Dimens.Margin, end = Dimens.Margin, top = 22.dp)) {
         Row(Modifier.align(Alignment.TopStart), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             RoundButton(Icons.Search, stringResource(R.string.action_search), actions.onSearch)
             RoundButton(Icons.Input, stringResource(R.string.inputs), actions.onInputs)
             RoundButton(Icons.Settings, stringResource(R.string.action_tv_settings), actions.onTvSettings)
+            leading()
         }
         Row(
             Modifier.align(Alignment.TopCenter).onFocusChanged { onTabsFocused(it.hasFocus) },
@@ -128,20 +134,18 @@ private fun Clock(weather: WeatherNow?, city: String, modifier: Modifier) {
             delay(MINUTE_MS - value % MINUTE_MS)
         }
     }
-    val time = remember(now) { DateFormat.getTimeFormat(context).format(Date(now)) }
-    val date = remember(now / MINUTE_MS) {
-        val locale = Locale.getDefault()
-        SimpleDateFormat(DateFormat.getBestDateTimePattern(locale, "EEEdMMM"), locale).format(Date(now))
-    }
+    val look = LocalLook.current
+    val time = remember(now, look) { clockText(context, look, now) }
+    val date = remember(now / MINUTE_MS, look) { dateText(look, now) }
     Column(modifier, horizontalAlignment = Alignment.End) {
         Text(time, style = Type.Clock, maxLines = 1)
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(date, style = Type.Small, maxLines = 1)
-            if (weather != null) {
+            if (weather != null && look.showWeather) {
                 Text(" · ", style = Type.Small)
                 Symbol(Icons.weather(weather.code, weather.isDay), Palette.Dawn, Modifier.size(13.dp))
                 Spacer(Modifier.width(4.dp))
-                val degrees = stringResource(R.string.temperature, weather.degrees)
+                val degrees = Digits.localize(stringResource(R.string.temperature, weather.degrees), look.arabicDigits)
                 Text(if (city.isEmpty()) degrees else stringResource(R.string.weather_line, degrees, city), style = Type.Small, maxLines = 1)
             }
         }
@@ -149,3 +153,24 @@ private fun Clock(weather: WeatherNow?, city: String, modifier: Modifier) {
 }
 
 private const val MINUTE_MS = 60_000L
+
+/** Western digits unless the profile asks for Arabic-Indic (LAY-17). */
+private fun western(): Locale =
+    Locale.Builder().setLocale(Locale.getDefault()).setUnicodeLocaleKeyword("nu", "latn").build()
+
+/** The time in the chosen format; no seconds (LAY-16). */
+private fun clockText(context: android.content.Context, look: Look, now: Long): String {
+    val text = when (look.clock) {
+        ClockFormat.FOLLOW -> DateFormat.getTimeFormat(context).format(Date(now))
+        ClockFormat.H12 -> SimpleDateFormat("h:mm a", western()).format(Date(now))
+        ClockFormat.H24 -> SimpleDateFormat("HH:mm", western()).format(Date(now))
+    }
+    return Digits.localize(text, look.arabicDigits)
+}
+
+private fun dateText(look: Look, now: Long): String {
+    val locale = western()
+    val skeleton = if (look.date == DateStyle.WEEKDAY) "EEEdMMM" else "yMMdd"
+    val text = SimpleDateFormat(DateFormat.getBestDateTimePattern(locale, skeleton), locale).format(Date(now))
+    return Digits.localize(text, look.arabicDigits)
+}

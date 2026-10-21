@@ -4,6 +4,11 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
+import android.widget.Toast
+import io.shamash.R
+import io.shamash.feature.profiles.OpenPolicy
 import io.shamash.MainActivity
 import io.shamash.data.Logger
 import io.shamash.data.Preferences
@@ -56,7 +61,26 @@ class Opener(
     var lastOpened: String? = null
         private set
 
+    /** Profile rules for what may open and what is remembered (null until the session is up). SPEC: PRF-11, PRF-13 */
+    var policy: OpenPolicy? = null
+
+    private fun allowed(packageName: String?): Boolean {
+        if (packageName == null || policy?.allowsApp(packageName) != false) return true
+        Handler(Looper.getMainLooper()).post { Toast.makeText(context, R.string.profile_blocked_app, Toast.LENGTH_SHORT).show() }
+        return false
+    }
+
     suspend fun open(item: MediaItem): Boolean {
+        val target = item.open
+        val pkg = when (target) {
+            is OpenTarget.Video -> YOUTUBE
+            is OpenTarget.AppPage -> target.appPackage.takeIf { it != context.packageName }
+            is OpenTarget.Lookup -> target.appPackage
+            is OpenTarget.App -> target.appPackage
+            is OpenTarget.AppScreen -> target.appPackage
+            is OpenTarget.Internal -> null
+        }
+        if (!allowed(pkg)) return false
         val opened = when (val t = item.open) {
             is OpenTarget.Video -> start(view("https://www.youtube.com/watch?v=${t.youtubeId}", YOUTUBE)) || app(YOUTUBE)
             is OpenTarget.AppPage -> if (t.appPackage == context.packageName) internal(t.uri)
@@ -67,11 +91,11 @@ class Opener(
             is OpenTarget.Internal -> internal(t.route)
         }
         val selfPage = (item.open as? OpenTarget.AppPage)?.appPackage == context.packageName
-        if (opened && !selfPage && item.providerId !in OWN_PROGRESS && item.open !is OpenTarget.Internal) history.record(item)
+        if (opened && !selfPage && item.providerId !in OWN_PROGRESS && item.open !is OpenTarget.Internal && policy?.recordsHistory() != false) history.record(item)
         return opened
     }
 
-    fun openApp(packageName: String): Boolean = app(packageName)
+    fun openApp(packageName: String): Boolean = allowed(packageName) && app(packageName)
 
     private suspend fun lookup(t: OpenTarget.Lookup): Boolean {
         val page = links.resolve(t, prefs.current().region)

@@ -80,7 +80,8 @@ fun ExpandingRow(
 ) {
     val state = rememberLazyListState()
     val density = LocalDensity.current
-    val step = with(density) { (Dimens.PosterW + Dimens.CardGap + if (ranked) Dimens.RankW else 0.dp).toPx() }
+    val d = LocalCardDims.current
+    val step = with(density) { (d.posterW + Dimens.CardGap + if (ranked) d.rankW else 0.dp).toPx() }
     CompositionLocalProvider(LocalBringIntoViewSpec provides rememberAlignStart(Dimens.Margin)) {
         LazyRow(
             state = state,
@@ -117,6 +118,7 @@ private fun ExpandingCard(
     previews: PreviewController?,
     onFocused: (MediaItem) -> Unit,
 ) {
+    val d = LocalCardDims.current
     val interaction = remember { MutableInteractionSource() }
     val focused by interaction.collectIsFocusedAsState()
     val grow = animateFloatAsState(if (focused) 1f else 0f, Motion.pace(), label = "grow")
@@ -126,11 +128,11 @@ private fun ExpandingCard(
     val picture = animateFloatAsState(if (playing) 0f else 1f, tween(PICTURE_FADE_MS), label = "picture")
 
     Row(Modifier.graphicsLayer { alpha = fade() }) {
-        if (rank != null) RankNumber(rank)
+        if (rank != null) RankNumber(rank, d)
         Column {
             Box(
                 Modifier
-                    .tileSize(grow)
+                    .tileSize(grow, d)
                     .tileOutline(focused)
                     .clip(RoundedCornerShape(Dimens.Radius))
                     .background(Palette.Card)
@@ -139,20 +141,20 @@ private fun ExpandingCard(
                     },
             ) {
                 if (previews != null && focused) PreviewSlot(item, previews)
-                TileArt(item, grow, picture, opened)
+                TileArt(item, grow, picture, opened, d)
                 ProgressBar(item.progress)
             }
-            TileText(item, grow, opened)
+            TileText(item, grow, opened, d)
         }
     }
 }
 
 /** The poster center-cropped to the tile's current shape, giving way to the wide art as it grows. SPEC: HOME-16 */
 @Composable
-private fun TileArt(item: MediaItem, grow: State<Float>, picture: State<Float>, opened: Boolean) {
+private fun TileArt(item: MediaItem, grow: State<Float>, picture: State<Float>, opened: Boolean, d: CardDims) {
     val poster = item.posterUrl ?: item.backdropUrl
     Picture(
-        poster, Dimens.PosterW, Dimens.PosterH,
+        poster, d.posterW, d.posterH,
         Modifier.fillMaxSize().graphicsLayer { alpha = picture.value },
     )
     val wide = item.backdropUrl
@@ -160,7 +162,7 @@ private fun TileArt(item: MediaItem, grow: State<Float>, picture: State<Float>, 
     var loaded by remember(wide) { mutableStateOf(false) }
     val arrived = animateFloatAsState(if (loaded) 1f else 0f, tween(WIDE_FADE_MS), label = "wide")
     Picture(
-        wide, Dimens.TileW, Dimens.TileH,
+        wide, d.tileW, d.tileH,
         Modifier.fillMaxSize().graphicsLayer {
             alpha = (grow.value * WIDE_FROM).coerceIn(0f, 1f) * arrived.value * picture.value
         },
@@ -171,17 +173,17 @@ private fun TileArt(item: MediaItem, grow: State<Float>, picture: State<Float>, 
 
 /** Under the card: its name (fading as it grows), then the tile's info (name, facts, story). SPEC: HOME-16, HOME-19 */
 @Composable
-private fun TileText(item: MediaItem, grow: State<Float>, opened: Boolean) {
-    Box(Modifier.infoArea(grow).clipToBounds()) {
+private fun TileText(item: MediaItem, grow: State<Float>, opened: Boolean, d: CardDims) {
+    Box(Modifier.infoArea(grow, d).clipToBounds()) {
         Text(
             item.title, style = Type.CardTitle, maxLines = 1, overflow = TextOverflow.Ellipsis,
             modifier = Modifier
-                .width(Dimens.PosterW)
+                .width(d.posterW)
                 .padding(top = 8.dp)
                 .graphicsLayer { alpha = 1f - (grow.value * LABEL_GONE).coerceIn(0f, 1f) },
         )
         if (opened) {
-            Column(Modifier.width(Dimens.TileW).padding(top = 12.dp).graphicsLayer { alpha = grow.value }) {
+            Column(Modifier.width(d.tileW).padding(top = 12.dp).graphicsLayer { alpha = grow.value }) {
                 Text(item.title, style = Type.TileName, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 if (item.subtitle.isNotEmpty()) {
                     Text(item.subtitle, style = Type.HeroMeta, maxLines = 1, modifier = Modifier.padding(top = 4.dp))
@@ -212,10 +214,10 @@ private fun PreviewSlot(item: MediaItem, previews: PreviewController) {
 
 /** A Top 10 rank: a big outlined number left of the poster. */
 @Composable
-private fun RankNumber(rank: Int) {
+private fun RankNumber(rank: Int, d: CardDims) {
     val density = LocalDensity.current
     val outline = remember(density) { Type.Rank.copy(drawStyle = Stroke(with(density) { 2.dp.toPx() })) }
-    Box(Modifier.width(Dimens.RankW).height(Dimens.PosterH)) {
+    Box(Modifier.width(d.rankW).height(d.posterH)) {
         Text(
             String.format(Locale.getDefault(), "%d", rank),
             style = outline, color = Palette.Dim, maxLines = 1, softWrap = false,
@@ -225,20 +227,20 @@ private fun RankNumber(rank: Int) {
 }
 
 /** The card's size between poster (0) and tile (1), read while laying out: growth never recomposes. */
-private fun Modifier.tileSize(grow: State<Float>) = layout { measurable, _ ->
+private fun Modifier.tileSize(grow: State<Float>, d: CardDims) = layout { measurable, _ ->
     val g = grow.value
-    val w = lerp(Dimens.PosterW.toPx(), Dimens.TileW.toPx(), g).roundToInt()
-    val h = lerp(Dimens.PosterH.toPx(), Dimens.TileH.toPx(), g).roundToInt()
+    val w = lerp(d.posterW.toPx(), d.tileW.toPx(), g).roundToInt()
+    val h = lerp(d.posterH.toPx(), d.tileH.toPx(), g).roundToInt()
     val placeable = measurable.measure(Constraints.fixed(w, h))
     layout(w, h) { placeable.place(0, 0) }
 }
 
 /** The room under the card: the label's when small, the tile's info when grown. SPEC: HOME-18 */
-private fun Modifier.infoArea(grow: State<Float>) = layout { measurable, _ ->
+private fun Modifier.infoArea(grow: State<Float>, d: CardDims) = layout { measurable, _ ->
     val g = grow.value
-    val w = lerp(Dimens.PosterW.toPx(), Dimens.TileW.toPx(), g).roundToInt()
-    val h = lerp(Dimens.LabelRoom.toPx(), Dimens.TileInfo.toPx(), g).roundToInt()
-    val placeable = measurable.measure(Constraints(maxWidth = Dimens.TileW.roundToPx(), maxHeight = Dimens.TileInfo.roundToPx()))
+    val w = lerp(d.posterW.toPx(), d.tileW.toPx(), g).roundToInt()
+    val h = lerp(d.labelRoom.toPx(), d.tileInfo.toPx(), g).roundToInt()
+    val placeable = measurable.measure(Constraints(maxWidth = d.tileW.roundToPx(), maxHeight = d.tileInfo.roundToPx()))
     layout(w, h) { placeable.place(0, 0) }
 }
 

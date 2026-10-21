@@ -35,9 +35,27 @@ object Sources {
             TmdbProvider(tmdb, installed),
             YouTubeProvider(http, youtubeAuth(http, prefs), history, installed),
             TodProvider(http, installed),
-            io.shamash.feature.cinemana.CinemanaAddon.create(http, prefs, installed, context), // optional add-on
-        )
+        ) + addOnRegistry.providers { addOn ->
+            DataDeps(
+                credentials(prefs, addOn), prefs::current, installed,
+                listOfNotNull(
+                    Http::class.java to http, Preferences::class.java to prefs,
+                    context?.let { Context::class.java to it },
+                ).toMap(),
+            )
+        }
     }
+
+    /** The optional add-ons, one registration line each (PEX-01). Settings -> Add-ons lists these. */
+    val addOns: List<io.shamash.domain.AddOn> = listOf(
+        io.shamash.feature.cinemana.CinemanaAddon.addOn,
+    )
+
+    val addOnRegistry = AddOnRegistry(addOns)
+
+    /** An add-on's credentials for the active profile; values never leave the TV. SPEC: PEX-03 */
+    fun credentials(prefs: Preferences, addOn: io.shamash.domain.AddOn) =
+        SecretCredentials(PreferenceSecrets(prefs), addOn.id, addOn.requires) { prefs.current().id }
 
     /** YouTube sign-in for Settings and onboarding; instances share the stored sign-in. SPEC: PRV-06 */
     fun youtubeAuth(http: Http, prefs: Preferences): YouTubeAuth =

@@ -25,6 +25,8 @@ import androidx.compose.ui.Modifier
 import io.shamash.feature.companion.Companion
 import io.shamash.feature.home.HomeScreen
 import io.shamash.feature.onboarding.Onboarding
+import io.shamash.feature.profiles.ProfileGate
+import io.shamash.feature.profiles.Restrictions
 import io.shamash.feature.search.SearchScreen
 import io.shamash.feature.settings.SettingsScreen
 import io.shamash.ui.ProviderPage
@@ -68,7 +70,7 @@ fun ShamashApp(locator: ServiceLocator) {
     val currentProfile by rememberUpdatedState(profile)
     DisposableEffect(locator, lifecycle, profile != null) {
         val handler: (String) -> Boolean = { link ->
-            val route = Route.parse(link) ?: currentProfile?.let { p ->
+            val route = Route.parse(link)?.takeIf { allowedRoute(locator.session.restrictions, it) } ?: currentProfile?.let { p ->
                 locator.providers.filterIsInstance<ProviderPage>()
                     .firstOrNull { it.available(p) && it.accepts(link) }?.let { Route.Addon(link) }
             }
@@ -88,7 +90,7 @@ fun ShamashApp(locator: ServiceLocator) {
         when {
             p == null -> Unit
             !p.onboarded -> Onboarding(p) { answers -> scope.launch { locator.prefs.save(answers) } }
-            else -> {
+            else -> ProfileGate(locator.session, onAddProfile = { stack = push(stack, Route.Settings) }) {
                 val pop = { stack = stack.dropLast(1) }
                 BackHandler(enabled = stack.size > 1, onBack = pop)
                 when (val top = stack.last()) {
@@ -106,6 +108,9 @@ fun ShamashApp(locator: ServiceLocator) {
         }
     }
 }
+
+/** Kids and Guest never reach Settings, by any route (a link, the phone, a tile). SPEC: PRF-10, PRF-11 */
+private fun allowedRoute(restrictions: Restrictions, route: Route): Boolean = route != Route.Settings || restrictions.settings
 
 /** A link from outside (the phone) while another app is in front: Shamash comes forward to show it. */
 private fun bringToFront(context: Context) {

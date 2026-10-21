@@ -44,7 +44,10 @@ import io.shamash.app.ServiceLocator
 import io.shamash.data.TvApps
 import io.shamash.data.softly
 import io.shamash.data.weather.Place
+import io.shamash.domain.LayoutPreset
+import io.shamash.domain.LayoutPresets
 import io.shamash.domain.Profile
+import io.shamash.feature.layout.PresetPicker
 import io.shamash.domain.TvApp
 import io.shamash.feature.settings.KeyFields
 import io.shamash.feature.tvcontrol.SwitchPanel
@@ -72,7 +75,7 @@ val GENRES = listOf(
 )
 
 /** The steps, in order. SPEC: ONB-02 */
-private enum class Step { WELCOME, YOU, APPS, TEAMS, GENRES, KEYS, HOME }
+private enum class Step { WELCOME, YOU, APPS, TEAMS, GENRES, LOOK, KEYS, HOME }
 
 /**
  * The first run: who you are, the apps you pay for, your teams, what you like, optional keys, then the switch. One
@@ -128,6 +131,11 @@ fun Onboarding(start: Profile, done: (Profile) -> Unit) {
             }
             Step.GENRES -> Page(R.string.setup_genres_title, R.string.setup_genres_text, R.string.setup_next, ::next, ::next) {
                 ChipPicker(GENRES, answers.genres, { answers = answers.copy(genres = it) })
+            }
+            Step.LOOK -> Page(R.string.layout_preset_title, R.string.layout_preset_text, R.string.setup_next, ::next, ::next) {
+                PresetPicker(LayoutPresets.all.map { it.id }, answers.preset ?: LayoutPreset.CINEMA) {
+                    answers = answers.copy(preset = it)
+                }
             }
             Step.KEYS -> Page(R.string.setup_keys_title, R.string.setup_keys_text, R.string.setup_next, ::next, ::next) {
                 KeyFields(answers.keys) { answers = answers.copy(keys = it) }

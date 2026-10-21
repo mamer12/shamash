@@ -1,6 +1,7 @@
 package io.shamash.feature.onboarding
 
 import io.shamash.data.weather.Place
+import io.shamash.domain.LayoutPresets
 import io.shamash.domain.Profile
 import io.shamash.feature.settings.Keys
 
@@ -16,6 +17,7 @@ data class Answers(
     val competitions: Set<String>,
     val genres: Set<String>,
     val keys: Keys,
+    val preset: String? = null,        // the Home preset chosen in setup; null = not asked, keep the layout
 ) {
     /** The geocoder's answer: its coordinates and country (the region for "where to watch"). */
     fun located(place: Place?): Answers =
@@ -33,6 +35,7 @@ data class Answers(
         teams = teams.split(",").map { it.trim() }.filter { it.isNotEmpty() }.toSet(),
         competitions = competitions,
         genres = genres,
+        layout = preset?.let { LayoutPresets.apply(LayoutPresets.byId(it), start.layout) } ?: start.layout,
     )
 
     companion object {

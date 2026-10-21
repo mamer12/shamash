@@ -1,5 +1,6 @@
 package io.shamash.data.tod
 
+import io.shamash.data.Certification
 import io.shamash.data.json
 import kotlinx.serialization.Serializable
 import java.io.IOException
@@ -13,6 +14,7 @@ data class TodTile(
     val startsAt: Long?,
     val competition: String,
     val image: TodImage,
+    val rating: String? = null,   // TOD's own age label when the tile carries one, normalized; else null
 )
 
 /** A TOD picture, cut by its crop box and resized by TOD's image server. SPEC: PRV-09 */
@@ -47,6 +49,7 @@ object TodJson {
         val matchStartTime: String? = null,
         val competition: Competition? = null,
         val image: Images? = null,
+        val ageRating: String? = null,
     )
 
     @Serializable
@@ -76,6 +79,7 @@ object TodJson {
             startsAt = item.matchStartTime?.let(::epochMs),
             competition = item.competition?.title?.trim().orEmpty(),
             image = image,
+            rating = Certification.normalize(item.ageRating),
         )
     }
 

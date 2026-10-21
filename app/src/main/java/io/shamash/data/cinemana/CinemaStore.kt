@@ -70,6 +70,7 @@ class CinemaStore(private val context: Context? = null) {
     }
 
     private suspend fun update(change: (CinemaSaved) -> CinemaSaved) = withContext(Dispatchers.IO) {
+        if (!io.shamash.data.Recording.enabled) return@withContext   // Guest saves nothing (PRF-11)
         lock.withLock {
             read()
             val next = change(mutable.value)
