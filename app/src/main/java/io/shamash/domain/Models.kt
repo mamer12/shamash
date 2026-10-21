@@ -1,5 +1,7 @@
 package io.shamash.domain
 
+import kotlinx.serialization.Serializable
+
 /** What a card is (decides its shape and how it opens). SPEC: ARCH-10 */
 enum class Kind { MOVIE, SERIES, VIDEO, MATCH, LIVE }
 
@@ -37,6 +39,7 @@ data class MediaItem(
     val progress: Float? = null,         // 0..1 for Continue watching
     val startsAt: Long? = null,          // epoch ms, matches and live events
     val match: Match? = null,
+    val rating: String? = null,          // certification ("PG", "TV-14"); null = unknown. SPEC: PRF-12
 )
 
 /** How a row draws its cards. */
@@ -85,8 +88,29 @@ data class TvApp(val packageName: String, val label: String, val streaming: Bool
 /** Which titles add-ons may show. SPEC: CIN-08 */
 enum class ContentLevel { ALL, FAMILY, KIDS }
 
-/** What the user told setup; every screen reads it. SPEC: ONB-06 */
+/** Who a profile is for. Exactly one ADULT is the owner (PRF-03). SPEC: PRF-01 */
+enum class ProfileKind { ADULT, KIDS, GUEST }
+
+/** Whose keys a profile uses: the owner's (SHARED) or its own. SPEC: PRF-09 */
+enum class KeyMode { SHARED, OWN }
+
+/** Something a profile follows (a team, a player, a sport). SPEC: MC-09 */
+@Serializable
+data class Follow(val kind: String, val name: String)
+
+/**
+ * What the user told setup; every screen reads it. One per person on the TV; providers receive the active one.
+ * [id] is blank until a store assigns it. New fields default so old stores load unchanged. SPEC: ONB-06, PRF-01, PRF-18
+ */
 data class Profile(
+    val id: String = "",
+    val kind: ProfileKind = ProfileKind.ADULT,
+    val avatarColor: Int = DEFAULT_AVATAR,                    // ARGB
+    val pinHash: String? = null,                              // salted PBKDF2, never the PIN (PRF-05)
+    val keyMode: KeyMode = KeyMode.SHARED,
+    val addons: Set<String> = emptySet(),                     // enabled AddOn ids (PEX-02)
+    val follows: Set<Follow> = emptySet(),
+    val layout: Layout = Layout(),
     val onboarded: Boolean = false,
     val name: String = "",
     val city: String = "",
@@ -100,13 +124,19 @@ data class Profile(
     val tmdbKey: String = "",
     val youtubeClientId: String = "",
     val youtubeClientSecret: String = "",
-    val cinemanaAddon: Boolean = false,
     val contentLevel: ContentLevel = ContentLevel.ALL,
     val keepRunning: Set<String> = setOf("com.netflix.ninja", "com.google.android.youtube.tv"),
 ) {
+    val cinemanaAddon get() = "cinemana" in addons
     val hasTmdb get() = tmdbKey.isNotBlank()
     val hasYoutubeClient get() = youtubeClientId.isNotBlank() && youtubeClientSecret.isNotBlank()
 
     fun isMyTeam(teamName: String): Boolean =
         teams.any { it.isNotBlank() && teamName.contains(it.trim(), ignoreCase = true) }
+
+    fun withAddon(addonId: String, on: Boolean): Profile = copy(addons = if (on) addons + addonId else addons - addonId)
+
+    companion object {
+        const val DEFAULT_AVATAR = 0xFFF4C450.toInt()
+    }
 }

@@ -12,6 +12,7 @@ class ServiceLocator private constructor(context: Context) {
     val appContext: Context = context.applicationContext
     val http = Http(appContext.cacheDir)
     val prefs = Preferences(appContext)
+    val profiles get() = prefs.profiles
     val apps = TvApps(appContext)
     val history = History(appContext)
     val providers by lazy { Sources.providers(http, prefs, apps, history, appContext) }

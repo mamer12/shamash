@@ -97,7 +97,7 @@ data class Keys(val tmdb: String, val youtubeId: String, val youtubeSecret: Stri
 @Composable
 internal fun AddonsPanel(p: Profile, save: (Profile) -> Unit) {
     ListItem(
-        selected = false, onClick = { save(p.copy(cinemanaAddon = !p.cinemanaAddon)) },
+        selected = false, onClick = { save(p.withAddon("cinemana", !p.cinemanaAddon)) },
         headlineContent = { Text(stringResource(R.string.settings_cinemana)) },
         supportingContent = { Text(stringResource(R.string.settings_cinemana_text)) },
         trailingContent = { Switch(checked = p.cinemanaAddon, onCheckedChange = null) },

@@ -1,5 +1,6 @@
 package io.shamash.data.cinemana
 
+import io.shamash.domain.ContentGate
 import io.shamash.domain.ContentLevel
 import io.shamash.domain.Profile
 import io.shamash.domain.Shelf
@@ -70,9 +71,5 @@ object CinemaRecommendations {
 
 /** Unknown stored classifications cannot leak into a restricted profile. SPEC: CIN-08 */
 object CinemaFilter {
-    fun allows(title: CinemanaTitle, level: ContentLevel): Boolean = when (level) {
-        ContentLevel.ALL -> true
-        ContentLevel.FAMILY -> title.rating in setOf("G", "PG", "PG-13", "TV-Y", "TV-Y7", "TV-G", "TV-PG", "TV-14")
-        ContentLevel.KIDS -> title.rating in setOf("G", "PG", "TV-Y", "TV-Y7", "TV-G")
-    }
+    fun allows(title: CinemanaTitle, level: ContentLevel): Boolean = ContentGate.allowsRating(title.rating, level)
 }

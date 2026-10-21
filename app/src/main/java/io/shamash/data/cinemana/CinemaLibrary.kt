@@ -141,6 +141,7 @@ class CinemaLibrary(
             "shamash://cinemana/${if (play) "play/${title.id}" else "title/${title.pageId}"}", "io.shamash"),
         subtitle = listOf(title.year, title.rating, title.stars).filter { it.isNotBlank() }.joinToString(" · "),
         overview = title.overview, posterUrl = title.poster, backdropUrl = title.wide, appPackage = "io.shamash", progress = progress,
+        rating = title.rating.ifBlank { null },
     )
 
     private suspend fun withWide(titles: List<CinemanaTitle>, profile: Profile): List<CinemanaTitle> = coroutineScope {

@@ -1,6 +1,7 @@
 package io.shamash.feature.search
 
 import io.shamash.data.Logger
+import io.shamash.domain.ContentGate
 import io.shamash.domain.MediaItem
 import io.shamash.domain.Profile
 import io.shamash.domain.Provider
@@ -85,7 +86,7 @@ class SearchModel(
 
     private suspend fun searchOne(provider: Provider, query: String, p: Profile): List<MediaItem> =
         try {
-            provider.search(query, p)
+            ContentGate.filter(provider.search(query, p), p)   // SPEC: PRF-12
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {

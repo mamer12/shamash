@@ -1,0 +1,14 @@
+{
+  "_comment": "A v1 single-profile store (keys as the app wrote them before profiles). Values by type. SPEC: PRF-17",
+  "strings": {
+    "name": "Sara", "city": "Baghdad", "region": "IQ", "tmdb_key": "FIXTURE-NOT-A-KEY",
+    "youtube_client_id": "yt-id", "youtube_client_secret": "yt-secret", "content_level": "FAMILY",
+    "secret_mode": "SHAMASH", "secret_phone_pin": "1234"
+  },
+  "booleans": { "onboarded": true, "cinemana_addon": true },
+  "doubles": { "latitude": 33.31, "longitude": 44.36 },
+  "stringSets": {
+    "subscriptions": ["com.netflix.ninja"], "teams": ["Real Madrid"], "competitions": ["esp.1"],
+    "genres": ["drama"], "keep_running": ["com.netflix.ninja"]
+  }
+}

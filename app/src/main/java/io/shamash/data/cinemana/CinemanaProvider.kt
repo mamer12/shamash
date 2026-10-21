@@ -4,6 +4,7 @@ import io.shamash.data.Refresh
 import io.shamash.data.TimedCache
 import io.shamash.data.interleave
 import io.shamash.data.softly
+import io.shamash.domain.ContentGate
 import io.shamash.domain.ContentLevel
 import io.shamash.domain.MediaItem
 import io.shamash.domain.OpenTarget
@@ -43,7 +44,16 @@ class CinemanaProvider(
 
     override fun isEnabled(profile: Profile) = profile.cinemanaAddon || installed(WATCHME)
 
-    override suspend fun shelves(profile: Profile): List<Shelf> {
+    override suspend fun shelves(profile: Profile): List<Shelf> =
+        rawShelves(profile).map { ContentGate.filter(it, profile.contentLevel) }.filter { it.items.isNotEmpty() }
+
+    override suspend fun featured(profile: Profile): List<MediaItem> =
+        ContentGate.filter(rawFeatured(profile), profile)
+
+    override suspend fun search(query: String, profile: Profile): List<MediaItem> =
+        ContentGate.filter(rawSearch(query, profile), profile)   // SPEC: CIN-08, PRF-12
+
+    private suspend fun rawShelves(profile: Profile): List<Shelf> {
         if (profile.cinemanaAddon && library != null) return library.browse(profile).shelves
         val lists = lists(profile)
         return listOf(
@@ -52,11 +62,11 @@ class CinemanaProvider(
         ).filter { it.items.isNotEmpty() }
     }
 
-    override suspend fun featured(profile: Profile): List<MediaItem> =
+    private suspend fun rawFeatured(profile: Profile): List<MediaItem> =
         if (profile.cinemanaAddon && library != null) library.browse(profile).featured.take(FEATURED_MAX)
         else lists(profile).featured.filter { it.backdropUrl != null }.take(FEATURED_MAX)
 
-    override suspend fun search(query: String, profile: Profile): List<MediaItem> {
+    private suspend fun rawSearch(query: String, profile: Profile): List<MediaItem> {
         if (profile.cinemanaAddon && library != null) return library.search(query, profile)
         return softly("Cinemana search", emptyList()) {
         coroutineScope {
@@ -101,6 +111,7 @@ class CinemanaProvider(
         posterUrl = t.poster,
         backdropUrl = t.wide,
         appPackage = if (installed(WATCHME)) WATCHME else CINEMANA_APP,
+        rating = t.rating.ifBlank { null },
     )
 
     /** Watchme+ opens the title's page; the Cinemana app only opens. */

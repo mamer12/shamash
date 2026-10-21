@@ -77,9 +77,9 @@ class CinemaApiTest {
     @Test fun CIN_07_disabled_addon_keeps_external_watchme_provider_available() {
         val http = Http(null)
         val provider = CinemanaProvider(CinemanaApi(http), CinemanaTmdb(http), { it == "io.watchmeplus" })
-        assertTrue(provider.isEnabled(Profile(cinemanaAddon = false)))
+        assertTrue(provider.isEnabled(Profile()))
         val absent = CinemanaProvider(CinemanaApi(http), CinemanaTmdb(http), { false })
         assertFalse(absent.isEnabled(Profile()))
-        assertTrue(absent.isEnabled(Profile(cinemanaAddon = true)))
+        assertTrue(absent.isEnabled(Profile(addons = setOf("cinemana"))))
     }
 }

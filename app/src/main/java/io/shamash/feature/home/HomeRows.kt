@@ -1,6 +1,8 @@
 package io.shamash.feature.home
 
 import io.shamash.domain.Carousel
+import io.shamash.domain.ContentGate
+import io.shamash.domain.ContentLevel
 import io.shamash.domain.Kind
 import io.shamash.domain.Match
 import io.shamash.domain.MediaItem
@@ -30,7 +32,8 @@ object HomeRows {
 
     fun build(input: HomeInput): HomeUi {
         val p = input.profile
-        val loaded = input.loaded
+        val loaded = gated(input.loaded, p)
+        val history = ContentGate.filter(input.history, p)
         val shelves = providerShelves(loaded)
         val matches = Carousel.markMine(loaded.matches, p)
         val moment = Moment.at(input.hour)
@@ -40,13 +43,25 @@ object HomeRows {
             greeting = Moments.greeting(moment, p.name),
             moment = moment,
             featured = featured(loaded, matches, input.now, names),
-            home = homeRows(p, shelves, matches, input.history, moment, input.now),
+            home = homeRows(p, shelves, matches, history, moment, input.now),
             discover = discoverRows(shelves),
             appsRow = appsRow(p, loaded.installed, loaded.recent),
             recentApps = loaded.recent.take(RECENT_MAX),
             allApps = loaded.installed,
             weather = loaded.weather?.let { weatherNow(it, p) },
             city = p.city,
+        )
+    }
+
+    /** What the profile's content level lets through: one gate for shelves, billboard and matches. SPEC: PRF-12 */
+    fun gated(loaded: Loaded, p: Profile): Loaded {
+        val level = p.contentLevel
+        if (level == ContentLevel.ALL) return loaded
+        return loaded.copy(
+            providers = loaded.providers.mapValues { (_, c) ->
+                ProviderContent(c.shelves.map { ContentGate.filter(it, level) }, ContentGate.filter(c.featured, level))
+            },
+            matches = loaded.matches.filter { ContentGate.allows(Carousel.matchItem(it), level) },
         )
     }
 
