@@ -21,7 +21,9 @@ data/           sources: http client, preferences (DataStore), TMDB, JustWatch, 
 - ARCH-05 Every source fails soft: an error returns an empty result and is logged with tag `Shamash`; one failing
   provider never empties the home screen.
 - ARCH-06 Secrets (TMDB key, YouTube client, YouTube sign-in) live in DataStore on the TV, entered in onboarding or
-  settings, never in the repository. A fork works without any key (features needing one stay hidden).
+  settings, never in the repository. Backups and device transfer exclude app data, including ADB keys. HTTP
+  requests with an API key or Authorization header bypass the disk cache; exception details never log credentials
+  or response bodies. A fork works without any key (features needing one stay hidden).
 - ARCH-07 Strings shown to the user live in `res/values/strings.xml` (English) with `values-ar` (Arabic); no
   user-facing text hard-coded in Kotlin.
 - ARCH-08 Clean code: functions ≤ ~40 lines, files ≤ ~400 lines, names say intent, no dead code, comments only for

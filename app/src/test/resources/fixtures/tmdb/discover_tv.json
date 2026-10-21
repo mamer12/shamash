@@ -1,0 +1,186 @@
+{
+ "page": 1,
+ "results": [
+  {
+   "adult": false,
+   "backdrop_path": "/gPQppUnLx9vqPDLz3WwZ2HJsNbt.jpg",
+   "genre_ids": [
+    80,
+    18,
+    9648
+   ],
+   "id": 95480,
+   "origin_country": [
+    "GB"
+   ],
+   "original_language": "en",
+   "original_name": "Slow Horses",
+   "overview": "Follow a dysfunctional team of MI5 agents—and their obnoxious boss, the notorious Jackson Lamb—as they navigate the espionage world's smoke and mirrors to defen",
+   "popularity": 214.5685,
+   "poster_path": "/AdYr4DjOgXvDUMwu6vEhZy1Rnxk.jpg",
+   "first_air_date": "2022-04-01",
+   "softcore": false,
+   "name": "Slow Horses",
+   "vote_average": 8.056,
+   "vote_count": 1060
+  },
+  {
+   "adult": false,
+   "backdrop_path": "/nE94ejEbzNCU48bW1oju0dqBONz.jpg",
+   "genre_ids": [
+    18,
+    35
+   ],
+   "id": 97546,
+   "origin_country": [
+    "US"
+   ],
+   "original_language": "en",
+   "original_name": "Ted Lasso",
+   "overview": "Ted Lasso, an American football coach, moves to England when he's hired to manage a soccer team—despite having no experience. With cynical players and a doubtfu",
+   "popularity": 179.6778,
+   "poster_path": "/uRHsiw1wLxPHFXkkv4Ix1s0O6f4.jpg",
+   "first_air_date": "2020-08-14",
+   "softcore": false,
+   "name": "Ted Lasso",
+   "vote_average": 8.362,
+   "vote_count": 2778
+  },
+  {
+   "adult": false,
+   "backdrop_path": "/4XccmjsOmQZw8S2iW1wvlvmb5v1.jpg",
+   "genre_ids": [
+    10765,
+    18
+   ],
+   "id": 125988,
+   "origin_country": [
+    "US"
+   ],
+   "original_language": "en",
+   "original_name": "Silo",
+   "overview": "In a ruined and toxic future, thousands live in a giant silo deep underground. After its sheriff breaks a cardinal rule and residents die mysteriously, engineer",
+   "popularity": 113.5203,
+   "poster_path": "/r2QXomqKjkKHVtYGGtkf2l2Y7go.jpg",
+   "first_air_date": "2023-05-04",
+   "softcore": false,
+   "name": "Silo",
+   "vote_average": 8.223,
+   "vote_count": 2817
+  },
+  {
+   "adult": false,
+   "backdrop_path": "/9OQ5BIITkJwRJo9JA6AlCfJIGBQ.jpg",
+   "genre_ids": [
+    18,
+    10765,
+    10768
+   ],
+   "id": 87917,
+   "origin_country": [
+    "US"
+   ],
+   "original_language": "en",
+   "original_name": "For All Mankind",
+   "overview": "Explore an aspirational world where NASA and the space program remained a priority and a focal point of our hopes and dreams as told through the lives of NASA a",
+   "popularity": 79.7114,
+   "poster_path": "/JP3DItWMbrrLiKR5AYUfpsNf2b.jpg",
+   "first_air_date": "2019-11-01",
+   "softcore": false,
+   "name": "For All Mankind",
+   "vote_average": 7.746,
+   "vote_count": 1069
+  },
+  {
+   "adult": false,
+   "backdrop_path": "/wFEAy4xRes1eeclsu7Z73Vzz7ET.jpg",
+   "genre_ids": [
+    10765,
+    18
+   ],
+   "id": 196322,
+   "origin_country": [
+    "US"
+   ],
+   "original_language": "en",
+   "original_name": "Dark Matter",
+   "overview": "Jason Dessen is abducted into an alternate version of his life. To get back to his real family, he embarks on a harrowing journey to save them from the most ter",
+   "popularity": 77.7991,
+   "poster_path": "/2DPmTlv8F0V1TQBPmlsGOVOhtWk.jpg",
+   "first_air_date": "2024-05-07",
+   "softcore": false,
+   "name": "Dark Matter",
+   "vote_average": 7.81,
+   "vote_count": 841
+  },
+  {
+   "adult": false,
+   "backdrop_path": "/ixgFmf1X59PUZam2qbAfskx2gQr.jpg",
+   "genre_ids": [
+    18,
+    9648,
+    10765
+   ],
+   "id": 95396,
+   "origin_country": [
+    "US"
+   ],
+   "original_language": "en",
+   "original_name": "Severance",
+   "overview": "Mark leads a team of office workers whose memories have been surgically divided between their work and personal lives. When a mysterious colleague appears outsi",
+   "popularity": 60.0987,
+   "poster_path": "/pPHpeI2X1qEd1CS1SeyrdhZ4qnT.jpg",
+   "first_air_date": "2022-02-17",
+   "softcore": false,
+   "name": "Severance",
+   "vote_average": 8.391,
+   "vote_count": 3049
+  },
+  {
+   "adult": false,
+   "backdrop_path": "/7NNNXo0qG2SqH4JoG7GPvJ2hzes.jpg",
+   "genre_ids": [
+    10765,
+    18
+   ],
+   "id": 93740,
+   "origin_country": [
+    "US"
+   ],
+   "original_language": "en",
+   "original_name": "Foundation",
+   "overview": "Follow a band of exiles on their monumental journey to save humanity and rebuild civilization amid the fall of the Galactic Empire.",
+   "popularity": 59.5888,
+   "poster_path": "/tg9I5pOY4M9CKj8U0cxVBTsm5eh.jpg",
+   "first_air_date": "2021-09-23",
+   "softcore": false,
+   "name": "Foundation",
+   "vote_average": 7.708,
+   "vote_count": 1850
+  },
+  {
+   "adult": false,
+   "backdrop_path": "/hI9z1UuNhBthvkm3iJ8m3zv43Pf.jpg",
+   "genre_ids": [
+    18,
+    35
+   ],
+   "id": 136311,
+   "origin_country": [
+    "US"
+   ],
+   "original_language": "en",
+   "original_name": "Shrinking",
+   "overview": "Jimmy is struggling to grieve the loss of his wife while being a dad, friend, and therapist. He decides to try a new approach with everyone in his path: unfilte",
+   "popularity": 47.1835,
+   "poster_path": "/zEFKMNPBKq6JG7uuDkzTQ9WwErn.jpg",
+   "first_air_date": "2023-01-26",
+   "softcore": false,
+   "name": "Shrinking",
+   "vote_average": 7.82,
+   "vote_count": 740
+  }
+ ],
+ "total_pages": 12,
+ "total_results": 226
+}

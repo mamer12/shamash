@@ -1,0 +1,44 @@
+{
+ "results": [
+  {
+   "provider_id": 8,
+   "provider_name": "Netflix",
+   "display_priority": 0
+  },
+  {
+   "provider_id": 119,
+   "provider_name": "Amazon Prime Video",
+   "display_priority": 1
+  },
+  {
+   "provider_id": 629,
+   "provider_name": "OSN+",
+   "display_priority": 19
+  },
+  {
+   "provider_id": 1715,
+   "provider_name": "Shahid VIP",
+   "display_priority": 20
+  },
+  {
+   "provider_id": 1750,
+   "provider_name": "TOD",
+   "display_priority": 22
+  },
+  {
+   "provider_id": 393,
+   "provider_name": "FlixOlé",
+   "display_priority": 2
+  },
+  {
+   "provider_id": 232,
+   "provider_name": "Zee5",
+   "display_priority": 2
+  },
+  {
+   "provider_id": 309,
+   "provider_name": "Sun Nxt",
+   "display_priority": 7
+  }
+ ]
+}

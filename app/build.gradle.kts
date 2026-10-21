@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.plugin.compose")
@@ -16,10 +18,25 @@ android {
         versionName = "0.1"
     }
 
+    // Your own release key from local.properties (never committed); without one, release uses the debug key so a
+    // fork can build and install at once.
+    val local = Properties().apply {
+        rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use(::load)
+    }
+    val ownKey = local.getProperty("signing.storeFile")?.let { path ->
+        signingConfigs.create("own") {
+            storeFile = file(path)
+            storePassword = local.getProperty("signing.storePassword")
+            keyAlias = local.getProperty("signing.keyAlias")
+            keyPassword = local.getProperty("signing.keyPassword")
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = ownKey ?: signingConfigs.getByName("debug")
         }
     }
     compileOptions {

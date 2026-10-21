@@ -5,6 +5,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import okhttp3.Cache
+import okhttp3.CacheControl
 import okhttp3.FormBody
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -18,8 +19,12 @@ import java.util.concurrent.TimeUnit
 object Logger {
     private const val TAG = "Shamash"
     fun w(message: String, error: Throwable? = null) {
-        runCatching { android.util.Log.w(TAG, message + (error?.let { ": $it" } ?: "")) }
+        runCatching { android.util.Log.w(TAG, line(message, error)) }
     }
+
+    // Exception messages can contain credential-bearing URLs or response bodies.
+    internal fun line(message: String, error: Throwable?) =
+        message + (error?.let { ": ${it.javaClass.simpleName}" } ?: "")
 }
 
 /** The JSON settings every parser uses. SPEC: ARCH-04 */
@@ -28,6 +33,7 @@ val json = Json { ignoreUnknownKeys = true; isLenient = true; explicitNulls = fa
 /** One HTTP client for the whole app (shared connection pool and disk cache). SPEC: ARCH-04 */
 class Http(cacheDir: File?) {
     val client: OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor { chain -> chain.proceed(HttpPrivacy.request(chain.request())) }
         .connectTimeout(8, TimeUnit.SECONDS)
         .readTimeout(15, TimeUnit.SECONDS)
         .apply { if (cacheDir != null) cache(Cache(File(cacheDir, "http"), 20L * 1024 * 1024)) }
@@ -76,3 +82,13 @@ suspend fun <T> softly(what: String, fallback: T, block: suspend () -> T): T =
         Logger.w(what, e)
         fallback
     }
+
+/** Credentials must not become disk-cache metadata, even when a server says its answer is cacheable. SPEC: ARCH-06 */
+internal object HttpPrivacy {
+    fun request(request: Request): Request {
+        val sensitive = request.url.queryParameterNames.any { it.equals("api_key", ignoreCase = true) } ||
+            request.header("Authorization") != null
+        return if (sensitive) request.newBuilder()
+            .cacheControl(CacheControl.Builder().noCache().noStore().build()).build() else request
+    }
+}

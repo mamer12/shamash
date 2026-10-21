@@ -1,0 +1,163 @@
+{
+ "page": 1,
+ "results": [
+  {
+   "adult": false,
+   "backdrop_path": "/ixgFmf1X59PUZam2qbAfskx2gQr.jpg",
+   "id": 95396,
+   "name": "Severance",
+   "original_name": "Severance",
+   "overview": "Mark leads a team of office workers whose memories have been surgically divided between their work and personal lives. When a mysterious colleague appears outsi",
+   "poster_path": "/pPHpeI2X1qEd1CS1SeyrdhZ4qnT.jpg",
+   "media_type": "tv",
+   "original_language": "en",
+   "genre_ids": [
+    18,
+    9648,
+    10765
+   ],
+   "popularity": 60.0987,
+   "first_air_date": "2022-02-17",
+   "softcore": false,
+   "vote_average": 8.39,
+   "vote_count": 3048,
+   "origin_country": [
+    "US"
+   ]
+  },
+  {
+   "adult": false,
+   "backdrop_path": "/1lhFxRRadLuOirqN2THN7gZhJrs.jpg",
+   "id": 5072,
+   "title": "Severance",
+   "original_title": "Severance",
+   "overview": "Seven employees of an international weapons manufacturer are treated to a team-building weekend at the company’s newly built luxury spa lodge. Things quickly go",
+   "poster_path": "/yg1XRTyH5knwh3Tnij2sUV0ZZ5w.jpg",
+   "media_type": "movie",
+   "original_language": "en",
+   "genre_ids": [
+    27,
+    35,
+    53
+   ],
+   "popularity": 5.1108,
+   "release_date": "2006-05-19",
+   "softcore": false,
+   "video": false,
+   "vote_average": 6.277,
+   "vote_count": 698
+  },
+  {
+   "adult": false,
+   "backdrop_path": null,
+   "id": 549624,
+   "title": "Severance",
+   "original_title": "Severance",
+   "overview": "Ray Ponti is a down and out father, a man trapped by his past and frightened of his future. Cly is a streetwise runaway, waiting tables by day and stripping by ",
+   "poster_path": null,
+   "media_type": "movie",
+   "original_language": "en",
+   "genre_ids": [
+    18,
+    53
+   ],
+   "popularity": 1.2121,
+   "release_date": "1988-01-01",
+   "softcore": false,
+   "video": false,
+   "vote_average": 4.2,
+   "vote_count": 4
+  },
+  {
+   "adult": false,
+   "id": 18891,
+   "name": "Joan Severance",
+   "original_name": "Joan Severance",
+   "media_type": "person",
+   "popularity": 1.9276,
+   "gender": 1,
+   "known_for_department": "Acting",
+   "profile_path": "/2bgZLV4KYig6p7aXIMkDCwGx4yZ.jpg"
+  },
+  {
+   "adult": false,
+   "backdrop_path": null,
+   "id": 348669,
+   "title": "Severance",
+   "original_title": "Severance",
+   "overview": "A short film made by the B TEAM",
+   "poster_path": "/98VJrD6RcMlNCrZo3XSvLbnx5UG.jpg",
+   "media_type": "movie",
+   "original_language": "en",
+   "genre_ids": [],
+   "popularity": 1.1341,
+   "release_date": "2015-07-15",
+   "softcore": false,
+   "video": false,
+   "vote_average": 0.0,
+   "vote_count": 0
+  },
+  {
+   "adult": false,
+   "backdrop_path": null,
+   "id": 1205412,
+   "title": "Severance",
+   "original_title": "Severance",
+   "overview": "In fear of being outed as a gay male at work, Matt switches personalities based on the environment he finds himself inhabiting. He has spent his life keeping th",
+   "poster_path": "/AnI5jipbxwJg942QWy1KIeecMll.jpg",
+   "media_type": "movie",
+   "original_language": "en",
+   "genre_ids": [
+    18
+   ],
+   "popularity": 2.2134,
+   "release_date": "2022-11-18",
+   "softcore": false,
+   "video": false,
+   "vote_average": 7.7,
+   "vote_count": 3
+  },
+  {
+   "adult": false,
+   "backdrop_path": "/7IVzXbXJ27jBiXfrQaLLlXEUYmT.jpg",
+   "id": 517398,
+   "title": "Severance",
+   "original_title": "Severance",
+   "overview": "Two friends watch their relationship disintegrate during their final week of work at a closing warehouse.",
+   "poster_path": "/xpOYfAgvHlYQU9WHtPjLriQwEBM.jpg",
+   "media_type": "movie",
+   "original_language": "en",
+   "genre_ids": [
+    18
+   ],
+   "popularity": 1.4787,
+   "release_date": "2020-05-28",
+   "softcore": false,
+   "video": false,
+   "vote_average": 0.0,
+   "vote_count": 0
+  },
+  {
+   "adult": false,
+   "backdrop_path": null,
+   "id": 1251859,
+   "title": "Severance",
+   "original_title": "Severance",
+   "overview": "A woman is severed from reality after a tragedy.  The film follows her dissociative experience of grief.",
+   "poster_path": null,
+   "media_type": "movie",
+   "original_language": "en",
+   "genre_ids": [
+    18
+   ],
+   "popularity": 2.1814,
+   "release_date": "",
+   "softcore": false,
+   "video": false,
+   "vote_average": 0.0,
+   "vote_count": 0
+  }
+ ],
+ "total_pages": 2,
+ "total_results": 33
+}

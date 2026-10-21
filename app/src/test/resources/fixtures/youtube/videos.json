@@ -1,0 +1,197 @@
+{
+ "kind": "youtube#videoListResponse",
+ "etag": "o6KMAzmTC8C5pwXU0XHPQ_GWrvo",
+ "items": [
+  {
+   "kind": "youtube#video",
+   "etag": "VdN_NeE78r_QtAKwheI_xnnoBjs",
+   "id": "rFZHOHl-L8A",
+   "snippet": {
+    "publishedAt": "2026-08-19T07:31:51Z",
+    "channelId": "UCSJ4gkVC6NrvII8umztf0Ow",
+    "title": "lofi hip hop radio 📚 beats to relax/study to",
+    "description": "Spooky season is officially upon us 🎃 2026 Halloween playlist available now: https://lnk.to/halloween-lofi02\n\n🎼 | Listen on Spotify, Apple music and more\n→  htt",
+    "thumbnails": {
+     "default": {
+      "url": "https://i.ytimg.com/vi/rFZHOHl-L8A/default_live.jpg",
+      "width": 120,
+      "height": 90
+     },
+     "medium": {
+      "url": "https://i.ytimg.com/vi/rFZHOHl-L8A/mqdefault_live.jpg",
+      "width": 320,
+      "height": 180
+     },
+     "high": {
+      "url": "https://i.ytimg.com/vi/rFZHOHl-L8A/hqdefault_live.jpg",
+      "width": 480,
+      "height": 360
+     },
+     "standard": {
+      "url": "https://i.ytimg.com/vi/rFZHOHl-L8A/sddefault_live.jpg",
+      "width": 640,
+      "height": 480
+     },
+     "maxres": {
+      "url": "https://i.ytimg.com/vi/rFZHOHl-L8A/maxresdefault_live.jpg",
+      "width": 1280,
+      "height": 720
+     },
+     "fhd": {
+      "url": "https://i.ytimg.com/vi/rFZHOHl-L8A/fhddefault_live.jpg",
+      "width": 1920,
+      "height": 1080
+     }
+    },
+    "channelTitle": "Lofi Girl",
+    "categoryId": "10",
+    "liveBroadcastContent": "live",
+    "defaultLanguage": "en",
+    "defaultAudioLanguage": "en-US"
+   }
+  },
+  {
+   "kind": "youtube#video",
+   "etag": "X_Yse5ekJTGptcmzZGkyD3x0kbc",
+   "id": "n61ULEU7CO0",
+   "snippet": {
+    "publishedAt": "2021-12-31T16:30:13Z",
+    "channelId": "UCSJ4gkVC6NrvII8umztf0Ow",
+    "title": "Best of lofi hip hop 2021 ✨ [beats to relax/study to]",
+    "description": "🎼 | Listen on Spotify, Apple music and more\n→ https://fanlink.tv/BestofLofi2021\n\nThe new Lofi Girl compilation “Best of 2021” is out now 🙌\nThis compilation cont",
+    "thumbnails": {
+     "default": {
+      "url": "https://i.ytimg.com/vi/n61ULEU7CO0/default.jpg",
+      "width": 120,
+      "height": 90
+     },
+     "medium": {
+      "url": "https://i.ytimg.com/vi/n61ULEU7CO0/mqdefault.jpg",
+      "width": 320,
+      "height": 180
+     },
+     "high": {
+      "url": "https://i.ytimg.com/vi/n61ULEU7CO0/hqdefault.jpg",
+      "width": 480,
+      "height": 360
+     },
+     "standard": {
+      "url": "https://i.ytimg.com/vi/n61ULEU7CO0/sddefault.jpg",
+      "width": 640,
+      "height": 480
+     },
+     "maxres": {
+      "url": "https://i.ytimg.com/vi/n61ULEU7CO0/maxresdefault.jpg",
+      "width": 1280,
+      "height": 720
+     },
+     "fhd": {
+      "url": "https://i.ytimg.com/vi/n61ULEU7CO0/fhddefault.jpg",
+      "width": 1920,
+      "height": 1080
+     }
+    },
+    "channelTitle": "Lofi Girl",
+    "categoryId": "10",
+    "liveBroadcastContent": "none",
+    "defaultLanguage": "en",
+    "defaultAudioLanguage": "en-US"
+   }
+  },
+  {
+   "kind": "youtube#video",
+   "etag": "I9Drc-gbkn7Dw3zAowITzi1ep7A",
+   "id": "b0_Tlq_eBnc",
+   "snippet": {
+    "publishedAt": "2026-10-20T05:51:42Z",
+    "channelId": "UCuS_-bvOCh4W5Sy11Uf4H5A",
+    "title": "Lofi Hip Hop Beats 🧿 Japanese Town Ambience & 1980s & 90s Vibes 🪙 Nostalgic Retro Lofi Rain Playlist",
+    "description": "The Japanese Town is dedicated for lofi beats & lofi rain music. We present relaxing rain \nAtmosphere and lofi ambience which is perfect for sleep,relaxing & St",
+    "thumbnails": {
+     "default": {
+      "url": "https://i.ytimg.com/vi/b0_Tlq_eBnc/default_live.jpg",
+      "width": 120,
+      "height": 90
+     },
+     "medium": {
+      "url": "https://i.ytimg.com/vi/b0_Tlq_eBnc/mqdefault_live.jpg",
+      "width": 320,
+      "height": 180
+     },
+     "high": {
+      "url": "https://i.ytimg.com/vi/b0_Tlq_eBnc/hqdefault_live.jpg",
+      "width": 480,
+      "height": 360
+     },
+     "standard": {
+      "url": "https://i.ytimg.com/vi/b0_Tlq_eBnc/sddefault_live.jpg",
+      "width": 640,
+      "height": 480
+     },
+     "maxres": {
+      "url": "https://i.ytimg.com/vi/b0_Tlq_eBnc/maxresdefault_live.jpg",
+      "width": 1280,
+      "height": 720
+     },
+     "fhd": {
+      "url": "https://i.ytimg.com/vi/b0_Tlq_eBnc/fhddefault_live.jpg",
+      "width": 1920,
+      "height": 1080
+     }
+    },
+    "channelTitle": "The Japanese Town",
+    "categoryId": "10",
+    "liveBroadcastContent": "live",
+    "defaultLanguage": "en",
+    "defaultAudioLanguage": "en"
+   }
+  },
+  {
+   "kind": "youtube#video",
+   "etag": "RyA9TlD4pRsVdGDCkzPZDCEGxK0",
+   "id": "lTRiuFIWV54",
+   "snippet": {
+    "publishedAt": "2019-12-08T22:02:06Z",
+    "channelId": "UCSJ4gkVC6NrvII8umztf0Ow",
+    "title": "1 A.M Study Session 📚 [lofi hip hop]",
+    "description": "🎼 | Listen on Spotify, Apple music and more\n→  https://fanlink.tv/lofigirl-music\n\n🎭 | Create your lofi avatar now\n→  https://bit.ly/lofigirl-generator\n\n🌎 | Lofi",
+    "thumbnails": {
+     "default": {
+      "url": "https://i.ytimg.com/vi/lTRiuFIWV54/default.jpg",
+      "width": 120,
+      "height": 90
+     },
+     "medium": {
+      "url": "https://i.ytimg.com/vi/lTRiuFIWV54/mqdefault.jpg",
+      "width": 320,
+      "height": 180
+     },
+     "high": {
+      "url": "https://i.ytimg.com/vi/lTRiuFIWV54/hqdefault.jpg",
+      "width": 480,
+      "height": 360
+     },
+     "standard": {
+      "url": "https://i.ytimg.com/vi/lTRiuFIWV54/sddefault.jpg",
+      "width": 640,
+      "height": 480
+     },
+     "fhd": {
+      "url": "https://i.ytimg.com/vi/lTRiuFIWV54/fhddefault.jpg",
+      "width": 1920,
+      "height": 1080
+     }
+    },
+    "channelTitle": "Lofi Girl",
+    "categoryId": "10",
+    "liveBroadcastContent": "none",
+    "defaultLanguage": "en",
+    "defaultAudioLanguage": "en-US"
+   }
+  }
+ ],
+ "pageInfo": {
+  "totalResults": 4,
+  "resultsPerPage": 4
+ }
+}

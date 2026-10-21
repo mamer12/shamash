@@ -1,0 +1,476 @@
+{
+ "data": {
+  "popularTitles": {
+   "edges": [
+    {
+     "node": {
+      "objectType": "SHOW",
+      "content": {
+       "externalIds": {
+        "tmdbId": "95396"
+       }
+      },
+      "offers": [
+       {
+        "monetizationType": "FLATRATE",
+        "standardWebURL": "https://tv.apple.com/us/episode/good-news-about-hell/umc.cmc.s80mx1ic96pu6ewupz8pfasf?at=1000l3V2&ct=app_tvplus&itscg=30200&itsct=justwatch_tv&playableId=tvs.sbd.4000%3AVSEVR0560101&showId=umc.cmc.1srk2goyh2q2zdxcx605w8vtx",
+        "package": {
+         "clearName": "Apple TV"
+        }
+       },
+       {
+        "monetizationType": "FLATRATE",
+        "standardWebURL": "https://tv.apple.com/us/episode/good-news-about-hell/umc.cmc.s80mx1ic96pu6ewupz8pfasf?at=1000l3V2&ct=app_tvplus&itscg=30200&itsct=justwatch_tv&playableId=tvs.sbd.4000%3AVSEVR0560101&showId=umc.cmc.1srk2goyh2q2zdxcx605w8vtx",
+        "package": {
+         "clearName": "Apple TV"
+        }
+       },
+       {
+        "monetizationType": "FLATRATE",
+        "standardWebURL": "https://tv.apple.com/us/episode/good-news-about-hell/umc.cmc.s80mx1ic96pu6ewupz8pfasf?at=1000l3V2&ct=app_tvplus&itscg=30200&itsct=justwatch_tv&playableId=tvs.sbd.4000%3AVSEVR0560101&showId=umc.cmc.1srk2goyh2q2zdxcx605w8vtx",
+        "package": {
+         "clearName": "Apple TV"
+        }
+       },
+       {
+        "monetizationType": "FLATRATE",
+        "standardWebURL": "https://watch.amazon.com/detail?gti=amzn1.dv.gti.92c7e5ed-9cf4-4e34-93a8-3beb40f7b279",
+        "package": {
+         "clearName": "Apple TV Amazon Channel"
+        }
+       },
+       {
+        "monetizationType": "FLATRATE",
+        "standardWebURL": "https://watch.amazon.com/detail?gti=amzn1.dv.gti.b10bd929-69a9-433a-b518-01600a896c88",
+        "package": {
+         "clearName": "Apple TV Amazon Channel"
+        }
+       },
+       {
+        "monetizationType": "FLATRATE",
+        "standardWebURL": "https://watch.amazon.com/detail?gti=amzn1.dv.gti.b10bd929-69a9-433a-b518-01600a896c88",
+        "package": {
+         "clearName": "Apple TV Amazon Channel"
+        }
+       },
+       {
+        "monetizationType": "BUY",
+        "standardWebURL": "https://www.amazon.com/dp/B0DK99V19R?tag=justwatch09-20&linkCode=osi&th=1&psc=1",
+        "package": {
+         "clearName": "Amazon DVD / Blu-ray"
+        }
+       },
+       {
+        "monetizationType": "BUY",
+        "standardWebURL": "https://www.amazon.com/dp/B0DK99WC5F?tag=justwatch09-20&linkCode=osi&th=1&psc=1",
+        "package": {
+         "clearName": "Amazon DVD / Blu-ray"
+        }
+       }
+      ]
+     }
+    },
+    {
+     "node": {
+      "objectType": "MOVIE",
+      "content": {
+       "externalIds": {
+        "tmdbId": "5072"
+       }
+      },
+      "offers": [
+       {
+        "monetizationType": "FLATRATE",
+        "standardWebURL": "https://watch.amazon.com/detail?gti=amzn1.dv.gti.bafdc229-9f37-4beb-bc4a-d89f9a0c50a1",
+        "package": {
+         "clearName": "Amazon Prime Video"
+        }
+       },
+       {
+        "monetizationType": "FLATRATE",
+        "standardWebURL": "https://watch.amazon.com/detail?gti=amzn1.dv.gti.bafdc229-9f37-4beb-bc4a-d89f9a0c50a1",
+        "package": {
+         "clearName": "Amazon Prime Video"
+        }
+       },
+       {
+        "monetizationType": "ADS",
+        "standardWebURL": "https://www.philo.com/player/show/U2hvdzo2MDg1NDg4OTk2NDg1MDIzMjc",
+        "package": {
+         "clearName": "Philo"
+        }
+       },
+       {
+        "monetizationType": "ADS",
+        "standardWebURL": "https://www.philo.com/player/show/U2hvdzo2MDg1NDg4OTk2NDg1MDIzMjc",
+        "package": {
+         "clearName": "Philo"
+        }
+       },
+       {
+        "monetizationType": "ADS",
+        "standardWebURL": "https://therokuchannel.roku.com/details/640bbf77fdcd5b589cd102f24f2511fb/severance?source=bing",
+        "package": {
+         "clearName": "The Roku Channel"
+        }
+       },
+       {
+        "monetizationType": "ADS",
+        "standardWebURL": "https://therokuchannel.roku.com/details/640bbf77fdcd5b589cd102f24f2511fb/severance?source=bing",
+        "package": {
+         "clearName": "The Roku Channel"
+        }
+       },
+       {
+        "monetizationType": "FREE",
+        "standardWebURL": "https://www.kanopy.com/product/justwatch-11057460",
+        "package": {
+         "clearName": "Kanopy"
+        }
+       },
+       {
+        "monetizationType": "FREE",
+        "standardWebURL": "https://www.kanopy.com/product/justwatch-11057460",
+        "package": {
+         "clearName": "Kanopy"
+        }
+       },
+       {
+        "monetizationType": "FREE",
+        "standardWebURL": "https://www.hoopladigital.com/title/11049462?utm_source=justwatch",
+        "package": {
+         "clearName": "Hoopla"
+        }
+       },
+       {
+        "monetizationType": "ADS",
+        "standardWebURL": "https://athome.fandango.com/content/browse/details/Severance/68625",
+        "package": {
+         "clearName": "Fandango at Home Free"
+        }
+       },
+       {
+        "monetizationType": "ADS",
+        "standardWebURL": "https://athome.fandango.com/content/browse/details/Severance/68625",
+        "package": {
+         "clearName": "Fandango at Home Free"
+        }
+       },
+       {
+        "monetizationType": "FAST",
+        "standardWebURL": "https://watch.plex.tv/live-tv/channel/magnolia-selects?autoplay=1&utm_content=616df1e90dfa27ee465797fa&utm_medium=deeplink&utm_source=justWatch-linear-catalog",
+        "package": {
+         "clearName": "Plex Live TV"
+        }
+       },
+       {
+        "monetizationType": "FAST",
+        "standardWebURL": "https://watch.plex.tv/live-tv/channel/magnolia-selects?autoplay=1&utm_content=616df1e90dfa27ee465797fa&utm_medium=deeplink&utm_source=justWatch-linear-catalog",
+        "package": {
+         "clearName": "Plex Live TV"
+        }
+       },
+       {
+        "monetizationType": "FAST",
+        "standardWebURL": "https://watch.plex.tv/live-tv/channel/magnolia-selects?autoplay=1&utm_content=616df1e90dfa27ee465797fa&utm_medium=deeplink&utm_source=justWatch-linear-catalog",
+        "package": {
+         "clearName": "Plex Live TV"
+        }
+       },
+       {
+        "monetizationType": "FAST",
+        "standardWebURL": "https://watch.plex.tv/live-tv/channel/magnolia-selects?autoplay=1&utm_content=616df1e90dfa27ee465797fa&utm_medium=deeplink&utm_source=justWatch-linear-catalog",
+        "package": {
+         "clearName": "Plex Live TV"
+        }
+       },
+       {
+        "monetizationType": "ADS",
+        "standardWebURL": "https://play.xumo.com/free-movies/severance/XM08NQA8ZXLB9R",
+        "package": {
+         "clearName": "Xumo Play"
+        }
+       },
+       {
+        "monetizationType": "ADS",
+        "standardWebURL": "https://play.xumo.com/free-movies/severance/XM08NQA8ZXLB9R",
+        "package": {
+         "clearName": "Xumo Play"
+        }
+       },
+       {
+        "monetizationType": "FLATRATE",
+        "standardWebURL": "https://watch.amazon.com/detail?gti=amzn1.dv.gti.bafdc229-9f37-4beb-bc4a-d89f9a0c50a1",
+        "package": {
+         "clearName": "Amazon Prime Video with Ads"
+        }
+       },
+       {
+        "monetizationType": "FLATRATE",
+        "standardWebURL": "https://watch.amazon.com/detail?gti=amzn1.dv.gti.bafdc229-9f37-4beb-bc4a-d89f9a0c50a1",
+        "package": {
+         "clearName": "Amazon Prime Video with Ads"
+        }
+       },
+       {
+        "monetizationType": "FLATRATE",
+        "standardWebURL": "https://watch.amazon.com/detail?gti=amzn1.dv.gti.4f5684e1-3d81-41d7-92f2-76df7474b398",
+        "package": {
+         "clearName": "Magnolia Selects Amazon Channel"
+        }
+       },
+       {
+        "monetizationType": "FLATRATE",
+        "standardWebURL": "https://watch.amazon.com/detail?gti=amzn1.dv.gti.4f5684e1-3d81-41d7-92f2-76df7474b398",
+        "package": {
+         "clearName": "Magnolia Selects Amazon Channel"
+        }
+       },
+       {
+        "monetizationType": "FLATRATE",
+        "standardWebURL": "https://watch.amazon.com/detail?gti=amzn1.dv.gti.4f5684e1-3d81-41d7-92f2-76df7474b398",
+        "package": {
+         "clearName": "Monsters and Nightmares Amazon Channel"
+        }
+       },
+       {
+        "monetizationType": "FLATRATE",
+        "standardWebURL": "https://watch.amazon.com/detail?gti=amzn1.dv.gti.4f5684e1-3d81-41d7-92f2-76df7474b398",
+        "package": {
+         "clearName": "Monsters and Nightmares Amazon Channel"
+        }
+       },
+       {
+        "monetizationType": "RENT",
+        "standardWebURL": "https://watch.amazon.com/detail?gti=amzn1.dv.gti.bafdc229-9f37-4beb-bc4a-d89f9a0c50a1",
+        "package": {
+         "clearName": "Amazon Video"
+        }
+       },
+       {
+        "monetizationType": "RENT",
+        "standardWebURL": "https://athome.fandango.com/content/browse/details/Severance/68625",
+        "package": {
+         "clearName": "Fandango At Home"
+        }
+       },
+       {
+        "monetizationType": "RENT",
+        "standardWebURL": "https://watch.amazon.com/detail?gti=amzn1.dv.gti.bafdc229-9f37-4beb-bc4a-d89f9a0c50a1",
+        "package": {
+         "clearName": "Amazon Video"
+        }
+       },
+       {
+        "monetizationType": "RENT",
+        "standardWebURL": "https://athome.fandango.com/content/browse/details/Severance/68625",
+        "package": {
+         "clearName": "Fandango At Home"
+        }
+       },
+       {
+        "monetizationType": "RENT",
+        "standardWebURL": "https://www.flixfling.com/justwatch/21425",
+        "package": {
+         "clearName": "FlixFling"
+        }
+       },
+       {
+        "monetizationType": "BUY",
+        "standardWebURL": "https://www.barnesandnoble.com/w/dvd-severance-christopher-smith/10236348",
+        "package": {
+         "clearName": "Barnes & Noble"
+        }
+       },
+       {
+        "monetizationType": "BUY",
+        "standardWebURL": "https://www.amazon.com/dp/B000JXYJM8?tag=justwatch09-20&linkCode=osi&th=1&psc=1",
+        "package": {
+         "clearName": "Amazon DVD / Blu-ray"
+        }
+       },
+       {
+        "monetizationType": "BUY",
+        "standardWebURL": "https://watch.amazon.com/detail?gti=amzn1.dv.gti.bafdc229-9f37-4beb-bc4a-d89f9a0c50a1",
+        "package": {
+         "clearName": "Amazon Video"
+        }
+       },
+       {
+        "monetizationType": "BUY",
+        "standardWebURL": "https://athome.fandango.com/content/browse/details/Severance/68625",
+        "package": {
+         "clearName": "Fandango At Home"
+        }
+       },
+       {
+        "monetizationType": "BUY",
+        "standardWebURL": "https://www.flixfling.com/justwatch/21425",
+        "package": {
+         "clearName": "FlixFling"
+        }
+       },
+       {
+        "monetizationType": "BUY",
+        "standardWebURL": "https://watch.amazon.com/detail?gti=amzn1.dv.gti.bafdc229-9f37-4beb-bc4a-d89f9a0c50a1",
+        "package": {
+         "clearName": "Amazon Video"
+        }
+       },
+       {
+        "monetizationType": "BUY",
+        "standardWebURL": "https://athome.fandango.com/content/browse/details/Severance/68625",
+        "package": {
+         "clearName": "Fandango At Home"
+        }
+       },
+       {
+        "monetizationType": "BUY",
+        "standardWebURL": "https://www.amazon.com/dp/B0F39M6P7P?tag=justwatch09-20&linkCode=osi&th=1&psc=1",
+        "package": {
+         "clearName": "Amazon DVD / Blu-ray"
+        }
+       }
+      ]
+     }
+    },
+    {
+     "node": {
+      "objectType": "MOVIE",
+      "content": {
+       "externalIds": {
+        "tmdbId": "549624"
+       }
+      },
+      "offers": [
+       {
+        "monetizationType": "ADS",
+        "standardWebURL": "https://watch.plex.tv/movie/severance-1988?autoplay=1&utm_content=5d777087b2739400200e84ee&utm_medium=deeplink&utm_source=justWatch-v2-catalog",
+        "package": {
+         "clearName": "Plex"
+        }
+       },
+       {
+        "monetizationType": "ADS",
+        "standardWebURL": "https://watch.plex.tv/movie/severance-1988?autoplay=1&utm_content=5d777087b2739400200e84ee&utm_medium=deeplink&utm_source=justWatch-v2-catalog",
+        "package": {
+         "clearName": "Plex"
+        }
+       },
+       {
+        "monetizationType": "ADS",
+        "standardWebURL": "https://watch.plex.tv/embed/movie/severance-1988?referrer=JustWatch",
+        "package": {
+         "clearName": "Plex Player"
+        }
+       },
+       {
+        "monetizationType": "ADS",
+        "standardWebURL": "https://watch.plex.tv/embed/movie/severance-1988?referrer=JustWatch",
+        "package": {
+         "clearName": "Plex Player"
+        }
+       },
+       {
+        "monetizationType": "ADS",
+        "standardWebURL": "https://www.justwatch.com/us/movie/severance-1988?package=plc",
+        "package": {
+         "clearName": "Plex Channel"
+        }
+       },
+       {
+        "monetizationType": "ADS",
+        "standardWebURL": "https://www.justwatch.com/us/movie/severance-1988?package=plc",
+        "package": {
+         "clearName": "Plex Channel"
+        }
+       },
+       {
+        "monetizationType": "FLATRATE",
+        "standardWebURL": "https://eternal.tv/programs/severance",
+        "package": {
+         "clearName": "Eternal Family"
+        }
+       },
+       {
+        "monetizationType": "FLATRATE",
+        "standardWebURL": "https://eternal.tv/programs/severance",
+        "package": {
+         "clearName": "Eternal Family"
+        }
+       },
+       {
+        "monetizationType": "FREE",
+        "standardWebURL": "https://fawesome.tv/movies/10558146/severance?utm_source=justwatch&utm_medium=feed",
+        "package": {
+         "clearName": "Fawesome"
+        }
+       },
+       {
+        "monetizationType": "FREE",
+        "standardWebURL": "https://fawesome.tv/movies/10558146/severance?utm_source=justwatch&utm_medium=feed",
+        "package": {
+         "clearName": "Fawesome"
+        }
+       },
+       {
+        "monetizationType": "ADS",
+        "standardWebURL": "https://tubitv.com/movies/661222",
+        "package": {
+         "clearName": "Tubi TV"
+        }
+       },
+       {
+        "monetizationType": "RENT",
+        "standardWebURL": "https://athome.fandango.com/content/browse/details/Severance/4190284",
+        "package": {
+         "clearName": "Fandango At Home"
+        }
+       },
+       {
+        "monetizationType": "RENT",
+        "standardWebURL": "https://athome.fandango.com/content/browse/details/Severance/4190284",
+        "package": {
+         "clearName": "Fandango At Home"
+        }
+       },
+       {
+        "monetizationType": "BUY",
+        "standardWebURL": "https://athome.fandango.com/content/browse/details/Severance/4190284",
+        "package": {
+         "clearName": "Fandango At Home"
+        }
+       },
+       {
+        "monetizationType": "BUY",
+        "standardWebURL": "https://athome.fandango.com/content/browse/details/Severance/4190284",
+        "package": {
+         "clearName": "Fandango At Home"
+        }
+       }
+      ]
+     }
+    },
+    {
+     "node": {
+      "objectType": "SHOW",
+      "content": {
+       "externalIds": {
+        "tmdbId": null
+       }
+      },
+      "offers": [
+       {
+        "monetizationType": "BUY",
+        "standardWebURL": "https://www.barnesandnoble.com/w/dvd-severance-season-1-severance-season-1-3pc-ac3-sgnl-sub-ws/1146307576",
+        "package": {
+         "clearName": "Barnes & Noble"
+        }
+       }
+      ]
+     }
+    }
+   ]
+  }
+ }
+}

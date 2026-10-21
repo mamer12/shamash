@@ -1,0 +1,7 @@
+{
+  "access_token": "ya29.example-access",
+  "expires_in": 3599,
+  "refresh_token": "1//example-refresh",
+  "scope": "https://www.googleapis.com/auth/youtube.readonly",
+  "token_type": "Bearer"
+}

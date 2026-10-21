@@ -1,0 +1,194 @@
+{
+ "results": [
+  {
+   "provider_id": 8,
+   "provider_name": "Netflix",
+   "display_priority": 0
+  },
+  {
+   "provider_id": 9,
+   "provider_name": "Amazon Prime Video",
+   "display_priority": 3
+  },
+  {
+   "provider_id": 350,
+   "provider_name": "Apple TV",
+   "display_priority": 2
+  },
+  {
+   "provider_id": 337,
+   "provider_name": "Disney Plus",
+   "display_priority": 3
+  },
+  {
+   "provider_id": 2,
+   "provider_name": "Apple TV Store",
+   "display_priority": 3
+  },
+  {
+   "provider_id": 1825,
+   "provider_name": "HBO Max Amazon Channel",
+   "display_priority": 13
+  },
+  {
+   "provider_id": 1854,
+   "provider_name": "AMC Plus Apple TV channel",
+   "display_priority": 26
+  },
+  {
+   "provider_id": 1852,
+   "provider_name": "Britbox Apple TV channel",
+   "display_priority": 27
+  },
+  {
+   "provider_id": 175,
+   "provider_name": "Netflix Kids",
+   "display_priority": 6
+  },
+  {
+   "provider_id": 289,
+   "provider_name": "Cinemax Amazon Channel",
+   "display_priority": 70
+  },
+  {
+   "provider_id": 508,
+   "provider_name": "DisneyNOW",
+   "display_priority": 124
+  },
+  {
+   "provider_id": 613,
+   "provider_name": "Amazon Prime Video Free with Ads",
+   "display_priority": 142
+  },
+  {
+   "provider_id": 1796,
+   "provider_name": "Netflix Standard with Ads",
+   "display_priority": 152
+  },
+  {
+   "provider_id": 1899,
+   "provider_name": "HBO Max",
+   "display_priority": 153
+  },
+  {
+   "provider_id": 1715,
+   "provider_name": "Shahid VIP",
+   "display_priority": 20
+  },
+  {
+   "provider_id": 2033,
+   "provider_name": "A&E Crime Central Apple TV channel",
+   "display_priority": 180
+  },
+  {
+   "provider_id": 2034,
+   "provider_name": "Acorn TV Apple TV channel",
+   "display_priority": 181
+  },
+  {
+   "provider_id": 2036,
+   "provider_name": "ALLBLK Apple TV channel",
+   "display_priority": 182
+  },
+  {
+   "provider_id": 2045,
+   "provider_name": "UP Faith & Family Apple TV channel",
+   "display_priority": 183
+  },
+  {
+   "provider_id": 2047,
+   "provider_name": "Tastemade Apple TV channel",
+   "display_priority": 184
+  },
+  {
+   "provider_id": 2049,
+   "provider_name": "Shudder Apple TV channel",
+   "display_priority": 186
+  },
+  {
+   "provider_id": 2050,
+   "provider_name": "ScreenPix Apple TV channel",
+   "display_priority": 187
+  },
+  {
+   "provider_id": 2044,
+   "provider_name": "OUTtv Apple TV channel",
+   "display_priority": 188
+  },
+  {
+   "provider_id": 2055,
+   "provider_name": "Lifetime Movie Club Apple TV channel",
+   "display_priority": 189
+  },
+  {
+   "provider_id": 2058,
+   "provider_name": "Hallmark+ Apple TV channel",
+   "display_priority": 190
+  },
+  {
+   "provider_id": 2059,
+   "provider_name": "Eros Now Select Apple TV channel",
+   "display_priority": 191
+  },
+  {
+   "provider_id": 2060,
+   "provider_name": "CuriosityStream Apple TV channel",
+   "display_priority": 192
+  },
+  {
+   "provider_id": 2061,
+   "provider_name": "Cinemax Apple TV channel",
+   "display_priority": 193
+  },
+  {
+   "provider_id": 2039,
+   "provider_name": "BBC Select Apple Tv channel",
+   "display_priority": 194
+  },
+  {
+   "provider_id": 2042,
+   "provider_name": "Carnegie Hall+ Apple TV channel",
+   "display_priority": 195
+  },
+  {
+   "provider_id": 2056,
+   "provider_name": "IFC Films Unlimited Apple TV channel",
+   "display_priority": 196
+  },
+  {
+   "provider_id": 2057,
+   "provider_name": "HISTORY Vault Apple TV channel",
+   "display_priority": 197
+  },
+  {
+   "provider_id": 2100,
+   "provider_name": "Amazon Prime Video with Ads",
+   "display_priority": 202
+  },
+  {
+   "provider_id": 1855,
+   "provider_name": "Starz Apple TV channel",
+   "display_priority": 203
+  },
+  {
+   "provider_id": 2243,
+   "provider_name": "Apple TV Amazon Channel",
+   "display_priority": 216
+  },
+  {
+   "provider_id": 15,
+   "provider_name": "Hulu",
+   "display_priority": 6
+  },
+  {
+   "provider_id": 2285,
+   "provider_name": "JustWatch TV Free",
+   "display_priority": 7
+  },
+  {
+   "provider_id": 10,
+   "provider_name": "Amazon Video",
+   "display_priority": 33
+  }
+ ]
+}

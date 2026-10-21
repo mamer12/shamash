@@ -1,0 +1,35 @@
+[
+ {
+  "nb": "105322",
+  "ar_title": "Batman",
+  "en_title": "Batman",
+  "kind": "1",
+  "imgMediumThumbObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/725497EB-E19C-1FCE-8AA8-A750F0ACC029_poster_medium_thumb.jpg",
+  "imgObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/D5F791CA-DF44-29AF-3902-00C78EEEF5EA_poster.jpg",
+  "imdbUrlRef": "http://www.imdb.com/title/tt0096895/",
+  "year": "1989",
+  "stars": "7.5"
+ },
+ {
+  "nb": "105323",
+  "ar_title": "Batman & Robin",
+  "en_title": "Batman & Robin",
+  "kind": "1",
+  "imgMediumThumbObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/C2C9130C-047D-AC8B-504B-9E7C304BBF21_poster_medium_thumb.jpg",
+  "imgObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/C0F87039-16AB-3DC8-56BE-6FCD342029B8_poster.jpg",
+  "imdbUrlRef": "http://www.imdb.com/title/tt0118688/",
+  "year": "1997",
+  "stars": "3.7"
+ },
+ {
+  "nb": "694924",
+  "ar_title": "The Batman",
+  "en_title": "The Batman",
+  "kind": "1",
+  "imgMediumThumbObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/D9C4E65E-CEAE-74BA-790A-33331DEF9609_poster_medium_thumb.jpg",
+  "imgObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/BAF4AD78-9569-B2AC-37C9-8EA1F2805FE5_poster.jpg",
+  "imdbUrlRef": "https://www.imdb.com/title/tt1877830/",
+  "year": "2022",
+  "stars": "7.9"
+ }
+]

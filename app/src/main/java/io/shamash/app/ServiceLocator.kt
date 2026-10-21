@@ -14,7 +14,9 @@ class ServiceLocator private constructor(context: Context) {
     val prefs = Preferences(appContext)
     val apps = TvApps(appContext)
     val history = History(appContext)
-    val providers by lazy { Sources.providers(http, prefs, apps) }
+    val providers by lazy { Sources.providers(http, prefs, apps, history, appContext) }
+    val youtubeAuth by lazy { Sources.youtubeAuth(http, prefs) }
+    val geocoder by lazy { Sources.geocoder(http) }
     val matches by lazy { Sources.matches(http) }
     val weather by lazy { Sources.weather(http) }
     val links by lazy { Sources.links(http) }

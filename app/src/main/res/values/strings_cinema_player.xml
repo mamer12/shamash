@@ -1,0 +1,18 @@
+<resources>
+    <string name="cinema_player_error">This video could not be played. Check your connection and try again.</string>
+    <string name="cinema_player_retry">Try again</string>
+    <string name="cinema_player_back">Back</string>
+    <string name="cinema_player_play">Play</string>
+    <string name="cinema_player_pause">Pause</string>
+    <string name="cinema_player_rewind">−10 s</string>
+    <string name="cinema_player_forward">+10 s</string>
+    <string name="cinema_player_speed">%1$.2f×</string>
+    <string name="cinema_player_skip_intro">Skip intro</string>
+    <string name="cinema_player_next">Next episode</string>
+    <string name="cinema_player_next_countdown">Next episode in %1$d</string>
+    <string name="cinema_player_cancel">Keep watching</string>
+    <string name="cinema_player_subtitles">Subtitles: %1$s</string>
+    <string name="cinema_player_arabic">Arabic</string>
+    <string name="cinema_player_english">English</string>
+    <string name="cinema_player_off">Off</string>
+</resources>

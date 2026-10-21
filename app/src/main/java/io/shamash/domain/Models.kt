@@ -13,6 +13,9 @@ sealed interface OpenTarget {
 
     data class App(val appPackage: String) : OpenTarget
 
+    /** One screen of an app, by class name, with string extras (e.g. a title in Watchme+); falls back to [App]. */
+    data class AppScreen(val appPackage: String, val className: String, val extras: Map<String, String>) : OpenTarget
+
     data class Video(val youtubeId: String) : OpenTarget
 
     /** A screen inside Shamash ("search?q=…"). */
@@ -79,6 +82,9 @@ data class Weather(
 /** A launchable TV app. */
 data class TvApp(val packageName: String, val label: String, val streaming: Boolean)
 
+/** Which titles add-ons may show. SPEC: CIN-08 */
+enum class ContentLevel { ALL, FAMILY, KIDS }
+
 /** What the user told setup; every screen reads it. SPEC: ONB-06 */
 data class Profile(
     val onboarded: Boolean = false,
@@ -95,6 +101,7 @@ data class Profile(
     val youtubeClientId: String = "",
     val youtubeClientSecret: String = "",
     val cinemanaAddon: Boolean = false,
+    val contentLevel: ContentLevel = ContentLevel.ALL,
     val keepRunning: Set<String> = setOf("com.netflix.ninja", "com.google.android.youtube.tv"),
 ) {
     val hasTmdb get() = tmdbKey.isNotBlank()

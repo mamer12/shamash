@@ -1,4 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- The home screen and the app shell. Other features keep theirs in strings_features.xml. SPEC: ARCH-07 -->
 <resources>
     <string name="app_name">Shamash</string>
+
+    <!-- Top bar (HOME-01) -->
+    <string name="tab_home">Home</string>
+    <string name="tab_discover">Discover</string>
+    <string name="tab_apps">Apps</string>
+    <string name="action_search">Search</string>
+    <string name="action_tv_settings">TV settings</string>
+    <string name="dot_join">%1$s · %2$s</string>
+    <string name="weather_line">%1$s %2$s</string>
+    <string name="temperature">%1$d°</string>
+
+    <!-- Greeting and moments (HOME-06..08) -->
+    <string name="greeting_morning">Good morning</string>
+    <string name="greeting_afternoon">Good afternoon</string>
+    <string name="greeting_evening">Good evening</string>
+    <string name="greeting_morning_name">Good morning, %1$s</string>
+    <string name="greeting_afternoon_name">Good afternoon, %1$s</string>
+    <string name="greeting_evening_name">Good evening, %1$s</string>
+    <string name="moment_morning">This morning</string>
+    <string name="moment_afternoon">This afternoon</string>
+    <string name="moment_evening">Tonight</string>
+    <string name="moment_night">Before bed</string>
+
+    <!-- Shelf titles (Shelf.titleKey) -->
+    <string name="popular_on">Popular on %1$s</string>
+    <string name="top10">Top 10</string>
+    <string name="youtube_recommended">Recommended for you</string>
+    <string name="tod_upcoming">Upcoming on TOD</string>
+    <string name="tod_new">New on TOD</string>
+    <string name="cinemana_new">New on Cinemana</string>
+    <string name="cinemana_featured">Featured on Cinemana</string>
+    <string name="matches">Matches</string>
+    <string name="continue_watching">Continue watching</string>
+    <string name="continue_youtube">Continue watching on YouTube</string>
+    <string name="recent_apps">Recent apps</string>
+    <string name="all_apps">All apps</string>
+    <string name="inputs">Inputs</string>
+    <string name="settings">Settings</string>
+
+    <!-- Billboard (HOME-02, MC-03) -->
+    <string name="open_in">Open in %1$s</string>
+    <string name="watch_on">Watch on %1$s</string>
+    <string name="billboard_match_day">MATCH DAY</string>
+    <string name="billboard_live">LIVE</string>
+    <string name="billboard_empty_title">Make it yours</string>
+    <string name="billboard_empty_body">Add a TMDB key or sign in to YouTube in Settings, and this screen fills with what\'s on your apps.</string>
+    <string name="open_settings">Open settings</string>
+
+    <!-- Match cards (MC-02) -->
+    <string name="day_today">Today</string>
+    <string name="day_tomorrow">Tomorrow</string>
+    <string name="score_line">%1$s - %2$s</string>
+
+    <!-- Apps tab (HOME-05) -->
+    <string name="apps_settings_shamash">Shamash settings</string>
+    <string name="apps_settings_tv">TV settings</string>
+    <string name="apps_settings_phone">Phone remote</string>
+    <string name="apps_settings_youtube">YouTube sign-in</string>
+    <string name="inputs_none">No inputs found on this TV</string>
 </resources>

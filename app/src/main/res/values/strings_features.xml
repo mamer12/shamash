@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Search, the phone companion, Match Centre over other apps and the screensaver. -->
+<resources>
+    <!-- Search (SRCH-01..05) -->
+    <string name="search_hint">Movies, series, matches, videos…</string>
+    <string name="search_start">Type a title, or say it with the keyboard\'s mic</string>
+    <string name="search_searching">Searching…</string>
+    <string name="search_nothing">Nothing found for “%1$s”</string>
+    <string name="provider_tmdb">Movies &amp; series</string>
+    <string name="provider_youtube">YouTube</string>
+    <string name="provider_cinemana">Cinemana</string>
+    <string name="provider_tod">TOD</string>
+    <string name="provider_espn">Matches</string>
+
+    <!-- Phone companion (CMP-01..05) -->
+    <string name="companion_toast">From your phone: %1$s</string>
+    <string name="companion_opening_youtube">Opening in YouTube</string>
+    <string name="companion_opening_tod">Opening TOD</string>
+    <string name="companion_opening_link">Opening on the TV</string>
+    <string name="companion_searching">Searching: %1$s</string>
+    <string name="companion_nothing">Nothing to send</string>
+    <string name="companion_wrong_pin">Wrong PIN</string>
+    <string name="companion_locked">Too many wrong PINs. Try again in a few minutes, with the PIN shown on the TV.</string>
+    <string name="companion_failed">The TV couldn\'t open that</string>
+    <string name="companion_page_lang">en</string>
+    <string name="companion_page_dir">ltr</string>
+    <string name="companion_page_title">Send to TV</string>
+    <string name="companion_page_intro">Paste a YouTube or TOD link, or type a title to find it on the TV.</string>
+    <string name="companion_page_pin">PIN shown on the TV</string>
+    <string name="companion_page_text">Link or title</string>
+    <string name="companion_page_send">Send</string>
+    <string name="companion_page_sending">Sending…</string>
+    <string name="companion_page_offline">The TV didn\'t answer</string>
+    <string name="companion_page_change_pin">Change PIN</string>
+
+    <!-- Match Centre over other apps (MC-04..06) -->
+    <string name="match_channel">Match Centre</string>
+    <string name="match_following">Following your match</string>
+    <string name="match_starts_in">Starts in %1$d min · %2$s</string>
+    <string name="match_default_app">TOD</string>
+    <string name="match_versus">%1$s vs %2$s</string>
+    <string name="match_score">%1$s - %2$s</string>
+    <string name="match_goal">GOAL!</string>
+    <string name="match_full_time">Full time</string>
+
+    <!-- Screensaver (SCR-01..03) -->
+    <string name="screensaver_temperature">%1$d°</string>
+</resources>

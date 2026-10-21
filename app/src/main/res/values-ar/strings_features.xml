@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Search -->
+    <string name="search_hint">أفلام، مسلسلات، مباريات، فيديوهات…</string>
+    <string name="search_start">اكتب اسم العنوان أو قُله بميكروفون لوحة المفاتيح</string>
+    <string name="search_searching">جارٍ البحث…</string>
+    <string name="search_nothing">لا نتائج لـ «%1$s»</string>
+    <string name="provider_tmdb">أفلام ومسلسلات</string>
+    <string name="provider_youtube">يوتيوب</string>
+    <string name="provider_cinemana">سينمانا</string>
+    <string name="provider_tod">TOD</string>
+    <string name="provider_espn">المباريات</string>
+
+    <!-- Phone companion -->
+    <string name="companion_toast">من هاتفك: %1$s</string>
+    <string name="companion_opening_youtube">يُفتح في يوتيوب</string>
+    <string name="companion_opening_tod">يُفتح في TOD</string>
+    <string name="companion_opening_link">يُفتح على التلفاز</string>
+    <string name="companion_searching">بحث: %1$s</string>
+    <string name="companion_nothing">لا شيء لإرساله</string>
+    <string name="companion_wrong_pin">رمز PIN غير صحيح</string>
+    <string name="companion_locked">محاولات خاطئة كثيرة. حاول بعد بضع دقائق بالرمز الظاهر على التلفاز.</string>
+    <string name="companion_failed">تعذّر على التلفاز فتح هذا</string>
+    <string name="companion_page_lang">ar</string>
+    <string name="companion_page_dir">rtl</string>
+    <string name="companion_page_title">أرسل إلى التلفاز</string>
+    <string name="companion_page_intro">الصق رابط يوتيوب أو TOD، أو اكتب اسم عنوان للبحث عنه على التلفاز.</string>
+    <string name="companion_page_pin">رمز PIN الظاهر على التلفاز</string>
+    <string name="companion_page_text">رابط أو عنوان</string>
+    <string name="companion_page_send">إرسال</string>
+    <string name="companion_page_sending">جارٍ الإرسال…</string>
+    <string name="companion_page_offline">لم يستجب التلفاز</string>
+    <string name="companion_page_change_pin">تغيير رمز PIN</string>
+
+    <!-- Match Centre -->
+    <string name="match_channel">مركز المباريات</string>
+    <string name="match_following">نتابع مباراتك</string>
+    <string name="match_starts_in">تبدأ بعد %1$d دقيقة · %2$s</string>
+    <string name="match_default_app">TOD</string>
+    <string name="match_versus">%1$s ضد %2$s</string>
+    <string name="match_score">%1$s - %2$s</string>
+    <string name="match_goal">هدف!</string>
+    <string name="match_full_time">نهاية المباراة</string>
+
+    <!-- Screensaver -->
+    <string name="screensaver_temperature">%1$d°</string>
+</resources>

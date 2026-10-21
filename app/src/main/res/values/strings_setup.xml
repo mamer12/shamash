@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- First-run setup, Settings and the home-screen switch. -->
+<resources>
+    <!-- Setup (ONB-01..07) -->
+    <string name="setup_welcome_title">Welcome to Shamash</string>
+    <string name="setup_welcome_text">Let\'s make this TV yours. A few questions, and the home screen shapes itself around you.</string>
+    <string name="setup_start">Start</string>
+    <string name="setup_next">Next</string>
+    <string name="setup_skip">Skip</string>
+    <string name="setup_done">Done</string>
+    <string name="setup_you_title">About you</string>
+    <string name="setup_you_text">For the greeting and the weather.</string>
+    <string name="setup_name">Your first name</string>
+    <string name="setup_city">Your city</string>
+    <string name="setup_city_found">Found: %1$s</string>
+    <string name="setup_city_unknown">Couldn\'t find that city; the weather stays hidden until it\'s found.</string>
+    <string name="setup_apps_title">Your apps</string>
+    <string name="setup_apps_text">Pick the ones you subscribe to: the home screen recommends from them and opens titles there.</string>
+    <string name="setup_teams_title">Your teams</string>
+    <string name="setup_teams_text">Their matches get a reminder and a live score over anything you watch.</string>
+    <string name="setup_teams_hint">Teams (comma separated), e.g. Barcelona, Al Hilal</string>
+    <string name="setup_genres_title">What you like</string>
+    <string name="setup_genres_text">Pick a few: recommendations lean toward them.</string>
+    <string name="setup_keys_title">Optional keys</string>
+    <string name="setup_keys_text">Free, and they stay on this TV. Without them the parts that need one stay hidden. You can add them later in Settings.</string>
+    <string name="setup_home_title">Make Shamash your home screen</string>
+    <string name="setup_home_text">Shamash becomes the home screen and screensaver, and the TV maker\'s promo apps are turned off (never uninstalled). Settings › Home screen › Original brings everything back.</string>
+    <string name="setup_not_now">Not now</string>
+
+    <!-- Keys -->
+    <string name="key_tmdb">TMDB API key</string>
+    <string name="key_tmdb_where">themoviedb.org › Settings › API › Create</string>
+    <string name="key_youtube_id">YouTube OAuth client ID</string>
+    <string name="key_youtube_secret">YouTube OAuth client secret</string>
+    <string name="key_youtube_where">console.cloud.google.com › Credentials › OAuth client ID › TVs and Limited Input devices</string>
+    <string name="key_saved">Saved</string>
+    <string name="key_none">Not set</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_home">Home screen</string>
+    <string name="settings_you">You</string>
+    <string name="settings_keys">Keys</string>
+    <string name="settings_youtube">YouTube</string>
+    <string name="settings_phone">Phone remote</string>
+    <string name="settings_addons">Add-ons</string>
+    <string name="settings_buttons">Remote buttons</string>
+    <string name="settings_keep">Keep running</string>
+    <string name="settings_tv">TV settings</string>
+    <string name="settings_tv_text">The TV\'s own settings: picture, sound, network, accounts.</string>
+    <string name="settings_open_tv">Open TV settings</string>
+    <string name="settings_redo">Redo setup</string>
+    <string name="settings_redo_text">Go through the first-run questions again: name, city, apps, teams, tastes.</string>
+    <string name="settings_save">Save</string>
+    <string name="settings_mode_shamash">Shamash is the home screen.</string>
+    <string name="settings_mode_original">The TV\'s original home screen is in use.</string>
+    <string name="settings_switch">Use Shamash</string>
+    <string name="settings_original">Original</string>
+    <string name="settings_watchdog">Shamash stopped unexpectedly several times, so the TV went back to its original home screen.</string>
+    <string name="settings_youtube_in">Signed in. Recommended for you is on.</string>
+    <string name="settings_youtube_out">Sign in for Recommended for you and YouTube search.</string>
+    <string name="settings_youtube_no_client">Add a YouTube OAuth client in Keys first.</string>
+    <string name="settings_sign_in">Sign in</string>
+    <string name="settings_sign_out">Sign out</string>
+    <string name="settings_youtube_code">On your phone, open %1$s and enter</string>
+    <string name="settings_youtube_failed">Sign-in didn\'t finish. Try again.</string>
+    <string name="settings_phone_text">On your phone (same Wi-Fi), open this address, enter the PIN once, then send links or titles.</string>
+    <string name="settings_phone_address">Address</string>
+    <string name="settings_phone_pin">PIN</string>
+    <string name="settings_phone_offline">Not connected to a network.</string>
+    <string name="settings_cinemana">Cinemana</string>
+    <string name="settings_cinemana_text">A full app for Cinemana\'s catalog, with its rows on Home.</string>
+    <string name="settings_level">What Cinemana may show</string>
+    <string name="level_all">Everything</string>
+    <string name="level_family">Family</string>
+    <string name="level_kids">Kids</string>
+    <string name="settings_buttons_text">What each of the remote\'s app buttons opens.</string>
+    <string name="button_netflix">Netflix button</string>
+    <string name="button_youtube">YouTube button</string>
+    <string name="button_prime">Prime Video button</string>
+    <string name="button_channel">TCL Channel button</string>
+    <string name="button_own">Its own app</string>
+    <string name="button_nothing">Nothing</string>
+    <string name="settings_keep_text">Apps left running when you go back Home, so they resume instantly. The others are closed to free memory.</string>
+
+    <!-- The switch (TVC-08) -->
+    <string name="phase_connecting">Connecting to the TV…</string>
+    <string name="phase_approval">On the TV: allow debugging, tick “Always allow”, then OK.</string>
+    <string name="phase_reading">Reading the TV…</string>
+    <string name="phase_home">Setting the home screen…</string>
+    <string name="phase_screensaver">Setting the screensaver…</string>
+    <string name="phase_permissions">Granting permissions…</string>
+    <string name="phase_apps_off">Turning off promo apps… %1$d of %2$d</string>
+    <string name="phase_buttons_on">Setting up the remote\'s buttons…</string>
+    <string name="phase_apps_on">Turning apps back on… %1$d of %2$d</string>
+    <string name="phase_home_back">Bringing back the original home screen…</string>
+    <string name="phase_screensaver_back">Bringing back the screensaver…</string>
+    <string name="phase_permissions_back">Removing permissions…</string>
+    <string name="phase_buttons_off">Turning off the remote\'s buttons…</string>
+    <string name="phase_done">Done</string>
+    <string name="result_switched">Shamash is your home screen. %1$d apps turned off.</string>
+    <string name="result_not_off">Android kept these on: %1$s</string>
+    <string name="result_wifi_kept">Kept on because they saved your Wi-Fi: %1$s</string>
+    <string name="result_restored">Back to the original home screen. %1$d apps turned on.</string>
+    <string name="result_still_off">Still off (try again): %1$s</string>
+    <string name="result_wifi">Nothing was changed: the TV\'s setup saved your Wi-Fi network. In Settings › Network &amp; Internet, forget the network, join it again, then try again.</string>
+    <string name="fail_debugging_off">Turn on USB debugging (and Network debugging if listed) in the TV\'s Developer options, then try again.</string>
+    <string name="fail_no_response">The TV\'s debugging didn\'t answer. Turn USB debugging off and on, then try again.</string>
+    <string name="fail_not_approved">The TV\'s “Allow debugging?” wasn\'t accepted. Try again and choose Allow.</string>
+    <string name="fail_key_rejected">The TV refused Shamash\'s key. Revoke USB debugging authorizations in Developer options, then try again.</string>
+    <string name="fail_tls">Only Wireless debugging is on. Turn on USB debugging (or Network debugging) too.</string>
+    <string name="fail_protocol">The TV answered in an unexpected way. Try again.</string>
+    <string name="fail_refused">The TV refused a command. Nothing more was changed.</string>
+    <string name="fail_key_storage">Shamash couldn\'t save its key. Try again.</string>
+    <string name="fail_home_refused">Android refused Shamash as the home screen. Nothing else was changed.</string>
+    <string name="fail_unsafe">An unexpected app name was skipped for safety. Nothing was changed.</string>
+    <string name="fail_wifi_unreadable">Shamash couldn\'t check which apps saved your Wi-Fi, so nothing was changed. Try again.</string>
+    <string name="fail_unknown">Something unexpected went wrong. Try again, or choose Original to undo what was done.</string>
+    <string name="remote_keys_description">Lets the remote\'s Netflix, YouTube and Prime buttons open the app you chose in Shamash. Reads only those buttons.</string>
+</resources>

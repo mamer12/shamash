@@ -1,0 +1,39 @@
+{
+ "latitude": 33.343636,
+ "longitude": 44.3708,
+ "generationtime_ms": 0.033855438232421875,
+ "utc_offset_seconds": 10800,
+ "timezone": "Asia/Baghdad",
+ "timezone_abbreviation": "GMT+3",
+ "elevation": 43.0,
+ "current_units": {
+  "time": "unixtime",
+  "interval": "seconds",
+  "temperature_2m": "°C",
+  "weather_code": "wmo code",
+  "is_day": ""
+ },
+ "current": {
+  "time": 1792535400,
+  "interval": 900,
+  "temperature_2m": 23.6,
+  "weather_code": 3,
+  "is_day": 0
+ },
+ "daily_units": {
+  "time": "unixtime",
+  "sunrise": "unixtime",
+  "sunset": "unixtime"
+ },
+ "daily": {
+  "time": [
+   1792530000
+  ],
+  "sunrise": [
+   1792552297
+  ],
+  "sunset": [
+   1792592534
+  ]
+ }
+}

@@ -36,3 +36,16 @@ interface AppsSource {
     fun installed(): List<TvApp>
     fun recent(limit: Int): List<TvApp>
 }
+
+/** A provider that can play a short preview of a title inside its tile. SPEC: HOME-20 */
+interface PreviewSource {
+    /** A playable URL for the item (and, for range-request streaming, headers), or null when there's none. */
+    suspend fun preview(item: MediaItem): Preview?
+}
+
+data class Preview(val url: String, val headers: Map<String, String> = emptyMap(), val subtitlesUrl: String? = null)
+
+/** Providers with local state invalidate their Home shelves after a mutation. SPEC: CIN-07, CIN-09 */
+interface RefreshableProvider {
+    val changes: Flow<Unit>
+}

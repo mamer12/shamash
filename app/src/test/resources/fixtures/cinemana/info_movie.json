@@ -1,0 +1,49 @@
+{
+ "nb": "3129755",
+ "en_title": "The Weight",
+ "ar_title": "الحمل",
+ "other_title": "",
+ "kind": "1",
+ "year": "2026",
+ "stars": "7.3",
+ "duration": "6781.33",
+ "imdbUrlRef": "https://www.imdb.com/title/tt10794054",
+ "imgObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/E250EBEE-2DA0-B53D-9AAB-9C1F20E0E260_poster.jpg",
+ "imgMediumThumbObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/3D11488D-7EE0-EE86-9390-610A09C7F473_poster_medium_thumb.jpg",
+ "imgThumbObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/1B131ECF-6BED-5D6E-4885-506DA58854A8_poster_thumb.jpg",
+ "en_content": "Desperate to save what is left of his family, during the height of the Great Depression a battle-scarred veteran is hired to help smuggle a fortune in gold acro",
+ "ar_content": "في ذروة الكساد الكبير، يُستأجر محارب قديم أنهكته المعارك لمساعدة في تهريب ثروة من الذهب عبر 100 ميل من البرية الوعرة، في محاولة يائسة لإنقاذ ما تبقى من عائلته.\n",
+ "season": "0",
+ "episodeNummer": "0",
+ "rootSeries": "0",
+ "categories": [
+  {
+   "en_title": "Action",
+   "ar_title": "اكشن"
+  }
+ ],
+ "filmRating": "4",
+ "seriesRating": "1",
+ "trailer": "https://www.youtube.com/watch?v=7YpuMymmiJ8",
+ "introSkipping": [
+  {
+   "start": "0",
+   "end": "68.224091",
+   "control_level": "3"
+  }
+ ],
+ "skippingDurations": {
+  "start": [
+   "6672.227687"
+  ],
+  "end": [
+   "6672.493361"
+  ]
+ },
+ "actorsInfo": [],
+ "directorsInfo": [
+  {
+   "name": "Leo Scherman"
+  }
+ ]
+}

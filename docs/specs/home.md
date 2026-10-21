@@ -40,3 +40,20 @@
   matches 3 h (1 min while one of the user's teams plays). Cached data shows instantly at start.
 - HOME-15 When Shamash is the home screen and the user returns Home from another app, that app's process is closed to
   free memory unless it is one of the user's "keep running" apps (default: Netflix, YouTube).
+
+## Expanding tiles (poster rows)
+- HOME-16 In POSTER and RANKED rows the focused poster grows in place into a 16:9 tile (688×387 at 1920 scale); the
+  cards after it slide right. The poster center-crops to the tile's current shape (no stretching) and crossfades to
+  the item's wide art after ~60% of the growth; wide art fades in over 220 ms once loaded. The name label fades out as
+  it grows; a white 4 px outline marks the tile.
+- HOME-17 Each card has its own grow spring (response 0.34 s, damping 1): target 1 for the focused card, 0 for the
+  others, stepped every frame; row scroll, horizontal scroll and growth share the 0.34 s pace. The focused tile is
+  left-aligned at the margin; cards leaving on the left fade (alpha = clamp(1 − (margin − x)/(0.6 × step))).
+- HOME-18 Rows below shift by the row's current growth × (tile height − poster height + info height − label room),
+  driven by the actual growth so nothing overlaps.
+- HOME-19 Under the tile: the name, then year · length · rating, then up to 3 lines of overview (fetched when the
+  row's item has none); the info area animates on the same spring. No "% match".
+- HOME-20 Preview: when the item's provider offers a preview stream (`PreviewSource`), after the focus rests 950 ms
+  the video plays inside the tile (scaled 1.04× for overscan, sound 0.8, subtitles inside); the poster fades out over
+  400 ms on the first rendered frame; after 12 s untouched it goes full screen, any key brings it back; OK opens the
+  player at that second. A row rebuild with the same item keeps the preview playing.

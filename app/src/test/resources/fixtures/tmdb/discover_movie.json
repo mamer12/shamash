@@ -1,0 +1,171 @@
+{
+ "page": 1,
+ "results": [
+  {
+   "adult": false,
+   "backdrop_path": "/jdJsnhHfkIi3J7jwfiCFT4gXNx5.jpg",
+   "genre_ids": [
+    28,
+    35,
+    12
+   ],
+   "id": 1148365,
+   "title": "Matchbox the Movie",
+   "original_language": "en",
+   "original_title": "Matchbox the Movie",
+   "overview": "When a group of former childhood friends reconnect, their reunion takes a wild turn as they stumble upon a dangerous international plot—and must save the world.",
+   "popularity": 311.2727,
+   "poster_path": "/aHhHRz6nOpwkqJs5ASeRGAdK2dt.jpg",
+   "release_date": "2026-10-05",
+   "softcore": false,
+   "video": false,
+   "vote_average": 7.773,
+   "vote_count": 436
+  },
+  {
+   "adult": false,
+   "backdrop_path": "/6GXqVvL20Y0MpyVP30WoI2NPK69.jpg",
+   "genre_ids": [
+    18,
+    36
+   ],
+   "id": 1288069,
+   "title": "Tenzing",
+   "original_language": "en",
+   "original_title": "Tenzing",
+   "overview": "A determined man embarks on a high-stakes quest—and defies seemingly impossible odds—to fulfill his dream of being the first to reach the summit of Mount Everes",
+   "popularity": 106.819,
+   "poster_path": "/eI0QW02PYqhnmIvLRdn9vrfVVP7.jpg",
+   "release_date": "2026-10-09",
+   "softcore": false,
+   "video": false,
+   "vote_average": 8.326,
+   "vote_count": 112
+  },
+  {
+   "adult": false,
+   "backdrop_path": "/lkDYN0whyE82mcM20rwtwjbniKF.jpg",
+   "genre_ids": [
+    28,
+    18
+   ],
+   "id": 911430,
+   "title": "F1",
+   "original_language": "en",
+   "original_title": "F1",
+   "overview": "Racing legend Sonny Hayes is coaxed out of retirement to lead a struggling Formula 1 team—and mentor a young hotshot driver—while chasing one more chance at glo",
+   "popularity": 63.3328,
+   "poster_path": "/9PXZIUsSDh4alB80jheWX4fhZmy.jpg",
+   "release_date": "2025-06-25",
+   "softcore": false,
+   "video": false,
+   "vote_average": 7.828,
+   "vote_count": 4860
+  },
+  {
+   "adult": false,
+   "backdrop_path": "/jwjCWMPWSQ7h3sqG4mqI7pMEZu0.jpg",
+   "genre_ids": [
+    80,
+    36,
+    18
+   ],
+   "id": 466420,
+   "title": "Killers of the Flower Moon",
+   "original_language": "en",
+   "original_title": "Killers of the Flower Moon",
+   "overview": "When oil is discovered in 1920s Oklahoma under Osage Nation land, the Osage people are murdered one by one—until the FBI steps in to unravel the mystery.",
+   "popularity": 48.5648,
+   "poster_path": "/dB6Krk806zeqd0YNp2ngQ9zXteH.jpg",
+   "release_date": "2023-10-18",
+   "softcore": false,
+   "video": false,
+   "vote_average": 7.392,
+   "vote_count": 4409
+  },
+  {
+   "adult": false,
+   "backdrop_path": "/95ckrV6wQgbffurAVmETQ5YKASL.jpg",
+   "genre_ids": [
+    10752,
+    18,
+    28
+   ],
+   "id": 228150,
+   "title": "Fury",
+   "original_language": "en",
+   "original_title": "Fury",
+   "overview": "April, 1945. As the Allies make their final push in the European Theater, a battle-hardened army sergeant commands a Sherman tank with a five-man crew on a dead",
+   "popularity": 36.3367,
+   "poster_path": "/pfte7wdMobMF4CVHuOxyu6oqeeA.jpg",
+   "release_date": "2014-10-15",
+   "softcore": false,
+   "video": false,
+   "vote_average": 7.545,
+   "vote_count": 13338
+  },
+  {
+   "adult": false,
+   "backdrop_path": "/9nhjGaFLKtddDPtPaX5EmKqsWdH.jpg",
+   "genre_ids": [
+    10749,
+    878,
+    53
+   ],
+   "id": 950396,
+   "title": "The Gorge",
+   "original_language": "en",
+   "original_title": "The Gorge",
+   "overview": "Two highly trained operatives grow close from a distance after being sent to guard opposite sides of a mysterious gorge. When an evil below emerges, they must w",
+   "popularity": 35.0155,
+   "poster_path": "/7iMBZzVZtG0oBug4TfqDb9ZxAOa.jpg",
+   "release_date": "2025-02-13",
+   "softcore": false,
+   "video": false,
+   "vote_average": 7.708,
+   "vote_count": 4323
+  },
+  {
+   "adult": false,
+   "backdrop_path": "/dF6FjTZzRTENfB4R17HDN20jLT2.jpg",
+   "genre_ids": [
+    12,
+    878,
+    53
+   ],
+   "id": 135397,
+   "title": "Jurassic World",
+   "original_language": "en",
+   "original_title": "Jurassic World",
+   "overview": "Twenty-two years after the events of Jurassic Park, Isla Nublar now features a fully functioning dinosaur theme park, Jurassic World, as originally envisioned b",
+   "popularity": 28.8422,
+   "poster_path": "/rhr4y79GpxQF9IsfJItRXVaoGs4.jpg",
+   "release_date": "2015-06-06",
+   "softcore": false,
+   "video": false,
+   "vote_average": 6.703,
+   "vote_count": 22032
+  },
+  {
+   "adult": false,
+   "backdrop_path": "/xj1Sv1xm4Y0ydBueGuf10Y9qM0O.jpg",
+   "genre_ids": [
+    18
+   ],
+   "id": 489,
+   "title": "Good Will Hunting",
+   "original_language": "en",
+   "original_title": "Good Will Hunting",
+   "overview": "Will Hunting is a headstrong, working-class genius who is failing the lessons of life. After one too many run-ins with the law, Will's last chance is a psycholo",
+   "popularity": 27.3547,
+   "poster_path": "/z2FnLKpFi1HPO7BEJxdkv6hpJSU.jpg",
+   "release_date": "1997-12-05",
+   "softcore": false,
+   "video": false,
+   "vote_average": 8.167,
+   "vote_count": 14466
+  }
+ ],
+ "total_pages": 7,
+ "total_results": 130
+}

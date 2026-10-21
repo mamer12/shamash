@@ -1,9 +1,119 @@
 package io.shamash.feature.settings
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.tv.material3.ListItem
+import androidx.tv.material3.MaterialTheme
+import androidx.tv.material3.Text
+import io.shamash.R
 import io.shamash.app.ServiceLocator
+import io.shamash.domain.Profile
+import io.shamash.feature.tvcontrol.TvControl
+import io.shamash.ui.Palette
+import kotlinx.coroutines.launch
 
-/** Settings: redo setup, keys, YouTube sign-in, phone remote, add-ons, the switch. (placeholder until implemented) */
+/** The Settings sections, in menu order. Remote buttons show only on TVs that have them. SPEC: ONB-06, TVC-05 */
+enum class Section(val title: Int) {
+    HOME(R.string.settings_home),
+    YOU(R.string.settings_you),
+    KEYS(R.string.settings_keys),
+    YOUTUBE(R.string.settings_youtube),
+    PHONE(R.string.settings_phone),
+    ADDONS(R.string.settings_addons),
+    BUTTONS(R.string.settings_buttons),
+    KEEP(R.string.settings_keep),
+    TV(R.string.settings_tv),
+}
+
+/**
+ * Settings: a menu on the start side, the focused section's panel beside it. Every change is saved at once (keys on
+ * Save). Back leaves.
+ */
 @Composable
 fun SettingsScreen(locator: ServiceLocator, onBack: () -> Unit) {
+    BackHandler(onBack = onBack)
+    val profile by locator.prefs.profile.collectAsState(initial = null)
+    val scope = rememberCoroutineScope()
+    var section by rememberSaveable { mutableStateOf(Section.HOME) }
+    val sections = remember {
+        Section.entries.filter { it != Section.BUTTONS || TvControl.get(locator.appContext).remoteButtonsSupported }
+    }
+    val save: (Profile) -> Unit = { p -> scope.launch { locator.prefs.save(p) } }
+
+    Row(
+        Modifier
+            .fillMaxSize()
+            .background(Brush.horizontalGradient(listOf(Palette.Dusk, Palette.Night)))
+            .padding(horizontal = 56.dp, vertical = 48.dp),
+    ) {
+        Column(Modifier.width(300.dp).fillMaxHeight()) {
+            Text(
+                stringResource(R.string.settings_title), style = MaterialTheme.typography.headlineMedium,
+                color = Palette.Ink, modifier = Modifier.padding(start = 16.dp, bottom = 24.dp),
+            )
+            sections.forEach { s ->
+                ListItem(
+                    selected = s == section, onClick = { section = s },
+                    headlineContent = { Text(stringResource(s.title)) },
+                    modifier = Modifier.onFocusChanged { if (it.isFocused) section = s },
+                )
+            }
+        }
+        Spacer(Modifier.width(56.dp))
+        Box(Modifier.weight(1f).fillMaxHeight().verticalScroll(rememberScrollState())) {
+            val p = profile ?: return@Box
+            Panel(section, p, save, locator)
+        }
+    }
+}
+
+@Composable
+private fun Panel(section: Section, p: Profile, save: (Profile) -> Unit, locator: ServiceLocator) {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text(stringResource(section.title), style = MaterialTheme.typography.headlineSmall, color = Palette.Ink)
+        Spacer(Modifier.height(16.dp))
+        when (section) {
+            Section.HOME -> HomePanel()
+            Section.YOU -> YouPanel(p, save)
+            Section.KEYS -> KeysPanel(p, save)
+            Section.YOUTUBE -> YouTubePanel(p, locator)
+            Section.PHONE -> PhonePanel(locator)
+            Section.ADDONS -> AddonsPanel(p, save)
+            Section.BUTTONS -> ButtonsPanel(locator)
+            Section.KEEP -> KeepPanel(p, save, locator)
+            Section.TV -> TvPanel()
+        }
+    }
+}
+
+/** Secondary text under a panel's title. */
+@Composable
+internal fun Explain(text: String) {
+    Text(text, color = Palette.Dim, fontSize = 18.sp, modifier = Modifier.width(860.dp).padding(bottom = 16.dp))
 }

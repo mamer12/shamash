@@ -2,6 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Match Centre (SPEC: MC-06): the score overlay runs as a foreground service woken by an alarm. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <!-- TV control (SPEC: TVC-02, TVC-05): the app-ops the switch grants through ADB, and the boot check. -->
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- Home (SPEC: HOME-15): close the app the user came back Home from. -->
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-feature android:name="android.software.leanback" android:required="false" />
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
 
@@ -14,17 +24,23 @@
     </queries>
 
     <application
+        android:name=".app.ShamashApplication"
         android:label="@string/app_name"
         android:banner="@drawable/banner"
         android:icon="@drawable/banner"
         android:theme="@style/Theme.Shamash"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        android:allowBackup="false"
+        android:fullBackupContent="false"
+        android:dataExtractionRules="@xml/data_extraction_rules">
 
         <!-- Not a home screen yet (HOME category comes with the switch, once onboarding ends): installing it beside
-             the TV's launcher must not bring up Android's "which home screen?" chooser. -->
+             the TV's launcher must not bring up Android's "which home screen?" chooser. One instance, as a launcher's
+             (HomeAlias targets it); links for it arrive through onNewIntent. -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:launchMode="singleTask"
             android:screenOrientation="landscape"
             android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout|uiMode|density">
             <intent-filter>
@@ -33,5 +49,68 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- TV control (SPEC: TVC-02): the HOME filter, off until the switch turns it on (and Original turns it off). -->
+        <activity-alias
+            android:name=".HomeAlias"
+            android:targetActivity=".MainActivity"
+            android:enabled="false"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity-alias>
+
+        <!-- TV control (SPEC: TVC-07): the remote's app buttons; only filters those keys, on only in Shamash mode. -->
+        <service
+            android:name=".feature.tvcontrol.RemoteKeyService"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/remote_keys" />
+        </service>
+
+        <!-- TV control (SPEC: TVC-05): the watchdog's restore and the boot check run as jobs. -->
+        <service
+            android:name=".feature.tvcontrol.TvControlJob"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <receiver
+            android:name=".feature.tvcontrol.BootReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Match Centre (SPEC: MC-04..06): the reminder and live score over any app, from 12 min before kick-off. -->
+        <service
+            android:name=".feature.matchcentre.MatchWatchService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Shows the live score of the user's football team over other apps during the match" />
+        </service>
+
+        <!-- Screensaver (SPEC: SCR-01..03). -->
+        <service
+            android:name=".feature.screensaver.ShamashDream"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_DREAM_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.dreams.DreamService" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
     </application>
 </manifest>

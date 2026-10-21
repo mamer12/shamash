@@ -1,0 +1,124 @@
+{
+ "groups": [
+  {
+   "title": "Featured Movies",
+   "content": [
+    {
+     "nb": "3150062",
+     "ar_title": "تضحية",
+     "en_title": "Sacrifice",
+     "kind": "1",
+     "imgMediumThumbObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/B566ECE7-23F3-4536-4474-D2F6F85B052F_poster_medium_thumb.jpg",
+     "imgObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/DF63BAF3-FF50-BC2C-2DEE-0A493F6F92BC_poster.jpg",
+     "imdbUrlRef": "https://www.imdb.com/title/tt32268992",
+     "year": "2026",
+     "stars": "5.7"
+    },
+    {
+     "nb": "3150056",
+     "ar_title": "تينسينج",
+     "en_title": "Tenzing",
+     "kind": "1",
+     "imgMediumThumbObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/4846B7D8-2E06-9FB4-157C-6B919B735F29_poster_medium_thumb.jpg",
+     "imgObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/04D018FD-73B9-3EE3-6E3E-6654B3CCB119_poster.jpg",
+     "imdbUrlRef": "https://www.imdb.com/title/tt6262770",
+     "year": "2026",
+     "stars": "7.7"
+    },
+    {
+     "nb": "3150053",
+     "ar_title": "The Storm",
+     "en_title": "The Storm",
+     "kind": "1",
+     "imgMediumThumbObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/DBC62055-1A67-2503-A2E9-ED497BD17B58_poster_medium_thumb.png",
+     "imgObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/C6FDAF02-AA5B-4F79-D6CA-B16A7D0339EA_poster.png",
+     "imdbUrlRef": "https://www.imdb.com/title/tt37070354",
+     "year": "2026",
+     "stars": "6"
+    }
+   ]
+  },
+  {
+   "title": "Featured Series",
+   "content": [
+    {
+     "nb": "3150065",
+     "ar_title": "Where the Mask Ends",
+     "en_title": "Where the Mask Ends",
+     "kind": "2",
+     "imgMediumThumbObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/7BA29961-39A1-AFAD-9EC5-B1714D035DD0_poster_medium_thumb.jpg",
+     "imgObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/DD43678C-3A28-7A10-518D-3D4EE913C575_poster.jpg",
+     "imdbUrlRef": "https://www.imdb.com/title/tt42576855",
+     "year": "2026",
+     "stars": "6.2"
+    },
+    {
+     "nb": "3151076",
+     "ar_title": "Love in Disguise",
+     "en_title": "Love in Disguise",
+     "kind": "2",
+     "imgMediumThumbObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/B6C30A6E-F6CC-39C5-0425-372380F42966_poster_medium_thumb.png",
+     "imgObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/4F2A673E-B088-7BCC-81D1-F84EB9A997D2_poster.png",
+     "imdbUrlRef": "https://www.imdb.com/title/tt45246384",
+     "year": "2026",
+     "stars": "6.8"
+    },
+    {
+     "nb": "3145625",
+     "ar_title": "Between Steps",
+     "en_title": "Between Steps",
+     "kind": "2",
+     "imgMediumThumbObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/EDB6429E-2739-D249-78D7-582FD52F0731_poster_medium_thumb.png",
+     "imgObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/3DF1B7B4-08F6-4918-2F8E-FCB92FB6328B_poster.png",
+     "imdbUrlRef": "https://www.imdb.com/title/tt39087958",
+     "year": "2026",
+     "stars": "6.8"
+    }
+   ]
+  },
+  {
+   "title": "Latest Series",
+   "content": [
+    {
+     "nb": "3150200",
+     "ar_title": "The Lament of Autumn",
+     "en_title": "The Lament of Autumn",
+     "kind": "2",
+     "imgMediumThumbObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/5C532DB2-17CA-0732-CDC4-C54ED64546EF_poster_medium_thumb.jpg",
+     "imgObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/44201939-A35A-698A-80C4-457C388653EF_poster.jpg",
+     "imdbUrlRef": "https://www.imdb.com/title/tt37109705",
+     "year": "2026",
+     "en_content": "A student is falsely accused of trying to kill a powerful family's son – but the investigation to clear her name leads to romance between them.",
+     "ar_content": "تُتَّهم طالبة ظلماً بمحاولة قتل ابن إحدى العائلات النافذة، لكن التحقيق لكشف براءتها يقود إلى نشوء قصة حب بينهما",
+     "stars": "6.4"
+    },
+    {
+     "nb": "3150065",
+     "ar_title": "Where the Mask Ends",
+     "en_title": "Where the Mask Ends",
+     "kind": "2",
+     "imgMediumThumbObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/7BA29961-39A1-AFAD-9EC5-B1714D035DD0_poster_medium_thumb.jpg",
+     "imgObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/DD43678C-3A28-7A10-518D-3D4EE913C575_poster.jpg",
+     "imdbUrlRef": "https://www.imdb.com/title/tt42576855",
+     "year": "2026",
+     "en_content": "An ambitious street urchin seizes the chance to impersonate a noblewoman and becomes a warlord's bride, but when her comatose husband awakens, she must navigate",
+     "ar_content": "تغتنم فتاة طموحة من عامة الشعب فرصة انتحال شخصية نبيلة لتصبح زوجة أحد أمراء الحرب، لكن حين يستفيق زوجها الغارق في غيبوبة، تجد نفسها مضطرة إلى خوض ألاعيب قاتلة، ",
+     "stars": "6.2"
+    },
+    {
+     "nb": "3151076",
+     "ar_title": "Love in Disguise",
+     "en_title": "Love in Disguise",
+     "kind": "2",
+     "imgMediumThumbObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/B6C30A6E-F6CC-39C5-0425-372380F42966_poster_medium_thumb.png",
+     "imgObjUrl": "https://cnth2.shabakaty.cc/vascin-poster-images/4F2A673E-B088-7BCC-81D1-F84EB9A997D2_poster.png",
+     "imdbUrlRef": "https://www.imdb.com/title/tt45246384",
+     "year": "2026",
+     "en_content": "A detective disguises herself as a man to become the personal secretary of a powerful business heir suspected of murder. As she investigates him, secrets unrave",
+     "ar_content": "تتنكر محققة بهيئة رجل لتعمل سكرتيراً شخصياً لوريث مجموعة تجارية نافذة يُشتبه بتورطه في جريمة قتل. ومع استمرار تحقيقها، تنكشف الأسرار وتنشأ مشاعر رومانسية غير مت",
+     "stars": "6.8"
+    }
+   ]
+  }
+ ]
+}

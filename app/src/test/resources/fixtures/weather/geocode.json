@@ -1,0 +1,22 @@
+{
+ "results": [
+  {
+   "id": 98182,
+   "name": "Baghdad",
+   "latitude": 33.34058,
+   "longitude": 44.40088,
+   "elevation": 41.0,
+   "feature_code": "PPLC",
+   "country_code": "IQ",
+   "admin1_id": 98180,
+   "admin2_id": 9166668,
+   "timezone": "Asia/Baghdad",
+   "population": 7216000,
+   "country_id": 99237,
+   "country": "Iraq",
+   "admin1": "Baghdad",
+   "admin2": "Al Rusafa"
+  }
+ ],
+ "generationtime_ms": 0.10049343
+}

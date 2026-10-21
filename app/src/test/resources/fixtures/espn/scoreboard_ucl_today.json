@@ -1,0 +1,200 @@
+{
+ "leagues": [
+  {
+   "id": "775",
+   "name": "UEFA Champions League",
+   "abbreviation": "UEFA Champions League",
+   "slug": "uefa.champions"
+  }
+ ],
+ "events": [
+  {
+   "id": "401915395",
+   "date": "2026-10-21T16:45Z",
+   "name": "Manchester United at Como",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0'",
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Wed, October 21st at 12:45 PM EDT",
+     "shortDetail": "Scheduled"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401915395",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "2572",
+        "displayName": "Como",
+        "shortDisplayName": "Como",
+        "abbreviation": "COMO",
+        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2572.png"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "360",
+        "displayName": "Manchester United",
+        "shortDisplayName": "Man United",
+        "abbreviation": "MAN",
+        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401915396",
+   "date": "2026-10-21T16:45Z",
+   "name": "Galatasaray at Lille",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0'",
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Wed, October 21st at 12:45 PM EDT",
+     "shortDetail": "Scheduled"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401915396",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "166",
+        "displayName": "Lille",
+        "shortDisplayName": "Lille",
+        "abbreviation": "LILL",
+        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/166.png"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "432",
+        "displayName": "Galatasaray",
+        "shortDisplayName": "Galatasaray",
+        "abbreviation": "GAL",
+        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/432.png"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401915394",
+   "date": "2026-10-21T19:00Z",
+   "name": "Viking FK at Aston Villa",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0'",
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Wed, October 21st at 3:00 PM EDT",
+     "shortDetail": "Scheduled"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401915394",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "362",
+        "displayName": "Aston Villa",
+        "shortDisplayName": "Aston Villa",
+        "abbreviation": "AVL",
+        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/362.png"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "510",
+        "displayName": "Viking FK",
+        "shortDisplayName": "Viking FK",
+        "abbreviation": "VFK",
+        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/510.png"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401915312",
+   "date": "2026-10-21T19:00Z",
+   "name": "Arsenal at Bayern Munich",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0'",
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Wed, October 21st at 3:00 PM EDT",
+     "shortDetail": "Scheduled"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401915312",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "132",
+        "displayName": "Bayern Munich",
+        "shortDisplayName": "Bayern",
+        "abbreviation": "MUN",
+        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/132.png"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "359",
+        "displayName": "Arsenal",
+        "shortDisplayName": "Arsenal",
+        "abbreviation": "ARS",
+        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/359.png"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

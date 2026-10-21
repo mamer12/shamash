@@ -15,6 +15,7 @@ change here.
 | [companion.md](companion.md) | The phone page: send links and titles to the TV |
 | [tv-control.md](tv-control.md) | Becoming the home screen, Original mode, promo apps, remote buttons, watchdog |
 | [screensaver.md](screensaver.md) | The screensaver |
+| [addon-cinemana.md](addon-cinemana.md) | The optional Cinemana add-on: browse, title page, player |
 | [performance.md](performance.md) | Budgets for cheap TVs |
 
 Requirement words: **must** (tested or verified on a TV), **should** (default behavior, may be skipped with a reason).

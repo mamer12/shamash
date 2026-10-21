@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- الشاشة الرئيسية وهيكل التطبيق. SPEC: ARCH-07 -->
+<resources>
+    <string name="app_name">شمش</string>
+
+    <string name="tab_home">الرئيسية</string>
+    <string name="tab_discover">اكتشف</string>
+    <string name="tab_apps">التطبيقات</string>
+    <string name="action_search">بحث</string>
+    <string name="action_tv_settings">إعدادات التلفاز</string>
+    <string name="dot_join">%1$s · %2$s</string>
+    <string name="weather_line">%1$s %2$s</string>
+    <string name="temperature">%1$d°</string>
+
+    <string name="greeting_morning">صباح الخير</string>
+    <string name="greeting_afternoon">نهارك سعيد</string>
+    <string name="greeting_evening">مساء الخير</string>
+    <string name="greeting_morning_name">صباح الخير، %1$s</string>
+    <string name="greeting_afternoon_name">نهارك سعيد، %1$s</string>
+    <string name="greeting_evening_name">مساء الخير، %1$s</string>
+    <string name="moment_morning">لهذا الصباح</string>
+    <string name="moment_afternoon">لما بعد الظهر</string>
+    <string name="moment_evening">الليلة</string>
+    <string name="moment_night">قبل النوم</string>
+
+    <string name="popular_on">الأكثر مشاهدة على %1$s</string>
+    <string name="top10">أفضل 10</string>
+    <string name="youtube_recommended">مقترحات لك</string>
+    <string name="tod_upcoming">قريبًا على TOD</string>
+    <string name="tod_new">جديد على TOD</string>
+    <string name="cinemana_new">جديد على سينمانا</string>
+    <string name="cinemana_featured">مختارات سينمانا</string>
+    <string name="matches">المباريات</string>
+    <string name="continue_watching">متابعة المشاهدة</string>
+    <string name="continue_youtube">متابعة المشاهدة على يوتيوب</string>
+    <string name="recent_apps">التطبيقات الأخيرة</string>
+    <string name="all_apps">كل التطبيقات</string>
+    <string name="inputs">المداخل</string>
+    <string name="settings">الإعدادات</string>
+
+    <string name="open_in">افتح في %1$s</string>
+    <string name="watch_on">شاهد على %1$s</string>
+    <string name="billboard_match_day">يوم المباراة</string>
+    <string name="billboard_live">مباشر</string>
+    <string name="billboard_empty_title">اجعلها لك</string>
+    <string name="billboard_empty_body">أضف مفتاح TMDB أو سجّل الدخول إلى يوتيوب من الإعدادات، وستمتلئ هذه الشاشة بما على تطبيقاتك.</string>
+    <string name="open_settings">افتح الإعدادات</string>
+
+    <string name="day_today">اليوم</string>
+    <string name="day_tomorrow">غدًا</string>
+    <string name="score_line">%1$s - %2$s</string>
+
+    <string name="apps_settings_shamash">إعدادات شمش</string>
+    <string name="apps_settings_tv">إعدادات التلفاز</string>
+    <string name="apps_settings_phone">التحكم من الهاتف</string>
+    <string name="apps_settings_youtube">تسجيل الدخول إلى يوتيوب</string>
+    <string name="inputs_none">لا توجد مداخل في هذا التلفاز</string>
+</resources>

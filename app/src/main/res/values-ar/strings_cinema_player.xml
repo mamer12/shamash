@@ -1,0 +1,18 @@
+<resources>
+    <string name="cinema_player_error">تعذر تشغيل هذا الفيديو. تحقق من اتصالك وحاول مرة أخرى.</string>
+    <string name="cinema_player_retry">إعادة المحاولة</string>
+    <string name="cinema_player_back">رجوع</string>
+    <string name="cinema_player_play">تشغيل</string>
+    <string name="cinema_player_pause">إيقاف مؤقت</string>
+    <string name="cinema_player_rewind">−١٠ ث</string>
+    <string name="cinema_player_forward">+١٠ ث</string>
+    <string name="cinema_player_speed">%1$.2f×</string>
+    <string name="cinema_player_skip_intro">تخطي المقدمة</string>
+    <string name="cinema_player_next">الحلقة التالية</string>
+    <string name="cinema_player_next_countdown">الحلقة التالية خلال %1$d</string>
+    <string name="cinema_player_cancel">متابعة المشاهدة</string>
+    <string name="cinema_player_subtitles">الترجمة: %1$s</string>
+    <string name="cinema_player_arabic">العربية</string>
+    <string name="cinema_player_english">الإنجليزية</string>
+    <string name="cinema_player_off">إيقاف</string>
+</resources>

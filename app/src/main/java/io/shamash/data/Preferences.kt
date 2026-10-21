@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import io.shamash.domain.ContentLevel
 import io.shamash.domain.Profile
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -32,6 +33,7 @@ class Preferences(private val context: Context) {
         val youtubeClientId = stringPreferencesKey("youtube_client_id")
         val youtubeClientSecret = stringPreferencesKey("youtube_client_secret")
         val cinemanaAddon = booleanPreferencesKey("cinemana_addon")
+        val contentLevel = stringPreferencesKey("content_level")
         val keepRunning = stringSetPreferencesKey("keep_running")
     }
 
@@ -55,6 +57,7 @@ class Preferences(private val context: Context) {
             s[Keys.youtubeClientId] = p.youtubeClientId
             s[Keys.youtubeClientSecret] = p.youtubeClientSecret
             s[Keys.cinemanaAddon] = p.cinemanaAddon
+            s[Keys.contentLevel] = p.contentLevel.name
             s[Keys.keepRunning] = p.keepRunning
         }
     }
@@ -86,6 +89,7 @@ class Preferences(private val context: Context) {
             youtubeClientId = s[Keys.youtubeClientId].orEmpty(),
             youtubeClientSecret = s[Keys.youtubeClientSecret].orEmpty(),
             cinemanaAddon = s[Keys.cinemanaAddon] ?: false,
+            contentLevel = ContentLevel.entries.firstOrNull { it.name == s[Keys.contentLevel] } ?: defaults.contentLevel,
             keepRunning = s[Keys.keepRunning] ?: defaults.keepRunning,
         )
     }

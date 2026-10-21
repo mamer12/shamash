@@ -1,0 +1,7 @@
+{
+  "kind": "youtube#SubscriptionListResponse",
+  "items": [
+    {"kind": "youtube#subscription", "snippet": {"title": "Lofi Girl", "resourceId": {"kind": "youtube#channel", "channelId": "UCSJ4gkVC6NrvII8umztf0Ow"}}},
+    {"kind": "youtube#subscription", "snippet": {"title": "Veritasium", "resourceId": {"kind": "youtube#channel", "channelId": "UCHnyfMqiRRG1u-2MsSQLbXA"}}}
+  ]
+}
