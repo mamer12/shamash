@@ -100,7 +100,7 @@ fun ExpandingRow(
                     rank = if (ranked) index + 1 else null,
                     fade = { leavingAlpha(state, index, step) },
                     onOpen = onOpen,
-                    previews = previews.takeUnless { A11y.reduceMotion },   // PLT-14: no autoplay
+                    previews = previews.takeUnless { A11y.reduceMotion || Lite.on },   // PLT-14, PERF-06: no autoplay
                     onFocused = onFocused,
                 )
             }
@@ -133,7 +133,7 @@ private fun ExpandingCard(
     val playing = previews != null && previews.renderingId == item.id
     val picture = animateFloatAsState(if (playing) 0f else 1f, tween(A11y.ms(PICTURE_FADE_MS)), label = "picture")
 
-    Row(Modifier.graphicsLayer { alpha = fade() }) {
+    Row(Modifier.fade(fade)) {
         if (rank != null) RankNumber(rank, d)
         Column {
             Box(
@@ -163,7 +163,7 @@ private fun TileArt(item: MediaItem, grow: State<Float>, picture: State<Float>, 
     val poster = item.posterUrl ?: item.backdropUrl
     Picture(
         poster, d.posterW, d.posterH,
-        Modifier.fillMaxSize().graphicsLayer { alpha = picture.value },
+        Modifier.fillMaxSize().fade { picture.value },
     )
     val wide = item.backdropUrl
     if (!opened || wide == null || wide == poster) return
@@ -171,9 +171,7 @@ private fun TileArt(item: MediaItem, grow: State<Float>, picture: State<Float>, 
     val arrived = animateFloatAsState(if (loaded) 1f else 0f, tween(A11y.ms(WIDE_FADE_MS)), label = "wide")
     Picture(
         wide, d.tileW, d.tileH,
-        Modifier.fillMaxSize().graphicsLayer {
-            alpha = (grow.value * WIDE_FROM).coerceIn(0f, 1f) * arrived.value * picture.value
-        },
+        Modifier.fillMaxSize().fade { (grow.value * WIDE_FROM).coerceIn(0f, 1f) * arrived.value * picture.value },
         fade = false,
         onLoaded = { loaded = true },
     )
@@ -188,10 +186,10 @@ private fun TileText(item: MediaItem, grow: State<Float>, opened: Boolean, d: Ca
             modifier = Modifier
                 .width(d.posterW)
                 .padding(top = 8.dp)
-                .graphicsLayer { alpha = 1f - (grow.value * LABEL_GONE).coerceIn(0f, 1f) },
+                .fade { 1f - (grow.value * LABEL_GONE).coerceIn(0f, 1f) },
         )
         if (opened) {
-            Column(Modifier.width(d.tileW).padding(top = 12.dp).graphicsLayer { alpha = grow.value }) {
+            Column(Modifier.width(d.tileW).padding(top = 12.dp).fade { grow.value }) {
                 Text(item.title, style = Type.TileName, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 if (item.subtitle.isNotEmpty()) {
                     Text(item.subtitle, style = Type.HeroMeta, maxLines = 1, modifier = Modifier.padding(top = 4.dp))

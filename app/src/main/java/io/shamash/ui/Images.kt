@@ -25,7 +25,9 @@ import coil3.memory.MemoryCache
 import coil3.network.okhttp.OkHttpNetworkFetcherFactory
 import coil3.request.ImageRequest
 import coil3.request.Options
+import coil3.request.allowRgb565
 import coil3.request.crossfade
+import coil3.request.transformations
 import coil3.size.pxOrElse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -59,8 +61,15 @@ object Images {
         }
     }
 
+    /** Lite decodes pictures without alpha as RGB_565: half the memory and texture bandwidth. SPEC: PERF-06 */
     fun request(context: Context, data: Any?, widthPx: Int, heightPx: Int, fade: Boolean = true): ImageRequest =
-        ImageRequest.Builder(context).data(data).size(widthPx, heightPx).crossfade(fade).build()
+        ImageRequest.Builder(context).data(data).size(widthPx, heightPx).crossfade(fade).allowRgb565(Lite.on).build()
+
+    /** The billboard photo; lite bakes the scrims in at 960 × 540 (prefetch and draw must ask the same). SPEC: PERF-06 */
+    fun hero(context: Context, url: String, lite: Boolean, rtl: Boolean, fade: Boolean = false): ImageRequest =
+        if (!lite) request(context, url, HERO_W, HERO_H, fade)
+        else ImageRequest.Builder(context).data(url).size(LITE_HERO_W, LITE_HERO_H).crossfade(false)
+            .transformations(BakedScrims(LITE_HERO_W, LITE_HERO_H, rtl)).build()
 }
 
 /** An image requested at the size it's drawn ([width] × [height]), cropped to fill. SPEC: PERF-04 */

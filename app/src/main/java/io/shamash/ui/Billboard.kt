@@ -105,7 +105,8 @@ fun BillboardInfo(
     }
     val rtl = LocalLayoutDirection.current == LayoutDirection.Rtl
     Column(modifier.width(Dimens.HeroTextWidth)) {
-        Crossfade(current, animationSpec = tween(A11y.ms(TEXT_FADE_MS)), label = "billboard-text") { HeroText(it) }
+        val textFade = if (Lite.on) 0 else A11y.ms(TEXT_FADE_MS)   // PERF-06: no crossfade layers
+        Crossfade(current, animationSpec = tween(textFade), label = "billboard-text") { HeroText(it) }
         Spacer(Modifier.height(18.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
             val label = when {

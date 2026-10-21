@@ -10,6 +10,8 @@ import androidx.compose.ui.unit.sp
 import androidx.tv.material3.OutlinedButton
 import androidx.tv.material3.Text
 import io.shamash.R
+import io.shamash.ui.Lite
+import io.shamash.ui.LiteChoice
 import io.shamash.ui.OnePicker
 import io.shamash.ui.Palette
 
@@ -32,6 +34,16 @@ fun A11yPanel() {
         Toggle(R.string.a11y_high_contrast, now.highContrast) { v -> A11y.update { it.copy(highContrast = v) } }
         Toggle(R.string.a11y_reduce_motion, now.reduceMotion) { v -> A11y.update { it.copy(reduceMotion = v) } }
         Text(stringResource(R.string.a11y_follows_tv), color = Palette.Faint, fontSize = 15.sp)
+        Text(stringResource(R.string.lite_drawing), color = Palette.Dim, fontSize = 18.sp)   // PERF-06
+        OnePicker(LiteChoice.entries, Lite.choice, Lite::choose) { v ->
+            stringResource(
+                when (v) {
+                    LiteChoice.AUTO -> R.string.lite_auto
+                    LiteChoice.ON -> R.string.a11y_on
+                    LiteChoice.OFF -> R.string.a11y_off
+                },
+            )
+        }
     }
 }
 

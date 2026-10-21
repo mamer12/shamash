@@ -43,6 +43,7 @@ import io.shamash.ui.EmptyBillboard
 import io.shamash.ui.MediaRow
 import io.shamash.ui.PreviewController
 import io.shamash.ui.Type
+import io.shamash.ui.fade
 import io.shamash.ui.rememberAlignStart
 
 /** The apps row's height: banners, the room their focus growth needs, the gap below. */
@@ -76,7 +77,7 @@ fun HomeTab(
                 .wrapContentHeight(Alignment.Top, unbounded = true)
                 .graphicsLayer { translationY = -away.value * shift },
         ) {
-            Hero(ui, billboard, focus, actions, active, Modifier.graphicsLayer { alpha = 1f - away.value })
+            Hero(ui, billboard, focus, actions, active, Modifier.fade { 1f - away.value })
             AppsRow(ui.appsRow, actions::openApp, Modifier.height(APPS_ROW_H).focusRequester(focus.apps))
             RowsList(
                 ui.home, actions, previews, rowsHeight,

@@ -129,7 +129,7 @@ val LocalLook = compositionLocalOf { Look() }
 @Composable
 fun ShamashTheme(content: @Composable () -> Unit) {
     val context = LocalContext.current
-    remember(context) { A11y.load(context) }
+    remember(context) { A11y.load(context); Lite.load(context) }
     val layout by remember(context) {
         ServiceLocator.get(context).prefs.profile.map { it.layout }.distinctUntilChanged()
     }.collectAsState(initial = Layout())

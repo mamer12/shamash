@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import io.shamash.feature.accessibility.A11y
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,6 +23,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Text
@@ -40,30 +42,47 @@ private val HERO_CREST = 132.dp
 @Composable
 fun BillboardBackdrop(state: BillboardState, dim: () -> Float, modifier: Modifier = Modifier) {
     val context = LocalContext.current
+    val lite = Lite.on
+    val rtl = LocalLayoutDirection.current == LayoutDirection.Rtl
     val nextUrl = state.next?.item?.backdropUrl
-    LaunchedEffect(nextUrl) {
-        if (nextUrl != null) {
-            SingletonImageLoader.get(context).enqueue(Images.request(context, nextUrl, Images.HERO_W, Images.HERO_H))
-        }
+    LaunchedEffect(nextUrl, lite, rtl) {
+        if (nextUrl != null) SingletonImageLoader.get(context).enqueue(Images.hero(context, nextUrl, lite, rtl, fade = true))
     }
     Box(modifier.fillMaxSize().background(Palette.Night)) {
-        Crossfade(state.current?.item, animationSpec = tween(A11y.ms(CROSSFADE_MS)), label = "backdrop") { item ->
-            when {
-                item == null -> Unit
-                item.match != null -> MatchBackdrop(item.match)
-                else -> HeroPhoto(item)
-            }
-        }
-        Box(Modifier.fillMaxSize().scrims())
-        Box(Modifier.fillMaxSize().drawBehind { drawRect(Palette.Night, alpha = dim().coerceIn(0f, 1f)) })
+        if (lite) LiteBackdrop(state.current?.item, dim) else FullBackdrop(state.current?.item, dim)
     }
+}
+
+@Composable
+private fun FullBackdrop(current: MediaItem?, dim: () -> Float) {
+    Crossfade(current, animationSpec = tween(A11y.ms(CROSSFADE_MS)), label = "backdrop") { item ->
+        when {
+            item == null -> Unit
+            item.match != null -> MatchBackdrop(item.match)
+            else -> HeroPhoto(item)
+        }
+    }
+    Box(Modifier.fillMaxSize().scrims())
+    Box(Modifier.fillMaxSize().drawBehind { drawRect(Palette.Night, alpha = dim().coerceIn(0f, 1f)) })
+}
+
+/** Lite: no crossfade and no layers over the photo; a match draws flat Dusk under its crests. SPEC: PERF-06 */
+@Composable
+private fun LiteBackdrop(item: MediaItem?, dim: () -> Float) {
+    val match = item?.match
+    if (match == null) {
+        LitePhoto(item?.backdropUrl, dim)
+        return
+    }
+    Box(Modifier.fillMaxSize().background(Palette.Dusk)) { MatchCrests(match) }
+    Box(Modifier.fillMaxSize().drawBehind { drawRect(Palette.Night, alpha = dim().coerceIn(0f, 1f)) })
 }
 
 @Composable
 private fun HeroPhoto(item: MediaItem) {
     val context = LocalContext.current
     val url = item.backdropUrl ?: return
-    val request = remember(url) { Images.request(context, url, Images.HERO_W, Images.HERO_H, fade = false) }
+    val request = remember(url) { Images.hero(context, url, lite = false, rtl = false) }
     AsyncImage(request, contentDescription = null, modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
 }
 
@@ -83,18 +102,21 @@ private fun MatchBackdrop(match: Match) {
                 drawRect(glow)
             }
         },
+    ) { MatchCrests(match) }
+}
+
+@Composable
+private fun BoxScope.MatchCrests(match: Match) {
+    Row(
+        Modifier.align(Alignment.CenterEnd).padding(end = Dimens.Margin * 1.5f, bottom = 80.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Row(
-            Modifier.align(Alignment.CenterEnd).padding(end = Dimens.Margin * 1.5f, bottom = 80.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Crest(match.home, HERO_CREST)
-            Column(Modifier.width(150.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(matchMiddle(match), style = Type.HeroScore, maxLines = 1)
-                MatchNote(match, Type.HeroMeta)
-            }
-            Crest(match.away, HERO_CREST)
+        Crest(match.home, HERO_CREST)
+        Column(Modifier.width(150.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(matchMiddle(match), style = Type.HeroScore, maxLines = 1)
+            MatchNote(match, Type.HeroMeta)
         }
+        Crest(match.away, HERO_CREST)
     }
 }
 

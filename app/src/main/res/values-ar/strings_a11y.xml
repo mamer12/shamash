@@ -37,4 +37,6 @@
     <string name="quick_sports_desc">المباريات في الأعلى، ثم ما كنت تشاهده.</string>
     <string name="quick_basics">الأساسيات فقط</string>
     <string name="quick_basics_desc">شاشة رئيسية هادئة: تطبيقاتك واقتراح واحد.</string>
+    <string name="lite_drawing">رسم أخف (للتلفزيونات الأبطأ)</string>
+    <string name="lite_auto">تلقائي</string>
 </resources>
