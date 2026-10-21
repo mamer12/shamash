@@ -43,7 +43,14 @@ internal fun AddonsPanel(p: Profile, save: (Profile) -> Unit, locator: ServiceLo
             trailingContent = { Switch(checked = on, onCheckedChange = null) },
         )
         if (on) {
-            ProviderSettingsPanel(addOn, p, save, locator) { if (addOn.id == "cinemana") CinemanaLevel(p, save) }
+            ProviderSettingsPanel(addOn, p, save, locator) {
+                when (addOn.id) {
+                    "cinemana" -> CinemanaLevel(p, save)
+                    "plex" -> io.shamash.feature.plex.PlexExtra(p, locator)
+                    "iptv" -> io.shamash.feature.iptv.IptvFavoritesPanel(locator)
+                    "myfeed" -> io.shamash.feature.myfeed.FeedEditorPanel(locator)
+                }
+            }
         }
         Spacer(Modifier.height(12.dp))
     }

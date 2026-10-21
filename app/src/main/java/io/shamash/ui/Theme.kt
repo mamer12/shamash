@@ -18,6 +18,9 @@ import io.shamash.domain.Digits
 import io.shamash.domain.Layout
 import io.shamash.domain.Look
 import io.shamash.domain.factor
+import io.shamash.feature.accessibility.A11y
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import java.util.Locale
@@ -43,8 +46,9 @@ object Palette {
     val Gold: Color get() = accent
     val Dawn = Color(0xFFFFE28C)
     val Ink = Color(0xFFF5F0E6)
-    val Dim = Color(0xB3F5F0E6)
-    val Faint = Color(0x66F5F0E6)
+    /** Secondary text; solid ink in high contrast (PLT-12). */
+    val Dim: Color get() = if (A11y.highContrast) Ink else Color(0xB3F5F0E6)
+    val Faint: Color get() = if (A11y.highContrast) Color(0xCCF5F0E6) else Color(0x66F5F0E6)
     val Live = Color(0xFFFF453A)
     val MineCard = Color(0xFF1A2440)
 }
@@ -83,15 +87,15 @@ object Type {
     val Greeting = TextStyle(fontFamily = Sans, fontWeight = FontWeight.Medium, fontSize = 21.sp, color = Palette.Ink)
     val HeroLabel = TextStyle(fontFamily = Sans, fontWeight = FontWeight.Bold, fontSize = 12.sp, letterSpacing = 2.sp, color = Palette.Gold)
     val HeroTitle = TextStyle(fontFamily = Sans, fontWeight = FontWeight.Bold, fontSize = 36.sp, lineHeight = 40.sp, color = Palette.Ink)
-    val HeroMeta = TextStyle(fontFamily = Sans, fontWeight = FontWeight.Medium, fontSize = 14.sp, color = Palette.Dim)
-    val HeroBody = TextStyle(fontFamily = Sans, fontSize = 14.sp, lineHeight = 20.sp, color = Palette.Dim)
+    val HeroMeta get() = TextStyle(fontFamily = Sans, fontWeight = FontWeight.Medium, fontSize = 14.sp, color = Palette.Dim)
+    val HeroBody get() = TextStyle(fontFamily = Sans, fontSize = 14.sp, lineHeight = 20.sp, color = Palette.Dim)
     val Button = TextStyle(fontFamily = Sans, fontWeight = FontWeight.SemiBold, fontSize = 15.sp)
     val RowTitle = TextStyle(fontFamily = Sans, fontWeight = FontWeight.SemiBold, fontSize = 16.sp, color = Palette.Ink)
     val CardTitle = TextStyle(fontFamily = Sans, fontWeight = FontWeight.Medium, fontSize = 12.sp, color = Palette.Ink)
-    val CardSub = TextStyle(fontFamily = Sans, fontSize = 11.sp, color = Palette.Dim)
+    val CardSub get() = TextStyle(fontFamily = Sans, fontSize = 11.sp, color = Palette.Dim)
     val TileName = TextStyle(fontFamily = Sans, fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Palette.Ink)
     val Clock = TextStyle(fontFamily = Sans, fontWeight = FontWeight.Light, fontSize = 30.sp, color = Palette.Ink)
-    val Small = TextStyle(fontFamily = Sans, fontSize = 12.sp, color = Palette.Dim)
+    val Small get() = TextStyle(fontFamily = Sans, fontSize = 12.sp, color = Palette.Dim)
     val Tab = TextStyle(fontFamily = Sans, fontWeight = FontWeight.SemiBold, fontSize = 15.sp)
     val Rank = TextStyle(fontFamily = Sans, fontWeight = FontWeight.Black, fontSize = 104.sp, lineHeight = 104.sp)
     val Score = TextStyle(fontFamily = Sans, fontWeight = FontWeight.Bold, fontSize = 22.sp, color = Palette.Ink)
@@ -124,17 +128,23 @@ val LocalLook = compositionLocalOf { Look() }
 @Composable
 fun ShamashTheme(content: @Composable () -> Unit) {
     val context = LocalContext.current
+    remember(context) { A11y.load(context) }
     val layout by remember(context) {
         ServiceLocator.get(context).prefs.profile.map { it.layout }.distinctUntilChanged()
     }.collectAsState(initial = Layout())
     val look = layout.look
     Palette.setAccent(look.accent)
     val rtl = Digits.mirrored(Locale.getDefault().language, look)
+    val density = LocalDensity.current
+    val scaled = remember(density, A11y.effective.textScale) {
+        Density(density.density, A11y.settings.fontScale(density.fontScale))   // PLT-11
+    }
     val direction = if (rtl) LayoutDirection.Rtl else LocalLayoutDirection.current
     CompositionLocalProvider(
         LocalLook provides look,
         LocalCardDims provides remember(layout.cardSize) { CardDims(layout.cardSize.factor) },
         LocalLayoutDirection provides direction,
+        LocalDensity provides scaled,
     ) { Themed(look, content) }
 }
 

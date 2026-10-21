@@ -23,6 +23,8 @@ import io.shamash.domain.Kind
 import io.shamash.domain.MediaItem
 import io.shamash.ui.Dimens
 import io.shamash.ui.FocusCard
+import io.shamash.ui.itemMenu
+import io.shamash.ui.mediaLabel
 import io.shamash.ui.Palette
 import io.shamash.ui.Picture
 import io.shamash.ui.Type
@@ -66,7 +68,7 @@ private fun ResultCard(item: MediaItem, wide: Boolean, modifier: Modifier, onCli
 @Composable
 private fun PosterCard(item: MediaItem, onClick: () -> Unit, modifier: Modifier) {
     Column(Modifier.width(Dimens.PosterW)) {
-        FocusCard(onClick, modifier.size(Dimens.PosterW, Dimens.PosterH)) {
+        FocusCard(onClick, modifier.size(Dimens.PosterW, Dimens.PosterH).itemMenu(item), description = mediaLabel(item)) {
             Box(Modifier.fillMaxSize().background(Palette.Card))
             Picture(item.posterUrl ?: item.backdropUrl, Dimens.PosterW, Dimens.PosterH, Modifier.fillMaxSize())
         }

@@ -23,6 +23,9 @@ object SearchRanking {
     fun normalize(text: String): String =
         Normalizer.normalize(text, Normalizer.Form.NFD)
             .replace(marks, "")
+            .replace('\u0671', '\u0627')      // alef wasla -> alef (hamza forms are already split off by NFD)
+            .replace('\u0649', '\u064A')      // alef maqsura -> ya
+            .replace("\u0640", "")             // tatweel
             .lowercase(Locale.ROOT)
             .replace(spaces, " ")
             .trim()

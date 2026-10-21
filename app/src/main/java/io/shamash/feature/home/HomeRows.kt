@@ -9,6 +9,14 @@ import io.shamash.domain.MediaItem
 import io.shamash.domain.Moment
 import io.shamash.domain.MomentRule
 import io.shamash.domain.Moments
+import io.shamash.domain.MuteIndex
+import io.shamash.domain.Mutes
+import io.shamash.domain.MyListOps
+import io.shamash.domain.PersonalState
+import io.shamash.domain.Reasons
+import io.shamash.domain.Signal
+import io.shamash.domain.TasteProfile
+import io.shamash.domain.Weights
 import io.shamash.domain.OpenTarget
 import io.shamash.domain.Profile
 import io.shamash.domain.Shelf
@@ -33,19 +41,21 @@ object HomeRows {
 
     fun build(input: HomeInput): HomeUi {
         val p = input.profile
-        val loaded = gated(input.loaded, p)
-        val history = ContentGate.filter(input.history, p)
+        val data = input.personal.data
+        val mutes = data.muteIndex
+        val loaded = gated(input.loaded, p, mutes)
+        val history = Mutes.filter(ContentGate.filter(input.history, p), mutes)
         val shelves = providerShelves(loaded)
         val matches = Carousel.markMine(loaded.matches, p)
         val moment = Moment.at(input.hour)
         val names = loaded.installed.associate { it.packageName to it.label }
         val rule = HomeLayout.ruleAt(p, input.now)
-        val laid = HomeLayout.lay(homeRows(p, shelves, matches, history, moment, input.now), p, rule)
+        val laid = HomeLayout.lay(homeRows(p, shelves, matches, history, moment, input.now, input.personal, loaded.order), p, rule)
         return HomeUi(
             ready = loaded.started && loaded.pending.isEmpty(),
             greeting = Moments.greeting(moment, p.name),
             moment = moment,
-            featured = featured(loaded, matches, input.now, names, p, rule),
+            featured = featured(loaded, matches, input.now, names, p, rule, data.signals, data.learnOrder),
             home = laid.shown,
             editableRows = laid.editable,
             discover = discoverRows(shelves),
@@ -58,12 +68,15 @@ object HomeRows {
     }
 
     /** What the profile's content level lets through: one gate for shelves, billboard and matches. SPEC: PRF-12 */
-    fun gated(loaded: Loaded, p: Profile): Loaded {
+    fun gated(loaded: Loaded, p: Profile, mutes: MuteIndex = MuteIndex(emptyList())): Loaded {
         val level = p.contentLevel
-        if (level == ContentLevel.ALL) return loaded
+        if (level == ContentLevel.ALL && mutes.isEmpty) return loaded
         return loaded.copy(
             providers = loaded.providers.mapValues { (_, c) ->
-                ProviderContent(c.shelves.map { ContentGate.filter(it, level) }, ContentGate.filter(c.featured, level))
+                ProviderContent(
+                    c.shelves.map { Mutes.filter(ContentGate.filter(it, level), mutes) },
+                    Mutes.filter(ContentGate.filter(c.featured, level), mutes),   // SPEC: PER-08
+                )
             },
             matches = loaded.matches.filter { ContentGate.allows(Carousel.matchItem(it), level) },
         )
@@ -79,10 +92,12 @@ object HomeRows {
     fun featured(
         loaded: Loaded, matches: List<Match>, now: Long, names: Map<String, String>,
         p: Profile = Profile(), rule: MomentRule? = null,
+        signals: List<Signal> = emptyList(), learnOrder: Boolean = true,
     ): List<Featured> {
         val lead = Carousel.matchDay(matches, now)?.let { Carousel.matchItem(it) }
         val byProvider = loaded.providers.filterKeys { it !in p.layout.mixOff }.mapValues { it.value.featured }
-        val order = rule?.mix?.takeIf { it.isNotEmpty() } ?: p.layout.mix.takeIf { it.isNotEmpty() } ?: Carousel.ORDER
+        val own = rule?.mix?.takeIf { it.isNotEmpty() } ?: p.layout.mix.takeIf { it.isNotEmpty() }
+        val order = own ?: Weights.orderProviders(Carousel.ORDER, signals, now, learnOrder)   // SPEC: PER-05
         return Carousel.mix(lead, byProvider, order = order).map { Featured(it, appName(it, names)) }
     }
 
@@ -92,7 +107,10 @@ object HomeRows {
      */
     fun homeRows(
         p: Profile, shelves: List<Shelf>, matches: List<Match>, history: List<MediaItem>, moment: Moment, now: Long,
+        personal: PersonalState = PersonalState.EMPTY, order: List<String> = emptyList(),
     ): List<Shelf> {
+        val data = personal.data
+        val taste = TasteProfile.genres(p.genres, data.myList.map { it.genres }, data.signals)
         val (videos, titles) = history.partition(::isVideo)
         val ownProgress = shelves.filter { it.titleKey == ShelfKeys.CONTINUE }.flatMap { it.items }
         val watching = (ownProgress + titles).distinctBy { it.title.lowercase() }.take(CONTINUE_MAX)
@@ -101,12 +119,15 @@ object HomeRows {
         val cinemana = shelves.filter { it.titleKey.startsWith(ShelfKeys.CINEMANA_PREFIX) }
         val popular = shelves.filter { it.titleKey == ShelfKeys.POPULAR_ON && subscribed(it, p) }
         val placed = (youtube + tod + cinemana).toSet()
-        val others = shelves.filter { it !in placed && it.titleKey !in DISCOVER_ONLY && it.titleKey != ShelfKeys.CONTINUE }
+        val others = shelves.filter {
+            it !in placed && it.titleKey !in DISCOVER_ONLY && it.titleKey != ShelfKeys.CONTINUE && it.id != CINEMANA_LIST
+        }
+        val myList = MyListOps.row(data.myList, order.toSet(), data.muteIndex)
         val momentItems = Moments.row(
             moment,
             matches = Moments.mineSoon(matches, now).map { Carousel.matchItem(it) },
             unfinished = Moments.firstUnfinished(watching),
-            personal = personalPick(cinemana, popular, shelves),
+            personal = personalPick(cinemana, popular, shelves, Weights.momentGenres(data.signals, moment)),
             youtube = youtube.firstOrNull()?.items?.firstOrNull(),
         )
         val own = listOf(
@@ -114,9 +135,12 @@ object HomeRows {
             Shelf("moment", ShelfKeys.MOMENT_PREFIX + moment.name.lowercase(Locale.ROOT), ShelfStyle.WIDE, momentItems),
             Shelf("continue", ShelfKeys.CONTINUE, ShelfStyle.WIDE, watching),
             Shelf("continue:youtube", ShelfKeys.CONTINUE_YOUTUBE, ShelfStyle.VIDEO, videos.distinctBy { it.id }),
+            Shelf(MY_LIST, "personal_my_list", ShelfStyle.POSTER, myList),   // SPEC: PER-13, PER-14
         )
-        return (own + youtube + tod + cinemana + popular + others)
-            .map { s -> s.copy(items = s.items.distinctBy { it.id }) }
+        val learned = Weights.orderShelves(youtube + tod + (cinemana - cinemanaList(cinemana)) + popular + others, data.signals, now, data.learnOrder)
+        val top = TasteProfile.top(taste)
+        return (own + learned)
+            .map { s -> s.copy(items = s.items.distinctBy { it.id }, reason = Reasons.forShelf(s, top)) }
             .filter { it.items.isNotEmpty() }
             .distinctBy { it.id }
     }
@@ -159,10 +183,16 @@ object HomeRows {
     private fun subscribed(shelf: Shelf, p: Profile) = shelf.items.any { packageOf(it) in p.subscriptions }
 
     /** One pick for the user: Cinemana's, else the first of their services', else the Top 10's. */
-    private fun personalPick(cinemana: List<Shelf>, popular: List<Shelf>, all: List<Shelf>): MediaItem? {
+    private fun personalPick(cinemana: List<Shelf>, popular: List<Shelf>, all: List<Shelf>, wanted: List<String>): MediaItem? {
         val top = all.filter { it.titleKey == ShelfKeys.TOP10 }
-        return (cinemana + popular + top).firstNotNullOfOrNull { it.items.firstOrNull() }
+        val firsts = (cinemana + popular + top).mapNotNull { it.items.firstOrNull() }
+        return Weights.pick((cinemana + popular + top).flatMap { it.items.take(PICK_POOL) }, wanted) ?: firsts.firstOrNull()   // SPEC: PER-03
     }
+
+    private fun cinemanaList(rows: List<Shelf>) = rows.filter { it.id == CINEMANA_LIST }
+    const val MY_LIST = "mylist"
+    private const val CINEMANA_LIST = "cinemana_my_list"
+    private const val PICK_POOL = 6
 
     private val DISCOVER_ONLY = setOf(ShelfKeys.TOP10, ShelfKeys.POPULAR_ON)
 }

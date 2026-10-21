@@ -2,6 +2,7 @@ package io.shamash.ui
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
+import io.shamash.feature.accessibility.A11y
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -46,7 +47,7 @@ fun BillboardBackdrop(state: BillboardState, dim: () -> Float, modifier: Modifie
         }
     }
     Box(modifier.fillMaxSize().background(Palette.Night)) {
-        Crossfade(state.current?.item, animationSpec = tween(CROSSFADE_MS), label = "backdrop") { item ->
+        Crossfade(state.current?.item, animationSpec = tween(A11y.ms(CROSSFADE_MS)), label = "backdrop") { item ->
             when {
                 item == null -> Unit
                 item.match != null -> MatchBackdrop(item.match)

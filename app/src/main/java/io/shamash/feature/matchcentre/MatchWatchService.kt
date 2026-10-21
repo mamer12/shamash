@@ -11,7 +11,9 @@ import android.os.IBinder
 import io.shamash.R
 import io.shamash.app.ServiceLocator
 import io.shamash.data.Logger
+import io.shamash.data.espn.Polling
 import io.shamash.domain.Match
+import io.shamash.domain.MatchState
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -52,26 +54,39 @@ class MatchWatchService : Service() {
 
     private suspend fun follow() {
         val locator = ServiceLocator.get(this)
-        val machine = WatchMachine()
+        val alerts = AlertStore(locator.prefs)
+        var profile = locator.prefs.current()
+        var settings = AlertSettings()
+        val machine = WatchMachine { MatchAlerts.priority(it, profile, settings) }
         var matches = emptyList<Match>()
         var fetchedAt = 0L
         while (true) {
             val now = System.currentTimeMillis()
-            if (now - fetchedAt >= WatchMachine.TICK_MS) {
+            if (now - fetchedAt >= fetchEvery(matches)) {
+                profile = locator.prefs.current()
+                settings = alerts.load()
                 matches = fetch(locator) ?: matches
                 fetchedAt = now
             }
-            val wait = when (val step = machine.next(now, matches)) {
-                is WatchStep.Show -> step.recheckInMs.also { overlay.show(step.match, step.card, now) }
+            val eligible = MatchAlerts.eligible(matches, profile, settings)
+            val wait = when (val step = machine.next(now, eligible)) {
+                is WatchStep.Show -> step.recheckInMs.also {
+                    if (MatchAlerts.shows(step.card, step.match, profile, settings, now)) overlay.show(step.match, step.card, now)
+                    else overlay.hide()     // state keeps updating, nothing shows (MC-12)
+                }
                 is WatchStep.Hide -> step.recheckInMs.also { overlay.hide() }
                 WatchStep.Stop -> break
             }
             delay(wait.coerceIn(MIN_WAIT_MS, WatchMachine.TICK_MS))
         }
         overlay.hide()
-        MatchWatch.schedule(this, matches)
+        MatchWatch.arm(this, MatchAlerts.eligible(matches, profile, settings))
         stopSelf()
     }
+
+    /** A minute, half of it while an F1 session is on (MC-14). */
+    private fun fetchEvery(matches: List<Match>): Long =
+        matches.filter { it.mine && it.state == MatchState.LIVE }.minOfOrNull { Polling.live(it.sport) } ?: WatchMachine.TICK_MS
 
     /** The latest matches, or null when they couldn't be read (the last ones are kept). */
     private suspend fun fetch(locator: ServiceLocator): List<Match>? = withContext(Dispatchers.IO) {

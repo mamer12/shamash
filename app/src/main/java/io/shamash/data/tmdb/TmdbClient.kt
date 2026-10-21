@@ -46,6 +46,10 @@ class TmdbClient(
     suspend fun services(key: String, title: TmdbTitle, region: String): List<StreamingService> =
         TmdbJson.flatrate(get(key, "${path(title.kind)}/${title.id}/watch/providers"), region)
 
+    /** Every way to watch the title in [region]: subscription, free, rent, buy. SPEC: PER-09 */
+    suspend fun offers(key: String, kind: Kind, id: Int, region: String): List<io.shamash.domain.WatchOffer> =
+        TmdbOffers.parse(get(key, "${path(kind)}/$id/watch/providers"), region)
+
     /** The title's age rating in [region] (or the US), null when unknown. SPEC: PRF-12 */
     suspend fun certification(key: String, title: TmdbTitle, region: String): String? {
         val path = if (title.kind == Kind.SERIES) "tv/${title.id}/content_ratings" else "movie/${title.id}/release_dates"

@@ -2,7 +2,12 @@ package io.shamash.ui
 
 import androidx.compose.runtime.State
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.tween
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import io.shamash.feature.accessibility.A11y
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -95,7 +100,7 @@ fun ExpandingRow(
                     rank = if (ranked) index + 1 else null,
                     fade = { leavingAlpha(state, index, step) },
                     onOpen = onOpen,
-                    previews = previews,
+                    previews = previews.takeUnless { A11y.reduceMotion },   // PLT-14: no autoplay
                     onFocused = onFocused,
                 )
             }
@@ -121,11 +126,12 @@ private fun ExpandingCard(
     val d = LocalCardDims.current
     val interaction = remember { MutableInteractionSource() }
     val focused by interaction.collectIsFocusedAsState()
-    val grow = animateFloatAsState(if (focused) 1f else 0f, Motion.pace(), label = "grow")
+    val grow = animateFloatAsState(if (focused) 1f else 0f, if (A11y.reduceMotion) snap() else Motion.pace(), label = "grow")
     var opened by remember { mutableStateOf(false) }
     LaunchedEffect(focused) { if (focused) { opened = true; onFocused(item) } }
+    val label = mediaLabel(item, rank)
     val playing = previews != null && previews.renderingId == item.id
-    val picture = animateFloatAsState(if (playing) 0f else 1f, tween(PICTURE_FADE_MS), label = "picture")
+    val picture = animateFloatAsState(if (playing) 0f else 1f, tween(A11y.ms(PICTURE_FADE_MS)), label = "picture")
 
     Row(Modifier.graphicsLayer { alpha = fade() }) {
         if (rank != null) RankNumber(rank, d)
@@ -136,7 +142,9 @@ private fun ExpandingCard(
                     .tileOutline(focused)
                     .clip(RoundedCornerShape(Dimens.Radius))
                     .background(Palette.Card)
-                    .clickable(interactionSource = interaction, indication = null) {
+                    .itemMenu(item)
+                    .semantics(mergeDescendants = true) { contentDescription = label }   // PLT-13
+                    .clickable(interactionSource = interaction, indication = null, role = Role.Button) {
                         onOpen(item, previews?.positionMs(item.id))
                     },
             ) {
@@ -160,7 +168,7 @@ private fun TileArt(item: MediaItem, grow: State<Float>, picture: State<Float>, 
     val wide = item.backdropUrl
     if (!opened || wide == null || wide == poster) return
     var loaded by remember(wide) { mutableStateOf(false) }
-    val arrived = animateFloatAsState(if (loaded) 1f else 0f, tween(WIDE_FADE_MS), label = "wide")
+    val arrived = animateFloatAsState(if (loaded) 1f else 0f, tween(A11y.ms(WIDE_FADE_MS)), label = "wide")
     Picture(
         wide, d.tileW, d.tileH,
         Modifier.fillMaxSize().graphicsLayer {

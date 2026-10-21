@@ -47,7 +47,11 @@ private const val AWAY_DIM = 0.78f
  * the tabs, then to Home, then to the apps row. SPEC: HOME-01..05, HOME-09, HOME-12
  */
 @Composable
-fun HomeScreen(locator: ServiceLocator) {
+fun HomeScreen(locator: ServiceLocator) =
+    io.shamash.feature.personalization.WithItemMenu(locator) { HomeBody(locator) }
+
+@Composable
+private fun HomeBody(locator: ServiceLocator) {
     val context = LocalContext.current
     val model = remember(locator) { HomeModel.get(locator) }
     val ui by model.state.collectAsState()

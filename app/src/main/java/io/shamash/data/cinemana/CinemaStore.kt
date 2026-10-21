@@ -7,7 +7,10 @@ import androidx.datastore.preferences.preferencesDataStore
 import io.shamash.data.json
 import io.shamash.data.softly
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
@@ -31,6 +34,10 @@ class CinemaStore(private val context: Context? = null) {
     private val lock = Mutex()
     private val mutable = MutableStateFlow(CinemaSaved())
     val state = mutable.asStateFlow()
+    private val finishedTitles = MutableSharedFlow<CinemanaTitle>(extraBufferCapacity = 8)
+
+    /** A title played to its end (95% or more). SPEC: PER-02, CIN-04 */
+    val finished: SharedFlow<CinemanaTitle> = finishedTitles.asSharedFlow()
     private var loaded = false
     private val key = stringPreferencesKey("library")
 
@@ -55,7 +62,11 @@ class CinemaStore(private val context: Context? = null) {
             val entry = CinemaProgress(title, position.coerceAtMost(duration), duration, System.currentTimeMillis())
             old.copy(history = (listOf(entry) + old.history.filterNot { it.title.id == title.id }).take(300))
         }
+        if (position >= duration * FINISHED && io.shamash.data.Recording.enabled) finishedTitles.tryEmit(title)
     }
+
+    /** Forgets ratings and watch progress (Settings -> clear my history). SPEC: PER-04 */
+    suspend fun clearPersonal() = update { it.copy(history = emptyList(), ratings = emptyList()) }
 
     suspend fun subtitles(language: String) {
         if (language in SubtitleLanguage.ALL) update { it.copy(subtitles = language) }
@@ -77,5 +88,9 @@ class CinemaStore(private val context: Context? = null) {
             softly("Cinemana save", Unit) { context?.cinemaData?.edit { it[key] = json.encodeToString(next) }; Unit }
             mutable.value = next
         }
+    }
+
+    private companion object {
+        const val FINISHED = 0.95
     }
 }

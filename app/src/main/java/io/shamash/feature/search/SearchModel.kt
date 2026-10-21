@@ -3,6 +3,8 @@ package io.shamash.feature.search
 import io.shamash.data.Logger
 import io.shamash.domain.ContentGate
 import io.shamash.domain.MediaItem
+import io.shamash.domain.MuteIndex
+import io.shamash.domain.Mutes
 import io.shamash.domain.Profile
 import io.shamash.domain.Provider
 import io.shamash.domain.SearchRanking
@@ -37,6 +39,7 @@ class SearchModel(
     private val providers: List<Provider>,
     private val profile: suspend () -> Profile,
     private val scope: CoroutineScope,
+    private val mutes: () -> MuteIndex = { MuteIndex(emptyList()) },
 ) {
     private val mutableState = MutableStateFlow(SearchUiState())
     val state: StateFlow<SearchUiState> = mutableState.asStateFlow()
@@ -86,7 +89,7 @@ class SearchModel(
 
     private suspend fun searchOne(provider: Provider, query: String, p: Profile): List<MediaItem> =
         try {
-            ContentGate.filter(provider.search(query, p), p)   // SPEC: PRF-12
+            Mutes.filter(ContentGate.filter(provider.search(query, p), p), mutes())   // SPEC: PRF-12, PER-08
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {

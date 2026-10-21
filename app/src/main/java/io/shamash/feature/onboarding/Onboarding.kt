@@ -75,7 +75,7 @@ val GENRES = listOf(
 )
 
 /** The steps, in order. SPEC: ONB-02 */
-private enum class Step { WELCOME, YOU, APPS, TEAMS, GENRES, LOOK, KEYS, HOME }
+private enum class Step { WELCOME, YOU, QUICK, APPS, TEAMS, GENRES, LOOK, KEYS, HOME }
 
 /**
  * The first run: who you are, the apps you pay for, your teams, what you like, optional keys, then the switch. One
@@ -118,6 +118,9 @@ fun Onboarding(start: Profile, done: (Profile) -> Unit) {
                 Spacer(Modifier.height(20.dp))
                 TextInput(stringResource(R.string.setup_city), answers.city, { answers = answers.copy(city = it) })
                 place?.takeIf { it.city == answers.city.trim() }?.let { CityFound(it.found) }
+            }
+            Step.QUICK -> Page(R.string.quick_title, R.string.quick_text, R.string.setup_next, ::next, ::next) {
+                QuickStartStep(answers) { answers = it }   // SPEC: PLT-17
             }
             Step.APPS -> Page(R.string.setup_apps_title, R.string.setup_apps_text, R.string.setup_next, ::next, ::next) {
                 AppPicker(answers.subscriptions) { answers = answers.copy(subscriptions = it) }

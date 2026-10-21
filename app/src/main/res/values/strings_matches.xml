@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Match Centre: sports, F1 sessions, alerts, where to watch (MC-07..16). -->
+<resources>
+    <string name="sport_soccer">Football</string>
+    <string name="sport_f1">Formula 1</string>
+    <string name="sport_tennis">Tennis</string>
+    <string name="sport_basketball">Basketball</string>
+    <string name="sport_cricket">Cricket</string>
+
+    <string name="f1_fp1">Practice 1</string>
+    <string name="f1_fp2">Practice 2</string>
+    <string name="f1_fp3">Practice 3</string>
+    <string name="f1_quali">Qualifying</string>
+    <string name="f1_sprint_quali">Sprint Qualifying</string>
+    <string name="f1_sprint">Sprint</string>
+    <string name="f1_race">Race</string>
+
+    <string name="alert_off">Off</string>
+    <string name="alert_kick_off">Kick-off</string>
+    <string name="alert_goals">Goals</string>
+    <string name="alert_all">All</string>
+    <string name="alerts_title">Match alerts</string>
+    <string name="alerts_goal_only">Key moments only</string>
+    <string name="alerts_quiet_hours">Quiet hours</string>
+    <string name="alerts_always">Always alert for this match</string>
+
+    <string name="match_watch_on">Watch on %1$s</string>
+    <string name="match_no_app">No app to watch this on</string>
+    <string name="match_key_moment">Key moment</string>
+</resources>

@@ -1,0 +1,15 @@
+﻿#EXTM3U x-tvg-url="http://epg.example/guide.xml.gz"
+#EXTINF:-1 tvg-id="news.one" tvg-name="News One" tvg-logo="https://img.example/news1.png" group-title="News",News One HD
+http://stream.example:8080/live/u/p/1.ts
+#EXTINF:-1 group-title="Sports",Sports, Live
+#EXTVLCOPT:http-user-agent=X
+https://stream.example/sports.m3u8
+#EXTINF:-1,No Attrs
+http://stream.example/noattrs.ts
+
+#EXTINF:-1 tvg-id="news.one" group-title="News",Duplicate id
+http://stream.example/dup.ts
+#EXTINF:-1 tvg-id="x",
+http://stream.example/noname.ts
+#EXTINF:-1 tvg-logo="javascript:alert(1)" group-title="Kids",Cartoons
+http://stream.example/kids.ts

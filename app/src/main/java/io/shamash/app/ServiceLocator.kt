@@ -4,6 +4,13 @@ import android.content.Context
 import io.shamash.data.History
 import io.shamash.data.Http
 import io.shamash.data.Preferences
+import io.shamash.data.Recording
+import io.shamash.data.signals.PersonalStore
+import io.shamash.data.tmdb.TmdbClient
+import io.shamash.domain.PersonalBridge
+import io.shamash.feature.personalization.Personalization
+import io.shamash.feature.personalization.WherePicker
+import java.io.File
 import io.shamash.data.Sources
 import io.shamash.data.TvApps
 import io.shamash.feature.profiles.ProfileSession
@@ -29,7 +36,20 @@ class ServiceLocator private constructor(context: Context) {
     val session by lazy {
         ProfileSession(prefs, SecurityStore(prefs.stores), CoroutineScope(SupervisorJob() + Dispatchers.Default), appContext.packageName)
     }
-    val opener by lazy { Opener(appContext, apps, links, history, prefs).also { it.policy = session } }
+    val personal by lazy {
+        Personalization(
+            PersonalStore(File(appContext.filesDir, "personal")) { Recording.enabled }, prefs.profile,
+            { providers.filterIsInstance<PersonalBridge>() }, CoroutineScope(SupervisorJob() + Dispatchers.Default),
+            recordingOn = { Recording.enabled },
+        ).also { it.start() }
+    }
+    val opener by lazy {
+        Opener(appContext, apps, links, history, prefs).also {
+            it.policy = session
+            it.personal = personal
+            it.where = WherePicker(TmdbClient(http), prefs, apps::isInstalled, personal)
+        }
+    }
 
     companion object {
         @Volatile private var instance: ServiceLocator? = null

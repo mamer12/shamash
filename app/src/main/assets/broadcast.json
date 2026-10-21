@@ -1,0 +1,14 @@
+{
+  "default": { "*": ["com.todtv.tod", "net.mbc.shahidTV"] },
+  "competitions": {
+    "uefa.champions": { "SA": ["com.todtv.tod", "net.mbc.shahidTV"], "IQ": ["com.todtv.tod"], "*": ["com.todtv.tod", "com.dazn"] },
+    "eng.1": { "SA": ["net.mbc.shahidTV"], "IQ": ["com.todtv.tod"], "*": ["com.todtv.tod", "com.amazon.amazonvideo.livingroom"] },
+    "esp.1": { "*": ["com.todtv.tod", "com.dazn"] },
+    "ksa.1": { "SA": ["net.mbc.shahidTV"], "*": ["net.mbc.shahidTV", "com.todtv.tod"] },
+    "f1": { "*": ["com.formulaone.production", "com.todtv.tod"] },
+    "nba": { "*": ["com.nbaimd.gametime.nba2011", "com.todtv.tod"] },
+    "atp": { "*": ["com.todtv.tod", "com.amazon.amazonvideo.livingroom"] },
+    "wta": { "*": ["com.todtv.tod", "com.amazon.amazonvideo.livingroom"] },
+    "cricket": { "*": ["com.todtv.tod", "com.espn.gtv"] }
+  }
+}

@@ -171,7 +171,7 @@ private fun CinemaBillboard(item: MediaItem, onOpen: () -> Unit, modifier: Modif
 
 @Composable
 internal fun CinemaButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier, selected: Boolean = false) {
-    FocusCard(onClick, modifier, scale = 1.03f) { focused ->
+    FocusCard(onClick, modifier, scale = 1.03f, description = text) { focused ->
         Text(text, style = Type.Button, color = if (focused) Palette.Night else Palette.Ink,
             modifier = Modifier.background(if (focused) Palette.Gold else if (selected) Palette.Card else Palette.Dusk)
                 .padding(horizontal = 16.dp, vertical = 11.dp))

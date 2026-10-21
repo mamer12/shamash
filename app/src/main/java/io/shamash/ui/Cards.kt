@@ -54,7 +54,7 @@ fun WideCard(item: MediaItem, onClick: () -> Unit, modifier: Modifier = Modifier
     }
     val d = LocalCardDims.current
     Column(modifier.width(d.wideW)) {
-        FocusCard(onClick, Modifier.size(d.wideW, d.wideH)) {
+        FocusCard(onClick, Modifier.size(d.wideW, d.wideH).itemMenu(item), description = mediaLabel(item)) {
             Box(Modifier.fillMaxSize().background(Palette.Card))
             Picture(item.backdropUrl ?: item.posterUrl, d.wideW, d.wideH, Modifier.fillMaxSize())
             ProgressBar(item.progress)
@@ -69,7 +69,7 @@ fun WideCard(item: MediaItem, onClick: () -> Unit, modifier: Modifier = Modifier
 fun VideoCard(item: MediaItem, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val d = LocalCardDims.current
     Column(modifier.width(d.wideW)) {
-        FocusCard(onClick, Modifier.size(d.wideW, d.wideH)) {
+        FocusCard(onClick, Modifier.size(d.wideW, d.wideH).itemMenu(item), description = mediaLabel(item)) {
             Box(Modifier.fillMaxSize().background(Palette.Card))
             Picture(item.backdropUrl ?: item.posterUrl, d.wideW, d.wideH, Modifier.fillMaxSize())
             ProgressBar(item.progress)
@@ -84,9 +84,9 @@ fun VideoCard(item: MediaItem, onClick: () -> Unit, modifier: Modifier = Modifie
 
 /** An app's own TV banner. */
 @Composable
-fun AppTile(packageName: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun AppTile(packageName: String, onClick: () -> Unit, modifier: Modifier = Modifier, label: String? = null) {
     val d = LocalCardDims.current
-    FocusCard(onClick, modifier.size(d.appW, d.appH)) {
+    FocusCard(onClick, modifier.size(d.appW, d.appH), description = label ?: packageName) {
         Box(Modifier.fillMaxSize().background(Palette.Card))
         Picture(AppBanner(packageName), d.appW, d.appH, Modifier.fillMaxSize(), fade = false)
     }
@@ -101,7 +101,7 @@ fun ActionTile(
     modifier: Modifier = Modifier,
     width: Dp = Dimens.AppW,
 ) {
-    FocusCard(onClick, modifier.size(width, Dimens.AppH)) { focused ->
+    FocusCard(onClick, modifier.size(width, Dimens.AppH), description = label) { focused ->
         val ink = if (focused) Palette.Night else Palette.Ink
         Column(
             Modifier.fillMaxSize().background(if (focused) Palette.Ink else Palette.Card).padding(10.dp),

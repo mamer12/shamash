@@ -6,6 +6,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.provider.Settings
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import io.shamash.app.ServiceLocator
 import io.shamash.data.Logger
 import io.shamash.domain.Match
 import io.shamash.domain.MatchState
@@ -17,8 +23,31 @@ import io.shamash.domain.MatchState
 object MatchWatch {
     private const val INEXACT_LEAD_MS = 5 * 60_000L     // an inexact alarm may come late: ask a little earlier
 
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+
+    /**
+     * Sets the wake-up for the next match that the profile's alert levels allow (MC-11): off follows and a Kids
+     * profile's other teams never wake the overlay. Looks at the settings off the caller's thread.
+     */
     fun schedule(context: Context, matches: List<Match>) {
         val app = context.applicationContext
+        scope.launch {
+            try {
+                val locator = ServiceLocator.get(app)
+                val profile = locator.prefs.current()
+                val settings = AlertStore(locator.prefs).load()
+                arm(app, MatchAlerts.eligible(matches, profile, settings))
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Logger.w("match watch", e)
+                arm(app, matches)
+            }
+        }
+    }
+
+    /** Same, for matches already filtered (the service calls it when it is done). */
+    internal fun arm(app: Context, matches: List<Match>) {
         val alarms = app.getSystemService(AlarmManager::class.java) ?: return
         val wake = wakeIntent(app)
         alarms.cancel(wake)

@@ -28,7 +28,8 @@ import io.shamash.ui.ProviderPage
 class CinemanaAddon private constructor(
     provider: CinemanaProvider,
     private val library: CinemaLibrary,
-) : Provider by provider, PreviewSource by provider, RefreshableProvider by provider, ProviderPage {
+) : Provider by provider, PreviewSource by provider, RefreshableProvider by provider, ProviderPage,
+    io.shamash.domain.PersonalBridge by io.shamash.data.cinemana.CinemanaBridge(library) {
     override val entryUri = "shamash://cinemana"
     override val titleResource = R.string.cinema_name
     override fun available(profile: Profile) = profile.cinemanaAddon

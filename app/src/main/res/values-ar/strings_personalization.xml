@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="personal_my_list">قائمتي</string>
+    <string name="personal_reason_watched">لأنك شاهدت %1$s</string>
+    <string name="personal_reason_loved">لأنك أحببت %1$s</string>
+    <string name="personal_reason_liked">لأنك أعجبت بـ %1$s</string>
+    <string name="personal_reason_genre">لأنك تحب %1$s</string>
+    <string name="personal_reason_popular">الأكثر شعبية في %1$s</string>
+    <string name="personal_reason_channel">من قناة تتابعها</string>
+
+    <string name="personal_add_list">أضف إلى قائمتي</string>
+    <string name="personal_remove_list">أزل من قائمتي</string>
+    <string name="personal_not_for_you">ليس لي</string>
+    <string name="personal_less_like">أقل من هذا</string>
+    <string name="personal_why">لماذا أرى هذا</string>
+    <string name="personal_where">أين أشاهد</string>
+    <string name="personal_open_in">افتح في %1$s</string>
+    <string name="personal_not_in_apps">ليس في تطبيقاتك</string>
+    <string name="personal_close">إغلاق</string>
+    <string name="personal_why_title">لماذا ترى هذا</string>
+    <string name="personal_why_none">لا يوجد في سجلك ما يشير إلى هذا بعد.</string>
+    <string name="personal_why_finished">أنهيت %1$s</string>
+    <string name="personal_why_opened">فتحت %1$s</string>
+    <string name="personal_why_liked">أعجبت بـ %1$s</string>
+    <string name="personal_looking">جارٍ البحث عن مكان المشاهدة</string>
+    <string name="personal_nowhere">لم نجد خدمة بث لهذا العنوان.</string>
+
+    <string name="personal_section">التخصيص</string>
+    <string name="personal_local">كل هذا يبقى على هذا التلفاز.</string>
+    <string name="personal_learn">تعلّم ترتيبي</string>
+    <string name="personal_learn_text">الصفوف التي لم ترتبها بنفسك تتقدم عندما تشاهد منها. الصفوف المثبتة والمرتبة لا تتحرك أبدًا.</string>
+    <string name="personal_muted">العناوين المكتومة</string>
+    <string name="personal_muted_none">لا شيء مكتوم.</string>
+    <string name="personal_show_again">أظهره مجددًا</string>
+    <string name="personal_muted_less">أقل من هذا</string>
+    <string name="personal_list">قائمتي</string>
+    <string name="personal_list_none">لا شيء في قائمتك بعد. اضغط مطولًا على موافق عند عنوان لإضافته.</string>
+    <string name="personal_unavailable">غير متاح</string>
+    <string name="personal_remove">إزالة</string>
+    <string name="personal_clear">امسح سجلي وإشاراتي</string>
+    <string name="personal_clear_sure">اضغط مرة أخرى للمسح</string>
+    <string name="personal_cleared">تم المسح</string>
+</resources>

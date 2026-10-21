@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Backup: export and import on the TV (PLT-01, CMP-13..15). -->
+<resources>
+    <string name="settings_backup">Backup</string>
+    <string name="backup_intro">Save your profiles, layout and follows to one file, locked with a passphrase. Keep the file anywhere; without the passphrase nobody can read it.</string>
+    <string name="backup_export">Export a backup</string>
+    <string name="backup_import">Import a backup</string>
+    <string name="backup_passphrase">Passphrase</string>
+    <string name="backup_passphrase_again">Passphrase again</string>
+    <string name="backup_passphrase_hint">Choose a passphrase of at least %1$d characters. It is not stored anywhere: if you forget it, the file cannot be opened.</string>
+    <string name="backup_mismatch">The two passphrases are different.</string>
+    <string name="backup_include_keys">Include keys and sign-ins</string>
+    <string name="backup_include_pins">Include PINs</string>
+    <string name="backup_on">On</string>
+    <string name="backup_off">Off</string>
+    <string name="backup_make">Create the backup</string>
+    <string name="backup_back">Back</string>
+    <string name="backup_open">Open</string>
+    <string name="backup_working">One moment…</string>
+    <string name="backup_saved">Saved. Keep the file and the passphrase safe.</string>
+    <string name="backup_saved_to">Saved to %1$s</string>
+    <string name="backup_cancelled">Nothing was saved.</string>
+    <string name="backup_no_files">No backup file found. Put a .shamash file in the TV\'s Download folder or use a TV with a file picker.</string>
+    <string name="backup_wait">Too many wrong tries. Wait %1$d seconds.</string>
+    <string name="backup_preview_title">This backup holds</string>
+    <string name="backup_preview_row">%1$d rows, %2$d follows</string>
+    <string name="backup_exists">(already here)</string>
+    <string name="backup_has_keys">It also holds keys and sign-ins.</string>
+    <string name="backup_has_pins">It also holds PINs.</string>
+    <string name="backup_merge">Merge: add the profiles that are not here</string>
+    <string name="backup_replace">Replace: make this TV match the backup</string>
+    <string name="backup_replace_warn">Replace removes the profiles that are not in the backup. A copy of your current profiles is kept first.</string>
+    <string name="backup_done">Done (added / replaced): %1$s</string>
+    <string name="backup_failed">The import failed and nothing was changed.</string>
+    <string name="backup_err_weak">The passphrase must be at least 8 characters.</string>
+    <string name="backup_err_large">This file is too large to be a backup.</string>
+    <string name="backup_err_not">This is not a Shamash backup.</string>
+    <string name="backup_err_newer">This backup is from a newer version of Shamash. Update the app first.</string>
+    <string name="backup_err_wrong">Wrong passphrase, or the file is damaged.</string>
+    <string name="backup_err_invalid">The backup is not valid and was not imported.</string>
+</resources>

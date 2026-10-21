@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- النسخ الاحتياطي: تصدير واستيراد على التلفاز (PLT-01، CMP-13..15). -->
+<resources>
+    <string name="settings_backup">النسخ الاحتياطي</string>
+    <string name="backup_intro">احفظ ملفاتك الشخصية والتخطيط والمتابعات في ملف واحد مقفل بعبارة مرور. احتفظ بالملف أينما شئت؛ بدون عبارة المرور لا يستطيع أحد قراءته.</string>
+    <string name="backup_export">تصدير نسخة احتياطية</string>
+    <string name="backup_import">استيراد نسخة احتياطية</string>
+    <string name="backup_passphrase">عبارة المرور</string>
+    <string name="backup_passphrase_again">أعد كتابة عبارة المرور</string>
+    <string name="backup_passphrase_hint">اختر عبارة مرور من %1$d أحرف على الأقل. لا تُحفظ في أي مكان: إذا نسيتها فلن يمكن فتح الملف.</string>
+    <string name="backup_mismatch">عبارتا المرور مختلفتان.</string>
+    <string name="backup_include_keys">تضمين المفاتيح وتسجيلات الدخول</string>
+    <string name="backup_include_pins">تضمين أرقام PIN</string>
+    <string name="backup_on">مفعّل</string>
+    <string name="backup_off">متوقف</string>
+    <string name="backup_make">إنشاء النسخة</string>
+    <string name="backup_back">رجوع</string>
+    <string name="backup_open">فتح</string>
+    <string name="backup_working">لحظة…</string>
+    <string name="backup_saved">تم الحفظ. احتفظ بالملف وعبارة المرور في مكان آمن.</string>
+    <string name="backup_saved_to">تم الحفظ في %1$s</string>
+    <string name="backup_cancelled">لم يُحفظ شيء.</string>
+    <string name="backup_no_files">لا يوجد ملف نسخة احتياطية. ضع ملف .shamash في مجلد التنزيلات في التلفاز أو استخدم تلفازاً فيه منتقي ملفات.</string>
+    <string name="backup_wait">محاولات خاطئة كثيرة. انتظر %1$d ثانية.</string>
+    <string name="backup_preview_title">تحتوي هذه النسخة على</string>
+    <string name="backup_preview_row">%1$d صفوف، %2$d متابعات</string>
+    <string name="backup_exists">(موجود هنا)</string>
+    <string name="backup_has_keys">وتحتوي أيضاً على مفاتيح وتسجيلات دخول.</string>
+    <string name="backup_has_pins">وتحتوي أيضاً على أرقام PIN.</string>
+    <string name="backup_merge">دمج: إضافة الملفات الشخصية غير الموجودة هنا</string>
+    <string name="backup_replace">استبدال: جعل هذا التلفاز مطابقاً للنسخة</string>
+    <string name="backup_replace_warn">الاستبدال يحذف الملفات الشخصية غير الموجودة في النسخة. تُحفظ أولاً نسخة من ملفاتك الحالية.</string>
+    <string name="backup_done">تم (أُضيف / استُبدل): %1$s</string>
+    <string name="backup_failed">فشل الاستيراد ولم يتغير شيء.</string>
+    <string name="backup_err_weak">يجب أن تكون عبارة المرور 8 أحرف على الأقل.</string>
+    <string name="backup_err_large">هذا الملف أكبر من أن يكون نسخة احتياطية.</string>
+    <string name="backup_err_not">هذا ليس ملف نسخة احتياطية من شمس.</string>
+    <string name="backup_err_newer">هذه النسخة من إصدار أحدث من التطبيق. حدّث التطبيق أولاً.</string>
+    <string name="backup_err_wrong">عبارة المرور خاطئة أو الملف تالف.</string>
+    <string name="backup_err_invalid">النسخة غير صالحة ولم تُستورد.</string>
+</resources>

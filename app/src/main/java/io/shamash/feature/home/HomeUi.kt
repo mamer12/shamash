@@ -5,6 +5,7 @@ import io.shamash.domain.Greeting
 import io.shamash.domain.Match
 import io.shamash.domain.MediaItem
 import io.shamash.domain.Moment
+import io.shamash.domain.PersonalState
 import io.shamash.domain.Profile
 import io.shamash.domain.Shelf
 import io.shamash.domain.TvApp
@@ -30,7 +31,10 @@ data class Loaded(
 )
 
 /** The inputs of one home state: the profile, what was loaded, what was watched, and the time. */
-data class HomeInput(val profile: Profile, val loaded: Loaded, val history: List<MediaItem>, val now: Long, val hour: Int)
+data class HomeInput(
+    val profile: Profile, val loaded: Loaded, val history: List<MediaItem>, val now: Long, val hour: Int,
+    val personal: PersonalState = PersonalState.EMPTY,
+)
 
 /** The whole home screen, built off the main thread in one go. SPEC: PERF-05 */
 @Immutable

@@ -89,8 +89,8 @@ fun TopBar(
 @Composable
 private fun RoundButton(icon: ImageVector, label: String, onClick: () -> Unit) {
     FocusCard(
-        onClick, Modifier.size(40.dp).semantics { contentDescription = label },
-        shape = CircleShape, corner = 20.dp, scale = 1.1f,
+        onClick, Modifier.size(40.dp),
+        shape = CircleShape, corner = 20.dp, scale = 1.1f, description = label,
     ) { focused ->
         Box(
             Modifier.fillMaxSize().background(if (focused) Palette.Ink else Palette.Ink.copy(alpha = 0.12f)),
@@ -104,7 +104,7 @@ private fun Tab(label: String, selected: Boolean, onSelect: () -> Unit, modifier
     FocusCard(
         onSelect,
         modifier.onFocusChanged { if (it.isFocused) onSelect() },
-        shape = RoundedCornerShape(50), corner = 20.dp, scale = 1.05f,
+        shape = RoundedCornerShape(50), corner = 20.dp, scale = 1.05f, description = label,
     ) { focused ->
         Column(
             Modifier

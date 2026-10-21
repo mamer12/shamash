@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_a11y">سهولة الاستخدام</string>
+    <string name="a11y_on">يعمل</string>
+    <string name="a11y_off">متوقف</string>
+    <string name="a11y_text_size">حجم النص</string>
+    <string name="a11y_size_normal">عادي</string>
+    <string name="a11y_size_large">كبير</string>
+    <string name="a11y_size_larger">أكبر</string>
+    <string name="a11y_high_contrast">تباين عالٍ</string>
+    <string name="a11y_reduce_motion">تقليل الحركة</string>
+    <string name="a11y_follows_tv">ما لم تغيّرهما، يتبع التباين العالي وتقليل الحركة إعدادات التلفاز نفسه.</string>
+
+    <string name="a11y_kind_movie">فيلم</string>
+    <string name="a11y_kind_series">مسلسل</string>
+    <string name="a11y_kind_video">فيديو</string>
+    <string name="a11y_kind_match">مباراة</string>
+    <string name="a11y_kind_live">مباشر</string>
+    <string name="a11y_progress">تمت مشاهدة %1$d%%</string>
+    <string name="a11y_rank">رقم %1$d</string>
+    <string name="a11y_match_vs">%1$s ضد %2$s</string>
+    <string name="a11y_live">مباشر</string>
+    <string name="a11y_mine">فريقك</string>
+    <string name="a11y_carousel_position">%1$d من %2$d</string>
+
+    <string name="voice_prompt">قل اسم عنوان أو فريق أو برنامج</string>
+    <string name="voice_unavailable">البحث الصوتي غير متاح على هذا التلفاز. استخدم لوحة المفاتيح.</string>
+    <string name="voice_button">بحث صوتي</string>
+
+    <string name="quick_title">بداية سريعة</string>
+    <string name="quick_text">اختر الأقرب إليك: يملأ الشاشات التالية مسبقاً، ويمكنك تغيير كل شيء.</string>
+    <string name="quick_netflix_youtube">أستخدم نتفليكس ويوتيوب</string>
+    <string name="quick_netflix_youtube_desc">تطبيقاتك وشاشة رئيسية سينمائية.</string>
+    <string name="quick_shahid_osn">أستخدم شاهد وOSN+</string>
+    <string name="quick_shahid_osn_desc">عربي أولاً، مع تشغيل سينمانا.</string>
+    <string name="quick_sports">الرياضة أولاً</string>
+    <string name="quick_sports_desc">المباريات في الأعلى، ثم ما كنت تشاهده.</string>
+    <string name="quick_basics">الأساسيات فقط</string>
+    <string name="quick_basics_desc">شاشة رئيسية هادئة: تطبيقاتك واقتراح واحد.</string>
+</resources>

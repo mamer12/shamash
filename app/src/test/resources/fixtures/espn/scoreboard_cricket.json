@@ -1,0 +1,10 @@
+{"leagues":[{"name":"Indian Premier League"}],"events":[
+{"id":"c1","date":"2026-10-21T14:00Z","status":{"type":{"state":"in","shortDetail":"Mumbai need 20 runs"}},
+ "competitions":[{"competitors":[
+  {"homeAway":"home","score":"186/4","linescores":[{"runs":186,"wickets":4,"overs":18.2}],"team":{"displayName":"Mumbai Indians","shortDisplayName":"MI","logo":"mi.png"}},
+  {"homeAway":"away","score":"205/7","linescores":[{"runs":205,"wickets":7,"overs":20}],"team":{"displayName":"Chennai Super Kings","shortDisplayName":"CSK","logo":"csk.png"}}]}]},
+{"id":"c2","date":"2026-10-25T14:00Z","status":{"type":{"state":"pre","shortDetail":"Sun"}},
+ "competitions":[{"competitors":[
+  {"homeAway":"home","team":{"displayName":"Delhi Capitals","shortDisplayName":"DC","logo":"dc.png"}},
+  {"homeAway":"away","team":{"displayName":"Kolkata Knight Riders","shortDisplayName":"KKR","logo":"kkr.png"}}]}]}
+]}

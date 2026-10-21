@@ -47,7 +47,7 @@ private val CREST = 40.dp
 fun MatchCard(match: Match, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val shape = RoundedCornerShape(Dimens.Radius)
     val d = LocalCardDims.current
-    FocusCard(onClick, modifier.size(d.wideW, d.matchH)) {
+    FocusCard(onClick, modifier.size(d.wideW, d.matchH), description = mediaMatchLabel(match)) {
         Column(
             Modifier
                 .fillMaxSize()
@@ -56,7 +56,10 @@ fun MatchCard(match: Match, onClick: () -> Unit, modifier: Modifier = Modifier) 
                 .padding(vertical = 8.dp, horizontal = 10.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(match.competitionName, style = Type.CardSub, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(
+                (if (match.mine) "\u2605 " else "") + match.competitionName,   // PLT-15: mine = gold edge + star
+                style = Type.CardSub, maxLines = 1, overflow = TextOverflow.Ellipsis,
+            )
             Spacer(Modifier.height(6.dp))
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
                 TeamMark(match.home, CREST)
@@ -89,7 +92,7 @@ fun Crest(team: Team, size: Dp, modifier: Modifier = Modifier) {
 @Composable
 fun MatchNote(match: Match, style: androidx.compose.ui.text.TextStyle = Type.CardSub) {
     val live = match.state == MatchState.LIVE
-    val text = if (live) match.clock else matchDay(match.startsAt)
+    val text = if (live) "${stringResource(R.string.a11y_live)} ${match.clock}".trim() else matchDay(match.startsAt)   // PLT-15
     Text(text, style = style, color = if (live) Palette.Live else Palette.Dim, maxLines = 1)
 }
 

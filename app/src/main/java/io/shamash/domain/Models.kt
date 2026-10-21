@@ -6,21 +6,28 @@ import kotlinx.serialization.Serializable
 enum class Kind { MOVIE, SERIES, VIDEO, MATCH, LIVE }
 
 /** How to open an item, most specific first; the Opener falls back to launching the app. SPEC: ARCH-11 */
+@Serializable
 sealed interface OpenTarget {
     /** A page link the app opens on that title (falls back to [App] when nothing handles it). */
-    data class AppPage(val uri: String, val appPackage: String) : OpenTarget
+    @Serializable
+    data class AppPage(val uri: String, val appPackage: String, val mime: String? = null) : OpenTarget
 
     /** A TMDB title whose page link is looked up when it's opened (JustWatch). */
+    @Serializable
     data class Lookup(val tmdbId: Int, val kind: Kind, val title: String, val appPackage: String) : OpenTarget
 
+    @Serializable
     data class App(val appPackage: String) : OpenTarget
 
     /** One screen of an app, by class name, with string extras (e.g. a title in Watchme+); falls back to [App]. */
+    @Serializable
     data class AppScreen(val appPackage: String, val className: String, val extras: Map<String, String>) : OpenTarget
 
+    @Serializable
     data class Video(val youtubeId: String) : OpenTarget
 
     /** A screen inside Shamash ("search?q=…"). */
+    @Serializable
     data class Internal(val route: String) : OpenTarget
 }
 
@@ -40,6 +47,7 @@ data class MediaItem(
     val startsAt: Long? = null,          // epoch ms, matches and live events
     val match: Match? = null,
     val rating: String? = null,          // certification ("PG", "TV-14"); null = unknown. SPEC: PRF-12
+    val genres: List<String> = emptyList(),   // English names when the source knows them. SPEC: PER-01
 )
 
 /** How a row draws its cards. */
@@ -56,6 +64,7 @@ data class Shelf(
     val items: List<MediaItem>,
     val titleArg: String? = null,
     val title: String? = null,          // the user's own name for the row (LAY-06); shown as-is
+    val reason: Reason? = null,         // why this row is recommended; null = no line. SPEC: PER-11
 )
 
 enum class MatchState { PRE, LIVE, DONE }
@@ -73,6 +82,8 @@ data class Match(
     val state: MatchState,
     val clock: String = "",        // "67'", "HT", "FT"
     val mine: Boolean = false,     // one of the user's teams plays
+    val sport: Sport = Sport.SOCCER,   // SPEC: MC-07
+    val session: String = "",         // F1 session code (FP1, Q, SPR, R...); the labels are localized (MC-15)
 )
 
 data class Weather(

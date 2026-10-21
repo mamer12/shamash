@@ -36,7 +36,7 @@ internal class ScoreCardView(context: Context) : View(context) {
 
     fun bind(match: Match, card: OverlayCard, now: Long) {
         val sizeChanged = card != this.card || this.match == null
-        this.match = match
+        this.match = MatchSides.forDirection(match, context.resources.configuration.layoutDirection == LAYOUT_DIRECTION_RTL)
         this.card = card
         this.now = now
         loadCrests(match)

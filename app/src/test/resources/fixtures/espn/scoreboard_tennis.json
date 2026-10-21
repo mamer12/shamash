@@ -1,0 +1,10 @@
+{"leagues":[{"name":"ATP"}],"events":[{"id":"t1","name":"Paris Masters","date":"2026-10-20T10:00Z",
+ "status":{"type":{"state":"in","shortDetail":"In Progress"}},
+ "competitions":[
+ {"id":"tm1","date":"2026-10-21T13:00Z","status":{"type":{"state":"in","shortDetail":"2nd Set"}},"competitors":[
+  {"order":1,"seed":"1","athlete":{"displayName":"Carlos Alcaraz","flag":{"href":"https://flags/es.png"}},"linescores":[{"value":6},{"value":3}]},
+  {"order":2,"athlete":{"displayName":"Jannik Sinner","flag":{"href":"https://flags/it.png"}},"linescores":[{"value":4},{"value":2}]}]},
+ {"id":"tm2","date":"2026-10-21T15:00Z","status":{"type":{"state":"pre","shortDetail":"3:00 PM"}},"competitors":[
+  {"order":1,"athlete":{"displayName":"Novak Djokovic"}},{"order":2,"seed":"7","athlete":{"displayName":"Holger Rune"}}]},
+ {"id":"dbl","date":"2026-10-21T15:00Z","competitors":[{"order":1,"roster":{}},{"order":2,"roster":{}}]}
+ ]}]}

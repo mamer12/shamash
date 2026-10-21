@@ -1,0 +1,7 @@
+{
+  "id": "shahid_osn",
+  "packages": { "*": ["net.mbc.shahidTV", "com.osn.go"] },
+  "layout": "cinema",
+  "addons": ["cinemana"],
+  "keepRunning": ["net.mbc.shahidTV", "com.osn.go"]
+}

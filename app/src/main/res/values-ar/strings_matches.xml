@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sport_soccer">كرة القدم</string>
+    <string name="sport_f1">فورمولا 1</string>
+    <string name="sport_tennis">التنس</string>
+    <string name="sport_basketball">كرة السلة</string>
+    <string name="sport_cricket">الكريكيت</string>
+
+    <string name="f1_fp1">التجارب الحرة 1</string>
+    <string name="f1_fp2">التجارب الحرة 2</string>
+    <string name="f1_fp3">التجارب الحرة 3</string>
+    <string name="f1_quali">التصفيات</string>
+    <string name="f1_sprint_quali">تصفيات السباق السريع</string>
+    <string name="f1_sprint">السباق السريع</string>
+    <string name="f1_race">السباق</string>
+
+    <string name="alert_off">إيقاف</string>
+    <string name="alert_kick_off">صافرة البداية</string>
+    <string name="alert_goals">الأهداف</string>
+    <string name="alert_all">الكل</string>
+    <string name="alerts_title">تنبيهات المباريات</string>
+    <string name="alerts_goal_only">اللحظات المهمة فقط</string>
+    <string name="alerts_quiet_hours">ساعات الهدوء</string>
+    <string name="alerts_always">نبّهني دائمًا لهذه المباراة</string>
+
+    <string name="match_watch_on">شاهد على %1$s</string>
+    <string name="match_no_app">لا يوجد تطبيق لمشاهدة هذه المباراة</string>
+    <string name="match_key_moment">لحظة مهمة</string>
+</resources>

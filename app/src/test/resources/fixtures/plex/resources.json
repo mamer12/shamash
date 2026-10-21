@@ -1,0 +1,5 @@
+[{"name":"Home PC","provides":"client","accessToken":"t0","connections":[]},
+ {"name":"Living room","provides":"server,player","accessToken":"SERVER-TOKEN-1","connections":[
+   {"uri":"https://relay.plex.direct:8443","relay":true,"local":false},
+   {"uri":"http://192.168.1.5:32400","relay":false,"local":true},
+   {"uri":"https://192-168-1-5.abc.plex.direct:32400","relay":false,"local":true}]}]

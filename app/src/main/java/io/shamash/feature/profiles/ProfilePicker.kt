@@ -120,7 +120,7 @@ private fun StepScreen(session: ProfileSession, e: Entering, onBack: () -> Unit,
 @Composable
 private fun Avatar(label: String, colour: Color, locked: Boolean, plus: Boolean = false, onClick: () -> Unit) {
     Column(Modifier.width(150.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-        FocusCard(onClick, shape = CircleShape, corner = 60.dp) {
+        FocusCard(onClick, shape = CircleShape, corner = 60.dp, description = label) {
             Box(Modifier.size(120.dp).background(colour), contentAlignment = Alignment.Center) {
                 Text(if (plus) "+" else label.take(1).uppercase(), color = Palette.Night, fontSize = 52.sp)
             }

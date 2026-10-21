@@ -1,0 +1,6 @@
+{
+  "id": "netflix_youtube",
+  "packages": { "*": ["com.netflix.ninja", "com.google.android.youtube.tv"] },
+  "layout": "cinema",
+  "keepRunning": ["com.netflix.ninja", "com.google.android.youtube.tv"]
+}

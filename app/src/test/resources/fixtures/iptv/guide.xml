@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tv generator-info-name="test">
+  <channel id="news.one"><display-name>News One HD</display-name></channel>
+  <channel id="other.7"><display-name>Cartoons</display-name></channel>
+  <channel id="unwanted"><display-name>Unwanted</display-name></channel>
+  <programme start="20260101100000 +0000" stop="20260101110000 +0000" channel="news.one"><title lang="en">Morning News</title></programme>
+  <programme start="20260101110000 +0000" stop="20260101120000 +0000" channel="news.one"><title>Weather</title></programme>
+  <programme start="20260101120000 +0000" stop="20260101130000 +0000" channel="news.one"><title>Late show</title></programme>
+  <programme start="20260101090000 +0000" stop="20260101100000 +0000" channel="news.one"><title>Earlier</title></programme>
+  <programme start="20260101113000 +0100" stop="20260101123000 +0100" channel="other.7"><title>Cartoon Hour</title></programme>
+  <programme start="20260101100000 +0000" stop="20260101110000 +0000" channel="unwanted"><title>Nope</title></programme>
+</tv>

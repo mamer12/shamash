@@ -1,0 +1,10 @@
+{"leagues":[{"name":"Formula 1"}],"events":[{"id":"gp1","name":"Mexico City Grand Prix","shortName":"Mexico GP","date":"2026-10-23T17:30Z",
+ "status":{"type":{"state":"pre","shortDetail":"Fri"}},
+ "competitions":[
+ {"id":"s1","date":"2026-10-23T17:30Z","type":{"abbreviation":"FP1","text":"Free Practice 1"},"status":{"type":{"state":"post","shortDetail":"Final"}},
+  "competitors":[{"order":1,"athlete":{"displayName":"Lando Norris","flag":{"href":"https://flags/gb.png"}}},{"order":2,"athlete":{"displayName":"Max Verstappen"}}]},
+ {"id":"s2","date":"2026-10-24T21:00Z","type":{"abbreviation":"Qual","text":"Qualifying"},"status":{"type":{"state":"in","shortDetail":"Q2"}},
+  "competitors":[{"order":1,"athlete":{"displayName":"Charles Leclerc","flag":{"href":"https://flags/mc.png"}}}]},
+ {"id":"s3","date":"2026-10-25T20:00Z","type":{"abbreviation":"Race","text":"Race"},"status":{"type":{"state":"pre","shortDetail":"Sun"}},"competitors":[]},
+ {"id":"s4","date":"2026-10-25T22:00Z","type":{"abbreviation":"XYZ","text":"Press"},"competitors":[]}
+ ]}]}

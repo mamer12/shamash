@@ -66,7 +66,7 @@ fun ProfileGate(session: ProfileSession, onAddProfile: () -> Unit, content: @Com
 fun ProfileChip(session: ProfileSession) {
     val p by session.active.collectAsState()
     val profile = p ?: return
-    FocusCard(session::openPicker, shape = RoundedCornerShape(50), corner = 20.dp, scale = 1.05f) { focused ->
+    FocusCard(session::openPicker, shape = RoundedCornerShape(50), corner = 20.dp, scale = 1.05f, description = profileLabel(profile)) { focused ->
         Row(
             Modifier.background(if (focused) Palette.Ink else Palette.Ink.copy(alpha = 0.12f)).padding(start = 5.dp, end = 14.dp, top = 5.dp, bottom = 5.dp),
             verticalAlignment = Alignment.CenterVertically,

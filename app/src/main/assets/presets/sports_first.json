@@ -1,0 +1,6 @@
+{
+  "id": "sports_first",
+  "packages": { "*": ["com.google.android.youtube.tv"] },
+  "layout": "sports",
+  "keepRunning": ["com.google.android.youtube.tv"]
+}

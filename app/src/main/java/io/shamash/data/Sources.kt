@@ -49,6 +49,10 @@ object Sources {
     /** The optional add-ons, one registration line each (PEX-01). Settings -> Add-ons lists these. */
     val addOns: List<io.shamash.domain.AddOn> = listOf(
         io.shamash.feature.cinemana.CinemanaAddon.addOn,
+        io.shamash.data.plex.PlexProvider.addOn,
+        io.shamash.data.jellyfin.JellyfinProvider.addOn,
+        io.shamash.data.iptv.IptvProvider.addOn,
+        io.shamash.data.myfeed.MyFeedProvider.addOn,
     )
 
     val addOnRegistry = AddOnRegistry(addOns)

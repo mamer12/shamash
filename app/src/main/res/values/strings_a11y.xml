@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Accessibility, voice search and Quick start (PLT-08..18). -->
+<resources>
+    <string name="settings_a11y">Accessibility</string>
+    <string name="a11y_on">On</string>
+    <string name="a11y_off">Off</string>
+    <string name="a11y_text_size">Text size</string>
+    <string name="a11y_size_normal">Normal</string>
+    <string name="a11y_size_large">Large</string>
+    <string name="a11y_size_larger">Larger</string>
+    <string name="a11y_high_contrast">High contrast</string>
+    <string name="a11y_reduce_motion">Reduce motion</string>
+    <string name="a11y_follows_tv">Until you change them, High contrast and Reduce motion follow the TV\'s own settings.</string>
+
+    <string name="a11y_kind_movie">Movie</string>
+    <string name="a11y_kind_series">Series</string>
+    <string name="a11y_kind_video">Video</string>
+    <string name="a11y_kind_match">Match</string>
+    <string name="a11y_kind_live">Live</string>
+    <string name="a11y_progress">%1$d%% watched</string>
+    <string name="a11y_rank">Number %1$d</string>
+    <string name="a11y_match_vs">%1$s versus %2$s</string>
+    <string name="a11y_live">LIVE</string>
+    <string name="a11y_mine">Your team</string>
+    <string name="a11y_carousel_position">%1$d of %2$d</string>
+
+    <string name="voice_prompt">Say a title, a team or a show</string>
+    <string name="voice_unavailable">Voice search isn\'t available on this TV. Use the keyboard.</string>
+    <string name="voice_button">Voice search</string>
+
+    <string name="quick_title">Quick start</string>
+    <string name="quick_text">Pick the closest one: it fills in the next screens, and you can change everything.</string>
+    <string name="quick_netflix_youtube">I use Netflix and YouTube</string>
+    <string name="quick_netflix_youtube_desc">Your apps, a cinema home screen.</string>
+    <string name="quick_shahid_osn">I use Shahid and OSN+</string>
+    <string name="quick_shahid_osn_desc">Arabic-first, with Cinemana on.</string>
+    <string name="quick_sports">Sports first</string>
+    <string name="quick_sports_desc">Matches on top, then what you were watching.</string>
+    <string name="quick_basics">Just the basics</string>
+    <string name="quick_basics_desc">A quiet home screen: your apps and one suggestion.</string>
+</resources>

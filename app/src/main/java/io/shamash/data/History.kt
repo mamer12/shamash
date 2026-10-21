@@ -29,6 +29,11 @@ class History(private val context: Context, private val clock: () -> Long = Syst
         }
     }
 
+    /** Forgets everything opened from Shamash (Settings -> clear my history). SPEC: PER-04 */
+    suspend fun clear() {
+        context.historyStore.edit { it.remove(key) }
+    }
+
     private fun decode(raw: String?): List<Saved> =
         raw?.let { runCatching { json.decodeFromString<List<Saved>>(it) }.getOrNull() }.orEmpty()
 

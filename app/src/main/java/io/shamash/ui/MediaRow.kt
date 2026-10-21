@@ -16,6 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.tv.material3.Text
 import io.shamash.domain.MediaItem
 import io.shamash.domain.Shelf
@@ -24,12 +26,13 @@ import io.shamash.domain.TvApp
 
 /** A row's title over its cards, at the margin. */
 @Composable
-fun RowFrame(title: String, modifier: Modifier = Modifier, content: @Composable () -> Unit) {
+fun RowFrame(title: String, modifier: Modifier = Modifier, reason: String? = null, content: @Composable () -> Unit) {
     Column(modifier.padding(bottom = Dimens.RowGap)) {
         if (title.isNotEmpty()) {
             Text(
                 title, style = Type.RowTitle, maxLines = 1, overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(start = Dimens.Margin, end = Dimens.Margin, bottom = Dimens.RowTitleGap),
+                modifier = Modifier.padding(start = Dimens.Margin, end = Dimens.Margin, bottom = Dimens.RowTitleGap)
+                    .semantics { heading() },
             )
         }
         content()
@@ -47,7 +50,7 @@ fun MediaRow(
     modifier: Modifier = Modifier,
     previews: PreviewController? = null,
 ) {
-    RowFrame(shelf.title ?: shelfTitle(shelf.titleKey, shelf.titleArg), modifier) {
+    RowFrame(shelf.title ?: shelfTitle(shelf.titleKey, shelf.titleArg), modifier, reasonLine(shelf.reason)) {
         when (shelf.style) {
             ShelfStyle.POSTER, ShelfStyle.RANKED ->
                 ExpandingRow(shelf.items, shelf.style == ShelfStyle.RANKED, onOpen, previews)
@@ -62,7 +65,7 @@ private fun StyledCard(style: ShelfStyle, item: MediaItem, onOpen: OpenAt) {
     when {
         item.match != null -> MatchCard(item.match, open)
         style == ShelfStyle.VIDEO -> VideoCard(item, open)
-        style == ShelfStyle.APPS && item.appPackage != null -> AppTile(item.appPackage, open)
+        style == ShelfStyle.APPS && item.appPackage != null -> AppTile(item.appPackage, open, label = item.title)
         else -> WideCard(item, open)
     }
 }
@@ -71,7 +74,7 @@ private fun StyledCard(style: ShelfStyle, item: MediaItem, onOpen: OpenAt) {
 @Composable
 fun AppsRow(apps: List<TvApp>, onOpen: (TvApp) -> Unit, modifier: Modifier = Modifier, title: String = "") {
     RowFrame(title, modifier) {
-        CardRow { items(apps, key = { it.packageName }) { app -> AppTile(app.packageName, { onOpen(app) }) } }
+        CardRow { items(apps, key = { it.packageName }) { app -> AppTile(app.packageName, { onOpen(app) }, label = app.label) } }
     }
 }
 

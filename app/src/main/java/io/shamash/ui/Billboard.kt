@@ -41,6 +41,8 @@ import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Text
 import io.shamash.R
 import io.shamash.domain.MatchState
+import io.shamash.feature.accessibility.A11y
+import io.shamash.feature.accessibility.CardLabel
 import io.shamash.domain.MediaItem
 import kotlinx.coroutines.delay
 import java.util.Locale
@@ -102,12 +104,16 @@ fun BillboardInfo(
     }
     val rtl = LocalLayoutDirection.current == LayoutDirection.Rtl
     Column(modifier.width(Dimens.HeroTextWidth)) {
-        Crossfade(current, animationSpec = tween(TEXT_FADE_MS), label = "billboard-text") { HeroText(it) }
+        Crossfade(current, animationSpec = tween(A11y.ms(TEXT_FADE_MS)), label = "billboard-text") { HeroText(it) }
         Spacer(Modifier.height(18.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
             val label = if (current.item.match != null) R.string.watch_on else R.string.open_in
             HeroButton(
                 text = stringResource(label, current.appName),
+                description = CardLabel.join(   // PLT-13: "<n> of <m>"
+                    "${stringResource(label, current.appName)}: ${current.item.title}",
+                    CardLabel.position(state.index, count, stringResource(R.string.a11y_carousel_position)),
+                ),
                 onClick = { onOpen(current.item) },
                 modifier = Modifier
                     .focusRequester(buttonRequester)
@@ -142,7 +148,9 @@ fun EmptyBillboard(onSettings: () -> Unit, buttonRequester: FocusRequester, modi
 private fun HeroText(featured: Featured) {
     val item = featured.item
     val match = item.match
-    Column(Modifier.fillMaxWidth().height(HERO_TEXT_H), verticalArrangement = Arrangement.Bottom) {
+    // PLT-12: solid ground behind the words when contrast is high
+    val ground = if (A11y.highContrast) Modifier.background(Palette.Night) else Modifier
+    Column(Modifier.fillMaxWidth().height(HERO_TEXT_H).then(ground), verticalArrangement = Arrangement.Bottom) {
         val live = match?.state == MatchState.LIVE
         val label = when {
             match == null -> featured.appName.uppercase(Locale.getDefault())
@@ -174,8 +182,8 @@ private fun matchWhen(match: io.shamash.domain.Match): String =
 
 /** The billboard's pill button: gold when focused. */
 @Composable
-fun HeroButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    FocusCard(onClick, modifier, shape = RoundedCornerShape(50), corner = 24.dp, scale = 1.05f) { focused ->
+fun HeroButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier, description: String = text) {
+    FocusCard(onClick, modifier, shape = RoundedCornerShape(50), corner = 24.dp, scale = 1.05f, description = description) { focused ->
         val ink = if (focused) Palette.Night else Palette.Ink
         Row(
             Modifier

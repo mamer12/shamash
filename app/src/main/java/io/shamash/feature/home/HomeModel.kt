@@ -57,7 +57,8 @@ class HomeModel private constructor(private val locator: ServiceLocator) {
         locator.history.items.catch { emit(emptyList()) },
         loaded,
         clock,
-    ) { profile, history, data, now -> HomeInput(profile, data, history, now, hourOf(now)) }
+        locator.personal.state,
+    ) { profile, history, data, now, personal -> HomeInput(profile, data, history, now, hourOf(now), personal) }
         .debounce(COALESCE_MS)
         .map(HomeRows::build)
         .distinctUntilChanged()
@@ -69,6 +70,7 @@ class HomeModel private constructor(private val locator: ServiceLocator) {
         if (running?.isActive == true) return
         running = scope.launch {
             launch { tick() }
+            launch { locator.personal.settleOpen() }   // a title left within two minutes is a SKIP (PER-02)
             launch(Dispatchers.IO) { loadApps() }
             launch(Dispatchers.IO) { closer.closeIfAway(locator.opener.lastOpened, locator.prefs.current().keepRunning) }
             locator.prefs.profile.distinctUntilChanged().collectLatest { profile -> refreshAll(profile) }

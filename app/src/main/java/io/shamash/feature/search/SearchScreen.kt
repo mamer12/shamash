@@ -8,6 +8,12 @@ import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
+import androidx.tv.material3.OutlinedButton
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -55,9 +61,13 @@ private const val FOCUS_ATTEMPTS = 10
 
 /** One search across providers. SPEC: SRCH-01..05 */
 @Composable
-fun SearchScreen(locator: ServiceLocator, initialQuery: String?, onBack: () -> Unit) {
+fun SearchScreen(locator: ServiceLocator, initialQuery: String?, onBack: () -> Unit) =
+    io.shamash.feature.personalization.WithItemMenu(locator) { SearchBody(locator, initialQuery, onBack) }
+
+@Composable
+private fun SearchBody(locator: ServiceLocator, initialQuery: String?, onBack: () -> Unit) {
     val scope = rememberCoroutineScope()
-    val model = remember { SearchModel(locator.providers, locator.prefs::current, scope) }
+    val model = remember { SearchModel(locator.providers, locator.prefs::current, scope) { locator.personal.state.value.data.muteIndex } }
     val state by model.state.collectAsState()
     val appNames by produceState(emptyMap<String, String>()) {
         value = withContext(Dispatchers.IO) { locator.apps.installed().associate { it.packageName to it.label } }
@@ -65,6 +75,8 @@ fun SearchScreen(locator: ServiceLocator, initialQuery: String?, onBack: () -> U
     val field = remember { FocusRequester() }
     val firstResult = remember { FocusRequester() }
     val keyboard = LocalSoftwareKeyboardController.current
+
+    val voice = rememberVoiceLauncher { heard -> model.submit(heard) }   // PLT-08
 
     BackHandler(onBack = onBack)
     LaunchedEffect(initialQuery) {
@@ -78,13 +90,27 @@ fun SearchScreen(locator: ServiceLocator, initialQuery: String?, onBack: () -> U
         }
     }
 
-    Column(Modifier.fillMaxSize().background(Palette.Night).padding(start = Dimens.Margin, top = Dimens.Margin / 2)) {
-        SearchField(
-            query = state.query,
-            onType = model::type,
-            onEnter = { keyboard?.hide(); model.submit() },
-            modifier = Modifier.focusRequester(field),
-        )
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(Palette.Night)
+            .padding(start = Dimens.Margin, top = Dimens.Margin / 2)
+            .onPreviewKeyEvent { e ->   // the remote's voice key
+                val hit = e.type == KeyEventType.KeyDown && VoiceQuery.isVoiceKey(e.nativeKeyEvent.keyCode)
+                if (hit) voice.start()
+                hit
+            },
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            SearchField(
+                query = state.query,
+                onType = model::type,
+                onEnter = { keyboard?.hide(); model.submit() },
+                modifier = Modifier.focusRequester(field),
+            )
+            Spacer(Modifier.width(12.dp))
+            OutlinedButton(onClick = voice::start) { Text(stringResource(R.string.voice_button)) }
+        }
         StatusLine(state)
         LazyColumn(contentPadding = PaddingValues(bottom = Dimens.Margin)) {
             itemsIndexed(state.rows, key = { _, row -> row.key }) { index, row ->

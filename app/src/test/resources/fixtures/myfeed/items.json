@@ -1,0 +1,6 @@
+{"data":{"posts":[
+ {"headline":"Post A","meta":{"url":"https://example.com/pa","thumb":"https://img.example/pa.jpg"},"by":"Ann","ts":1767268800},
+ {"headline":"Post B","meta":{"url":"https://example.com/pb"},"by":"Bob"},
+ {"headline":"No link","meta":{}},
+ {"headline":"Unsafe","meta":{"url":"file:///etc/passwd"}}
+]}}

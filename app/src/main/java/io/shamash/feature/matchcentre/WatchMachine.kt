@@ -1,5 +1,6 @@
 package io.shamash.feature.matchcentre
 
+import io.shamash.data.espn.Polling
 import io.shamash.domain.Match
 import io.shamash.domain.MatchState
 
@@ -16,9 +17,10 @@ sealed interface WatchStep {
 /**
  * Follows one of the user's matches: a reminder 10 min before kick-off for 15 s, then the live score (looked at every
  * 60 s) with a gold "GOAL!" for 10 s when the score changes, the final score for 30 s, then stop. Give it the time
- * and the latest matches; it remembers what it already showed. SPEC: MC-04, MC-05, MC-06
+ * and the latest matches; it remembers what it already showed. [priority] ranks the user's matches: a live match that
+ * outranks the followed live one takes over the bubble (never two). SPEC: MC-04, MC-05, MC-06, MC-11
  */
-class WatchMachine {
+class WatchMachine(private val priority: (Match) -> Int = { 0 }) {
     private var following: Match? = null
     private var reminderAt: Long? = null
     private var lastScore: Pair<String, String>? = null
@@ -37,11 +39,22 @@ class WatchMachine {
 
     /** The followed match as it is now (DONE when it left the list), or the next one to follow. */
     private fun current(now: Long, matches: List<Match>): Match? {
-        val followed = following ?: return nextToWatch(matches, now, WATCH_WINDOW_MS)
+        val followed = following ?: return nextToWatch(matches, now, WATCH_WINDOW_MS, priority)
         val fresh = matches.firstOrNull { it.id == followed.id } ?: followed.copy(state = MatchState.DONE)
         following = fresh
+        takeOver(fresh, matches, now)?.let { return it }
         val stale = fresh.state == MatchState.PRE && now - fresh.startsAt > STALE_PRE_MS
         return if (fresh.state == MatchState.DONE || stale) null else fresh
+    }
+
+    /** A live match of higher priority than the live one followed; the memory starts over for it. */
+    private fun takeOver(current: Match, matches: List<Match>, now: Long): Match? {
+        if (current.state != MatchState.LIVE) return null
+        val other = nextToWatch(matches, now, WATCH_WINDOW_MS, priority) ?: return null
+        if (other.id == current.id || other.state != MatchState.LIVE || priority(other) <= priority(current)) return null
+        reminderAt = null; lastScore = null; goalAt = null; finalAt = null
+        following = other
+        return other
     }
 
     private fun beforeKickOff(now: Long, match: Match): WatchStep {
@@ -54,11 +67,11 @@ class WatchMachine {
 
     private fun live(now: Long, match: Match): WatchStep {
         val score = match.home.score to match.away.score
-        if (isGoal(lastScore, score)) goalAt = now
+        if (KeyMoments.happened(match.sport, lastScore, score)) goalAt = now
         lastScore = score
         val goalLeft = goalAt?.let { GOAL_MS - (now - it) } ?: 0
         return if (goalLeft > 0) WatchStep.Show(match, OverlayCard.GOAL, goalLeft)
-        else WatchStep.Show(match, OverlayCard.LIVE, TICK_MS)
+        else WatchStep.Show(match, OverlayCard.LIVE, Polling.live(match.sport))
     }
 
     /** Full time: the final score for a while, if the match was seen live; then nothing. */
@@ -66,20 +79,6 @@ class WatchMachine {
         val match = following?.takeIf { lastScore != null } ?: return WatchStep.Stop
         val since = now - (finalAt ?: now.also { finalAt = it })
         return if (since < FINAL_MS) WatchStep.Show(match, OverlayCard.FINAL, FINAL_MS - since) else WatchStep.Stop
-    }
-
-    /** A score that changed, unless it went down (a goal taken back by VAR isn't a goal). */
-    private fun isGoal(before: Pair<String, String>?, now: Pair<String, String>): Boolean {
-        if (before == null || before == now) return false
-        val was = goals(before) ?: return true
-        val goals = goals(now) ?: return true
-        return goals > was
-    }
-
-    private fun goals(score: Pair<String, String>): Int? {
-        val home = score.first.toIntOrNull() ?: return null
-        val away = score.second.toIntOrNull() ?: return null
-        return home + away
     }
 
     companion object {
@@ -95,10 +94,15 @@ class WatchMachine {
         const val STALE_PRE_MS = 3 * 60 * 60_000L
 
         /** The user's next match not over yet, live ones first; within [window] of kick-off when one is given. */
-        fun nextToWatch(matches: List<Match>, now: Long, window: Long = Long.MAX_VALUE): Match? =
+        fun nextToWatch(
+            matches: List<Match>,
+            now: Long,
+            window: Long = Long.MAX_VALUE,
+            priority: (Match) -> Int = { 0 },
+        ): Match? =
             matches.filter { it.mine && it.state != MatchState.DONE }
                 .filter { it.state == MatchState.LIVE || now - it.startsAt <= STALE_PRE_MS }
                 .filter { it.state == MatchState.LIVE || it.startsAt - now <= window }
-                .minWithOrNull(compareBy({ it.state != MatchState.LIVE }, { it.startsAt }))
+                .minWithOrNull(compareBy({ -priority(it) }, { it.state != MatchState.LIVE }, { it.startsAt }))
     }
 }

@@ -18,6 +18,9 @@
     <!-- Android 11+: the TV apps it may see (to list them in setup and on the home screen). -->
     <queries>
         <intent>
+            <action android:name="android.speech.action.RECOGNIZE_SPEECH" />
+        </intent>
+        <intent>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
         </intent>
@@ -47,6 +50,17 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- Voice search (PLT-08, PLT-09): the launcher's "search Shamash for ..." and shamash://search?q=. -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="shamash" android:host="search" />
             </intent-filter>
         </activity>
         <!-- TV control (SPEC: TVC-02): the HOME filter, off until the switch turns it on (and Original turns it off). -->

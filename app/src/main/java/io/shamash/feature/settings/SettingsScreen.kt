@@ -43,6 +43,8 @@ import kotlinx.coroutines.launch
 enum class Section(val title: Int) {
     HOME(R.string.settings_home),
     LAYOUT(R.string.settings_layout),
+    PERSONAL(R.string.personal_section),
+    ACCESSIBILITY(R.string.settings_a11y),
     YOU(R.string.settings_you),
     PROFILES(R.string.settings_profiles),
     KEYS(R.string.settings_keys),
@@ -51,6 +53,7 @@ enum class Section(val title: Int) {
     ADDONS(R.string.settings_addons),
     BUTTONS(R.string.settings_buttons),
     KEEP(R.string.settings_keep),
+    BACKUP(R.string.settings_backup),
     TV(R.string.settings_tv),
 }
 
@@ -104,6 +107,8 @@ private fun Panel(section: Section, p: Profile, save: (Profile) -> Unit, locator
         when (section) {
             Section.HOME -> HomePanel()
             Section.LAYOUT -> io.shamash.feature.layout.LayoutPanel(p, save, locator)
+            Section.ACCESSIBILITY -> io.shamash.feature.accessibility.A11yPanel()
+            Section.PERSONAL -> io.shamash.feature.personalization.PersonalPanel(locator)
             Section.YOU -> YouPanel(p, save)
             Section.PROFILES -> ProfilesPanel(locator)
             Section.KEYS -> KeysPanel(p, save)
@@ -112,6 +117,7 @@ private fun Panel(section: Section, p: Profile, save: (Profile) -> Unit, locator
             Section.ADDONS -> AddonsPanel(p, save, locator)
             Section.BUTTONS -> ButtonsPanel(locator)
             Section.KEEP -> KeepPanel(p, save, locator)
+            Section.BACKUP -> io.shamash.feature.backup.BackupPanel(locator)
             Section.TV -> TvPanel()
         }
     }

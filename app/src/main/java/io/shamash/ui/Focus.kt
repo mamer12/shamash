@@ -2,7 +2,12 @@ package io.shamash.ui
 
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.spring
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.Role
+import io.shamash.feature.accessibility.A11y
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.BringIntoViewSpec
@@ -35,6 +40,7 @@ object Motion {
     const val STIFFNESS = 341.5f
     const val FOCUS_SCALE = 1.08f
     val BORDER = 3.dp
+    val BORDER_HIGH_CONTRAST = 6.dp
 
     fun <T> pace(): AnimationSpec<T> = spring(dampingRatio = 1f, stiffness = STIFFNESS)
 }
@@ -50,19 +56,22 @@ fun FocusCard(
     shape: Shape = RoundedCornerShape(Dimens.Radius),
     corner: Dp = Dimens.Radius,
     scale: Float = Motion.FOCUS_SCALE,
+    description: String? = null,
     content: @Composable BoxScope.(focused: Boolean) -> Unit,
 ) {
     val interaction = remember { MutableInteractionSource() }
     val focused by interaction.collectIsFocusedAsState()
-    val grow = animateFloatAsState(if (focused) 1f else 0f, Motion.pace(), label = "focus")
+    val calm = A11y.reduceMotion                                   // PLT-14: no growth animation
+    val grow = animateFloatAsState(if (focused) 1f else 0f, if (calm) snap() else Motion.pace(), label = "focus")
     val density = LocalDensity.current
-    val stroke = remember(density) { Stroke(with(density) { Motion.BORDER.toPx() }) }
+    val border = if (A11y.highContrast) Motion.BORDER_HIGH_CONTRAST else Motion.BORDER   // PLT-12
+    val stroke = remember(density, border) { Stroke(with(density) { border.toPx() }) }
     val radius = with(density) { corner.toPx() }
     Box(
         modifier
             .zIndex(if (focused) 1f else 0f)
             .graphicsLayer {
-                val s = 1f + (scale - 1f) * grow.value
+                val s = if (calm) 1f else 1f + (scale - 1f) * grow.value
                 scaleX = s
                 scaleY = s
             }
@@ -72,7 +81,8 @@ fun FocusCard(
                 if (g > 0.01f) drawFocusRing(g, radius, stroke)
             }
             .clip(shape)
-            .clickable(interactionSource = interaction, indication = null, onClick = onClick),
+            .semantics(mergeDescendants = true) { description?.let { contentDescription = it } }   // PLT-13
+            .clickable(interactionSource = interaction, indication = null, role = Role.Button, onClick = onClick),
     ) { content(focused) }
 }
 

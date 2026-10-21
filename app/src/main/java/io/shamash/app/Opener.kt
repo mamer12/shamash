@@ -64,17 +64,24 @@ class Opener(
     /** Profile rules for what may open and what is remembered (null until the session is up). SPEC: PRF-11, PRF-13 */
     var policy: OpenPolicy? = null
 
+    /** Learns from what is opened (null until the app is up). SPEC: PER-01 */
+    var personal: io.shamash.feature.personalization.Personalization? = null
+
+    /** Picks the app a TMDB title opens in. SPEC: PER-09 */
+    var where: io.shamash.feature.personalization.WherePicker? = null
+
     private fun allowed(packageName: String?): Boolean {
         if (packageName == null || policy?.allowsApp(packageName) != false) return true
         Handler(Looper.getMainLooper()).post { Toast.makeText(context, R.string.profile_blocked_app, Toast.LENGTH_SHORT).show() }
         return false
     }
 
-    suspend fun open(item: MediaItem): Boolean {
+    /** [pickApp] false opens a TMDB title in the app it already names (the user chose it). SPEC: PER-10 */
+    suspend fun open(item: MediaItem, pickApp: Boolean = true): Boolean {
         val target = item.open
         val pkg = when (target) {
             is OpenTarget.Video -> YOUTUBE
-            is OpenTarget.AppPage -> target.appPackage.takeIf { it != context.packageName }
+            is OpenTarget.AppPage -> target.appPackage.takeIf { it.isNotEmpty() && it != context.packageName }
             is OpenTarget.Lookup -> target.appPackage
             is OpenTarget.App -> target.appPackage
             is OpenTarget.AppScreen -> target.appPackage
@@ -84,12 +91,13 @@ class Opener(
         val opened = when (val t = item.open) {
             is OpenTarget.Video -> start(view("https://www.youtube.com/watch?v=${t.youtubeId}", YOUTUBE)) || app(YOUTUBE)
             is OpenTarget.AppPage -> if (t.appPackage == context.packageName) internal(t.uri)
-                else start(view(t.uri, t.appPackage)) || app(t.appPackage)
-            is OpenTarget.Lookup -> lookup(t)
+                else start(view(t.uri, t.appPackage, t.mime)) || (t.appPackage.isNotEmpty() && app(t.appPackage))
+            is OpenTarget.Lookup -> lookup(if (pickApp) where?.pick(t) ?: t else t)
             is OpenTarget.App -> app(t.appPackage)
             is OpenTarget.AppScreen -> start(screen(t)) || app(t.appPackage)
             is OpenTarget.Internal -> internal(t.route)
         }
+        if (opened && item.open !is OpenTarget.Internal && item.providerId !in OWN_PROGRESS) personal?.noteOpened(item)
         val selfPage = (item.open as? OpenTarget.AppPage)?.appPackage == context.packageName
         if (opened && !selfPage && item.providerId !in OWN_PROGRESS && item.open !is OpenTarget.Internal && policy?.recordsHistory() != false) history.record(item)
         return opened
@@ -116,8 +124,10 @@ class Opener(
         return intent.takeIf { it.resolveActivity(context.packageManager) != null }
     }
 
-    private fun view(uri: String, packageName: String): Intent? {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri)).setPackage(packageName)
+    private fun view(uri: String, packageName: String, mime: String? = null): Intent? {
+        val intent = Intent(Intent.ACTION_VIEW)
+        if (mime != null) intent.setDataAndType(Uri.parse(uri), mime) else intent.data = Uri.parse(uri)
+        if (packageName.isNotEmpty()) intent.setPackage(packageName)
         return intent.takeIf { it.resolveActivity(context.packageManager) != null }
     }
 
@@ -153,7 +163,7 @@ class Opener(
         const val EXTRA_ROUTE = "io.shamash.extra.ROUTE"
 
         /** Providers left out of history: links sent from the phone, which have no real title. */
-        val OWN_PROGRESS = setOf("phone")
+        val OWN_PROGRESS = setOf("phone", "iptv")   // iptv: its stream links carry credentials (PEX-16)
         const val PLAY_AT = ".PLAY_AT"
     }
 }

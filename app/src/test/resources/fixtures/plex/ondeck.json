@@ -1,0 +1,4 @@
+{"MediaContainer":{"size":2,"Metadata":[
+ {"ratingKey":"101","type":"episode","title":"Pilot","grandparentTitle":"Great Show","parentIndex":1,"index":1,"thumb":"/library/metadata/101/thumb/1","grandparentThumb":"/library/metadata/100/thumb/2","grandparentArt":"/library/metadata/100/art/3","viewOffset":600000,"duration":2400000,"contentRating":"TV-14","summary":"Plot."},
+ {"ratingKey":"202","type":"movie","title":"A Film","year":2020,"thumb":"/library/metadata/202/thumb/1","art":"/library/metadata/202/art/1","contentRating":"PG-13"},
+ {"type":"movie","title":"No key"}]}}

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
+<title>Atom feed</title>
+<entry><title>Atom one</title><link rel="self" href="https://example.com/self"/><link rel="alternate" href="https://example.com/a1"/>
+  <updated>2026-01-02T03:04:05.123Z</updated><media:thumbnail url="https://img.example/a1.jpg"/></entry>
+<entry><title>Atom two</title><link href="https://example.com/a2"/><published>2026-01-03T00:00:00+02:00</published></entry>
+</feed>

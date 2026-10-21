@@ -82,7 +82,8 @@ class EspnTest {
         assertEquals(MatchRules.FULL_EVERY, MatchRules.checkEvery(listOf(other), now))
         assertEquals(Refresh.MINUTE, MatchRules.checkEvery(listOf(match(MatchState.LIVE, now - Refresh.HOUR, mine = true)), now))
         assertEquals(Refresh.MINUTE, MatchRules.checkEvery(listOf(match(MatchState.PRE, now + 4 * Refresh.MINUTE, mine = true)), now))
-        assertEquals(MatchRules.FULL_EVERY, MatchRules.checkEvery(listOf(match(MatchState.PRE, now + Refresh.HOUR, mine = true)), now))
+        assertEquals(Polling.SOON_MS, MatchRules.checkEvery(listOf(match(MatchState.PRE, now + Refresh.HOUR, mine = true)), now))   // MC-14
+        assertEquals(MatchRules.FULL_EVERY, MatchRules.checkEvery(listOf(match(MatchState.PRE, now + 4 * Refresh.HOUR, mine = true)), now))
     }
 
     private fun match(state: MatchState, startsAt: Long, mine: Boolean) = Match(

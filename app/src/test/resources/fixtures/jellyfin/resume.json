@@ -1,0 +1,4 @@
+{"Items":[
+ {"Id":"e1","Type":"Episode","Name":"Pilot","SeriesName":"Great Show","SeriesId":"s1","SeriesPrimaryImageTag":"tag","ParentIndexNumber":2,"IndexNumber":3,"OfficialRating":"TV-PG","RunTimeTicks":20000000000,"UserData":{"PlaybackPositionTicks":5000000000},"ParentBackdropItemId":"s1","BackdropImageTags":[]},
+ {"Id":"m1","Type":"Movie","Name":"A Film","ProductionYear":2019,"ImageTags":{"Primary":"p"},"BackdropImageTags":["b"],"OfficialRating":"R"},
+ {"Name":"No id"}]}

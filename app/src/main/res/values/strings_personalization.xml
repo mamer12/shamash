@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Row reasons (PER-11) -->
+    <string name="personal_my_list">My List</string>
+    <string name="personal_reason_watched">Because you watched %1$s</string>
+    <string name="personal_reason_loved">Because you loved %1$s</string>
+    <string name="personal_reason_liked">Because you liked %1$s</string>
+    <string name="personal_reason_genre">Because you like %1$s</string>
+    <string name="personal_reason_popular">Popular with your %1$s</string>
+    <string name="personal_reason_channel">From a channel you follow</string>
+
+    <!-- Card menu (PER-07, PER-10, PER-12) -->
+    <string name="personal_add_list">Add to My List</string>
+    <string name="personal_remove_list">Remove from My List</string>
+    <string name="personal_not_for_you">Not for you</string>
+    <string name="personal_less_like">Less like this</string>
+    <string name="personal_why">Why am I seeing this</string>
+    <string name="personal_where">Where to watch</string>
+    <string name="personal_open_in">Open in %1$s</string>
+    <string name="personal_not_in_apps">Not in your apps</string>
+    <string name="personal_close">Close</string>
+    <string name="personal_why_title">Why you see this</string>
+    <string name="personal_why_none">Nothing in your history points here yet.</string>
+    <string name="personal_why_finished">You finished %1$s</string>
+    <string name="personal_why_opened">You opened %1$s</string>
+    <string name="personal_why_liked">You liked %1$s</string>
+    <string name="personal_looking">Looking for where to watch</string>
+    <string name="personal_nowhere">No streaming service found for this title.</string>
+
+    <!-- Settings (PER-04, PER-05, PER-07, PER-15) -->
+    <string name="personal_section">Personalization</string>
+    <string name="personal_local">All of this stays on this TV.</string>
+    <string name="personal_learn">Learn my order</string>
+    <string name="personal_learn_text">Rows you have not ordered yourself move up when you watch from them. Pinned and ordered rows never move.</string>
+    <string name="personal_muted">Muted titles</string>
+    <string name="personal_muted_none">Nothing muted.</string>
+    <string name="personal_show_again">Show again</string>
+    <string name="personal_muted_less">Less like this</string>
+    <string name="personal_list">My List</string>
+    <string name="personal_list_none">Nothing in your list yet. Long press OK on a title to add it.</string>
+    <string name="personal_unavailable">Unavailable</string>
+    <string name="personal_remove">Remove</string>
+    <string name="personal_clear">Clear my history and signals</string>
+    <string name="personal_clear_sure">Press again to clear</string>
+    <string name="personal_cleared">Cleared</string>
+</resources>

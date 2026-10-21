@@ -18,6 +18,8 @@ data class Answers(
     val genres: Set<String>,
     val keys: Keys,
     val preset: String? = null,        // the Home preset chosen in setup; null = not asked, keep the layout
+    val addons: Set<String>? = null,   // from a Quick start preset; null = keep the profile's (PLT-17)
+    val keepRunning: Set<String>? = null,
 ) {
     /** The geocoder's answer: its coordinates and country (the region for "where to watch"). */
     fun located(place: Place?): Answers =
@@ -35,6 +37,8 @@ data class Answers(
         teams = teams.split(",").map { it.trim() }.filter { it.isNotEmpty() }.toSet(),
         competitions = competitions,
         genres = genres,
+        addons = addons ?: start.addons,
+        keepRunning = keepRunning ?: start.keepRunning,
         layout = preset?.let { LayoutPresets.apply(LayoutPresets.byId(it), start.layout) } ?: start.layout,
     )
 

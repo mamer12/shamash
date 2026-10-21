@@ -108,3 +108,74 @@ class HomeRowsTest {
         assertEquals(listOf("top10"), ui.discover.map { it.titleKey })
     }
 }
+
+class HomeRowsPersonalTest {
+    private val now = 1_700_000_000_000L
+    private val profile = Profile(onboarded = true, name = "Sara")
+
+    private fun item(id: String, provider: String = "tmdb", title: String = id) = MediaItem(
+        id = id, providerId = provider, title = title, kind = Kind.MOVIE, open = OpenTarget.App("pkg"), appPackage = "pkg",
+    )
+
+    private fun shelf(id: String, key: String, vararg items: MediaItem, arg: String? = null) =
+        Shelf(id, key, ShelfStyle.WIDE, items.toList(), arg)
+
+    private fun personal(vararg signals: io.shamash.domain.Signal, mutes: List<io.shamash.domain.Mute> = emptyList()) =
+        io.shamash.domain.PersonalState("p", io.shamash.domain.PersonalData(signals = signals.toList(), mutes = mutes))
+
+    private fun finish(i: Int, provider: String) =
+        io.shamash.domain.Signal("p", "$provider:f$i", provider, io.shamash.domain.SignalKind.FINISH, now, 9)
+
+    @Test fun PER_08_muted_title_is_gone_from_every_row_and_the_billboard() {
+        val hidden = item("hidden").copy(backdropUrl = "http://x/w.jpg")
+        val loaded = Loaded(
+            providers = mapOf("tmdb" to ProviderContent(listOf(shelf("s", "top10", hidden, item("ok"))), listOf(hidden))),
+            order = listOf("tmdb"), started = true,
+        )
+        val mute = io.shamash.domain.Mutes.of(hidden, now)
+        val ui = HomeRows.build(HomeInput(profile, loaded, listOf(hidden), now, 9, personal(mutes = listOf(mute))))
+        assertTrue(ui.featured.isEmpty())
+        assertTrue((ui.home + ui.discover).flatMap { it.items }.none { it.id == "hidden" })
+    }
+
+    @Test fun PER_05_learned_order_moves_unordered_rows_but_not_a_pinned_one() {
+        val shelves = listOf(
+            shelf("tod_new", "tod_new", item("t1", "tod")),
+            shelf("cinemana_new", "cinemana_new", item("c1", "cinemana")),
+        )
+        val learned = personal(*Array(6) { finish(it, "cinemana") })
+        val rows = HomeRows.homeRows(profile, shelves, emptyList(), emptyList(), Moment.EVENING, now, learned)
+        assertEquals(listOf("cinemana_new", "tod_new"), rows.map { it.id } - "moment")
+        val pinned = profile.copy(layout = io.shamash.domain.Layout(rows = listOf(io.shamash.domain.RowPref("tod_new", pinned = true))))
+        val laid = HomeLayout.lay(HomeRows.homeRows(pinned, shelves, emptyList(), emptyList(), Moment.EVENING, now, learned), pinned, null)
+        assertEquals("tod_new", laid.shown.first().id)
+    }
+
+    @Test fun PER_16_few_signals_keep_the_default_order() {
+        val shelves = listOf(
+            shelf("tod_new", "tod_new", item("t1", "tod")),
+            shelf("cinemana_new", "cinemana_new", item("c1", "cinemana")),
+        )
+        val rows = HomeRows.homeRows(profile, shelves, emptyList(), emptyList(), Moment.EVENING, now, personal(finish(1, "cinemana")))
+        assertEquals(listOf("tod_new", "cinemana_new"), rows.map { it.id } - "moment")
+    }
+
+    @Test fun PER_11_rows_with_a_known_reason_carry_it_and_lists_do_not() {
+        val shelves = listOf(
+            shelf("b", "cinemana_because_watched", item("c1", "cinemana"), arg = "Dune"),
+            shelf("new", "tod_new", item("t1", "tod")),
+        )
+        val rows = HomeRows.homeRows(profile, shelves, emptyList(), emptyList(), Moment.EVENING, now)
+        assertEquals(io.shamash.domain.ReasonKind.BECAUSE_WATCHED, rows.first { it.id == "b" }.reason?.kind)
+        assertEquals(null, rows.first { it.id == "new" }.reason)
+    }
+
+    @Test fun PER_13_my_list_row_shows_the_one_list_and_replaces_cinemanas() {
+        val saved = io.shamash.domain.MyListEntry.of(item("tmdb:x", "tmdb", "Saved"), 5)
+        val state = io.shamash.domain.PersonalState("p", io.shamash.domain.PersonalData(myList = listOf(saved)))
+        val shelves = listOf(shelf("cinemana_my_list", "cinemana_my_list", item("c1", "cinemana")))
+        val rows = HomeRows.homeRows(profile, shelves, emptyList(), emptyList(), Moment.EVENING, now, state)
+        assertEquals(listOf("mylist"), rows.map { it.id } - "moment")
+        assertEquals("Saved", rows.first { it.id == "mylist" }.items.single().title)
+    }
+}

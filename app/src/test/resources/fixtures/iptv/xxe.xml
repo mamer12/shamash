@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<!DOCTYPE tv [<!ENTITY xxe SYSTEM "file:///etc/passwd">]>
+<tv><channel id="news.one"><display-name>&xxe;</display-name></channel>
+<programme start="20260101100000 +0000" stop="20260101110000 +0000" channel="news.one"><title>&xxe;</title></programme></tv>
