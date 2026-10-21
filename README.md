@@ -4,6 +4,11 @@
 
 **A home screen for Android TV and Google TV that shapes itself around you.**
 
+<p align="center">
+  <a href="docs/media/shamash.mp4"><img src="docs/media/poster.jpg" width="720" alt="Watch the 84-second Shamash showcase"></a><br>
+  <sub>▶ <a href="docs/media/shamash.mp4">Watch the 84-second showcase</a> (made with code: <a href="video/">video/</a>)</sub>
+</p>
+
 Shamash (the Mesopotamian Sun god, giver of light) replaces your TV's launcher. On first run it asks what you
 watch, which apps you pay for, your teams and your tastes — then the whole TV follows those answers.
 

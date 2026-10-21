@@ -1,0 +1,23 @@
+{
+  "name": "shamash-video",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Animated showcase video for Shamash, made with Remotion",
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render Showcase out/shamash.mp4 --codec=h264 --crf=23 --browser-executable=/usr/bin/google-chrome",
+    "poster": "remotion still Showcase out/poster.png --frame=1170 --browser-executable=/usr/bin/google-chrome",
+    "gif": "remotion render Showcase out/preview.gif --codec=gif --every-nth-frame=3 --scale=0.4 --frames=480-719 --browser-executable=/usr/bin/google-chrome"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.537",
+    "@remotion/google-fonts": "4.0.537",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.537"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.12",
+    "typescript": "5.6.3"
+  }
+}
