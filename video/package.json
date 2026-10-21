@@ -7,7 +7,8 @@
     "studio": "remotion studio",
     "render": "remotion render Showcase out/shamash.mp4 --codec=h264 --crf=23 --browser-executable=/usr/bin/google-chrome",
     "poster": "remotion still Showcase out/poster.png --frame=1170 --browser-executable=/usr/bin/google-chrome",
-    "gif": "remotion render Showcase out/preview.gif --codec=gif --every-nth-frame=3 --scale=0.4 --frames=480-719 --browser-executable=/usr/bin/google-chrome"
+    "gif": "npm run render-en && remotion ffmpeg -hide_banner -loglevel error -y -i \"$PWD/out/shamash-en.mp4\" -r 8 -vf \"scale=720:-1:flags=lanczos,split[a][b];[a]palettegen=max_colors=96:stats_mode=diff[p];[b][p]paletteuse=dither=bayer:bayer_scale=4:diff_mode=rectangle\" \"$PWD/out/showcase.gif\"",
+    "render-en": "remotion render ShowcaseEN out/shamash-en.mp4 --codec=h264 --crf=20 --browser-executable=/usr/bin/google-chrome"
   },
   "dependencies": {
     "@remotion/cli": "4.0.537",

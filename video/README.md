@@ -46,7 +46,8 @@ the others' captions. The total length is the sum of the scenes' `_DUR` values.
 ```bash
 npm run render        # out/shamash.mp4  (H.264, CRF 23)
 npm run poster        # out/poster.png   (frame 1170: the Home screen)
-npm run gif           # out/preview.gif  (8 s of the sun and wordmark reveal, small)
+npm run render-en     # out/shamash-en.mp4 (English only: every Arabic line hidden)
+npm run gif           # out/showcase.gif (English only, 720 px, 8 fps, ~8 MB: the README GIF)
 ```
 
 Single frames, to check a change: `npx remotion still Showcase out/check.png --frame=1200`.

@@ -4,5 +4,5 @@ import {Config} from '@remotion/cli/config';
 Config.setBrowserExecutable('/usr/bin/google-chrome');
 Config.setVideoImageFormat('jpeg');
 Config.setCodec('h264');
-Config.setCrf(23);
+// CRF is passed per render (npm run render): the GIF codec refuses it.
 Config.setOverwriteOutput(true);

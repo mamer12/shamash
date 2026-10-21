@@ -22,9 +22,10 @@ const SCENES: [React.FC, number][] = [
 
 export const TOTAL_FRAMES = SCENES.reduce((sum, [, d]) => sum + d, 0);
 
-export const Showcase: React.FC = () => (
+/** `arabic: false` renders the English-only cut (used for the README GIF): every Arabic line is hidden. */
+export const Showcase: React.FC<{arabic?: boolean}> = ({arabic = true}) => (
   <AbsoluteFill style={{background: C.night}}>
-    <style>{'*, *::before, *::after { box-sizing: border-box; }'}</style>
+    <style>{'*, *::before, *::after { box-sizing: border-box; }' + (arabic ? '' : ' [lang="ar"] { display: none !important; }')}</style>
     <Series>
       {SCENES.map(([S, d], i) => (
         <Series.Sequence key={i} durationInFrames={d}>

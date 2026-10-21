@@ -1,75 +1,83 @@
-<p align="center"><img src="app/src/main/res/drawable-nodpi/banner.png" width="480" alt="Shamash"></p>
-
 # Shamash
 
-**A home screen for Android TV and Google TV that shapes itself around you.**
+**An open-source home screen for Android TV and Google TV that shapes itself around you, not around ads.**
 
-<p align="center">
-  <a href="docs/media/shamash.mp4"><img src="docs/media/poster.jpg" width="720" alt="Watch the 84-second Shamash showcase"></a><br>
-  <sub>▶ <a href="docs/media/shamash.mp4">Watch the 84-second showcase</a> (made with code: <a href="video/">video/</a>)</sub>
-</p>
+<p align="center"><a href="docs/media/shamash.mp4"><img src="docs/media/showcase.gif" width="800" alt="Shamash showcase"></a></p>
+<p align="center"><sub>▶ <a href="docs/media/shamash.mp4">Watch the full 84-second showcase</a> (made with code: <a href="video/">video/</a>)</sub></p>
 
-Shamash (the Mesopotamian Sun god, giver of light) replaces your TV's launcher. On first run it asks what you
-watch, which apps you pay for, your teams and your tastes — then the whole TV follows those answers.
+Shamash (the Mesopotamian sun god, giver of light) replaces your TV's launcher. On first run it asks what you watch,
+which apps you pay for, your teams and your tastes, and the whole home screen follows those answers.
 
-- **A cinematic home**: a full-screen carousel of what's worth watching on *your* services, "Good evening" and a
-  *Tonight* row that change with the time of day, Continue watching, Top 10, Popular on each of your apps.
-- **Match Centre**: your teams' matches with crests and live scores, a match-day billboard, a reminder 10 minutes
-  before kick-off and a live score in the corner **over any app**, with a GOAL! flash.
-- **One search** across all your services; results open on the title's own page where the app allows it.
-- **Your phone as a magic wand**: send a link or a title from your phone to the TV.
-- **YouTube for you** (optional sign-in): recommendations built from what you like and watch.
-- **Lighter, faster TV**: turns off the TV maker's promo apps (never uninstalls them), closes apps you leave so the
-  next one opens fast, and always lets you go back to the original home screen in one press.
-- **Private**: no account, no analytics. Keys and sign-ins stay on your TV.
+Works on Android TV / Google TV 9 and newer (TVs and boxes). Built for and first being tried on a TCL Google TV
+(Android 11); reports from other TVs are welcome.
 
-> Works on Android TV / Google TV 9 and newer (TVs and boxes). Tested on a TCL Google TV (Android 11).
+## Why switch
 
----
+| The TV's stock home screen | Shamash |
+|---|---|
+| Ads and promoted apps on the first screen | Your apps and what's on *your* services; the TV maker's promo apps turned off |
+| Fixed rows you can't change | Hide, pin, rename and reorder every row; presets; rows that change with the time of day |
+| One profile for the whole family | Profiles with a PIN each, a Kids profile with content levels, daily limits and bedtime |
+| Closed | Open source (MIT): read it, fork it, add your own sources |
+| Hard to undo changes | Nothing is uninstalled; one press of **Original** brings the TV's own home screen back |
 
 ## Features
 
-- **Profiles**: a picker on start, a PIN per profile, Kids and Guest profiles, daily limits and bedtime, content levels
-  (All / Family / Kids) checked on every title from every source.
-- **Your Home, your way**: a row editor (hide, pin, rename, reorder), layout presets including Kids, rows that change
-  with the time of day, and a *Quick start* preset in setup ("Netflix and YouTube", "Sports first"...).
-- **Made for you**: recommendations from what you open and like, "Why this?" and "Not for you" on every card, and
-  **one My List** across sources.
-- **Match Centre**: football, F1, tennis, NBA and cricket; follow teams, players or drivers; alerts per follow (off,
-  kick-off, goals, all), quiet hours, goal-only mode, and where each match is on in your region.
-- **Add-ons** (each off until you turn it on): Plex, Jellyfin / Emby, IPTV (M3U + XMLTV guide), My feed (RSS, Atom,
-  JSON), podcasts, radio, Twitch / Kick live, Trakt / Simkl, Cinemana, and an example template for developers.
-  Credentials stay on the TV, out of logs, caches and backups.
-- **Phone companion**: type for the TV, edit rows, teams and feeds, queue titles, back up and restore from your phone.
-- **Backup**: one encrypted file (passphrase on the TV or phone) with profiles, layout and choices, export and import
-  on the TV too.
-- **Voice search** with the remote's mic or the TV assistant, in English and Arabic.
-- **Accessibility**: larger text, high contrast, reduce motion, TalkBack descriptions on every card; full Arabic and
-  right-to-left layout.
-- **Write your own add-on**: see [docs/ADDONS.md](docs/ADDONS.md).
+- **Home and layout**: a full-screen carousel of what's worth watching on your services, a greeting and a moment
+  row (*Tonight*, *Before bed*...) that follow the time of day, Continue watching, Top 10, Popular on each of your
+  apps. A row editor (hide, pin, rename, reorder), layout presets and a *Quick start* in setup.
+- **Profiles and parental controls**: a profile picker, a 4-digit PIN per profile, Kids and Guest profiles, content
+  levels (All / Family / Kids) checked on every title from every source, an allow-list of apps, daily limits and
+  bedtime.
+- **Search**: one search across your services, Cinemana and YouTube; voice search with the remote's mic, in English
+  and Arabic.
+- **Match Centre**: football, F1, tennis, NBA and cricket. Follow teams, players or drivers; a match-day billboard,
+  a reminder before kick-off and a live score **over any app**, alerts per follow, quiet hours, goal-only mode, and
+  where each match is on in your region.
+- **Phone companion**: open a page on your phone (same Wi-Fi) to send a link or a title to the TV, type for the TV
+  (keys too), edit rows, teams and feeds, queue titles, and back up or restore.
+- **Add-ons** (each off until you turn it on): Cinemana (with Watchme+ installed it comes on by itself and titles
+  open there), Plex, Jellyfin / Emby, IPTV (M3U + XMLTV guide), My feed (RSS, Atom, JSON), podcasts, radio,
+  Twitch / Kick live, Trakt / Simkl, and *Today* widgets (headlines and prices).
+- **Made for you**: recommendations from what you open and like, a one-line reason on recommended rows,
+  *Not for you* on any card, and one My List across sources.
+- **Backup**: one encrypted file (passphrase), exported and imported on the TV or the phone.
+- **Accessibility**: larger text, high contrast, reduce motion, TalkBack descriptions on every card.
+- **Arabic**: the whole app in English and Arabic, with a right-to-left layout.
 
-## Quick start
+## Install with Claude (easiest)
 
-### 1. Get the code
+You don't need to know Android tools: [Claude Code](https://claude.com/claude-code) can do the computer side for you
+and tell you what to press on the TV.
 
-Fork this repository on GitHub, then:
+1. Install Claude Code on your computer (macOS, Linux, or Windows with WSL).
+2. Get Shamash and open Claude in it:
+
+   ```bash
+   git clone https://github.com/mamer12/shamash.git   # or your fork
+   cd shamash
+   claude
+   ```
+
+3. Say, for example: **"Install Shamash on my TV at 192.168.1.50"** (your TV's IP address is in the TV's network
+   settings), or type the slash command **`/install-tv 192.168.1.50`**.
+
+Claude follows [CLAUDE.md](CLAUDE.md): it checks and installs the tools, builds the app, connects to the TV and
+installs it. You accept the prompts on the TV and make the final switch yourself. Your keys never go in the chat.
+
+## Install it yourself
+
+Short version below; step by step, updating and uninstalling are in **[docs/INSTALL.md](docs/INSTALL.md)**.
+
+You need a JDK 17 or newer, the Android SDK (platform 36) and `adb`.
 
 ```bash
-git clone https://github.com/<you>/shamash.git
-cd shamash
+echo "sdk.dir=$HOME/Android/Sdk" > local.properties      # where your Android SDK is
+./gradlew assembleRelease                                # app/build/outputs/apk/release/app-release.apk
 ```
 
-### 2. Build
-
-You need a JDK (17 or newer) and the Android SDK (platform 36). With Android Studio, just open the folder. From a
-terminal:
-
-```bash
-echo "sdk.dir=$HOME/Android/Sdk" > local.properties   # where your Android SDK is
-./gradlew assembleRelease                             # app/build/outputs/apk/release/app-release.apk
-```
-
-To sign your own releases, add to `local.properties` (never commit it):
+To sign with your own key (recommended: updates must be signed with the same key), add to `local.properties`
+(git-ignored, never commit it):
 
 ```properties
 signing.storeFile=/path/to/your.keystore
@@ -78,109 +86,121 @@ signing.keyAlias=…
 signing.keyPassword=…
 ```
 
-### 3. Install on the TV
+Without these, the release build is signed with your computer's debug key.
 
-On the TV: **Settings → System → About → Android TV OS build**, press OK 7 times to unlock developer options, then
-**Settings → System → Developer options → USB debugging: On** (and **Network debugging** if your TV shows it).
+On the TV: **Settings › System › About › Android TV OS build**, press OK 7 times, then **Settings › System ›
+Developer options › USB debugging: On** (and **Network debugging** if your TV shows it). Then:
 
 ```bash
-adb connect <TV-IP>:5555          # accept "Allow USB debugging?" on the TV, tick "Always allow"
+adb connect <TV-IP>:5555      # the TV asks "Allow USB debugging?": accept and tick "Always allow"
 adb install -r app/build/outputs/apk/release/app-release.apk
 ```
 
-Open **Shamash** from the TV's apps.
+Open **Shamash** from the TV's apps. Setup asks, one screen at a time (all skippable but the welcome): about you,
+*Quick start*, your apps, your teams, what you like, how Home should look, optional keys, and finally
+**Make Shamash your home screen**. The TV asks once more to allow debugging: that's Shamash using the TV's own
+debugging connection to make the switch.
 
-### 4. First run
+## The way back
 
-Shamash asks, one screen at a time (everything except the welcome can be skipped and changed later in Settings):
-
-1. Your first name and city (greeting, weather, the evening look)
-2. **Your apps** — pick the ones you subscribe to
-3. Your teams and competitions
-4. What you like
-5. Optional keys (see below)
-6. **Make Shamash your home screen**
-
-### 5. Make it your home screen (and undo)
-
-The last setup step (or **Settings → Home screen**) switches the TV to Shamash using the TV's own debugging
-connection: the TV asks once more to allow Shamash. It then:
-
-- sets Shamash as the home screen and screensaver,
-- turns off the TV maker's promo apps listed for your brand (never uninstalls; never touches picture, sound, inputs,
-  the tuner, the remote, updates or the Play Store),
-- lets Match Centre show over other apps and the *Recent apps* row read which apps you used.
-
-**Undo:** Settings → Home screen → **Original**. Everything is turned back on and the TV's own home screen returns.
-If Shamash ever crashes three times in five minutes, it does this by itself.
-
-> If the TV's first setup saved your Wi-Fi network, Shamash stops before changing anything and asks you to forget
-> the network and join it again (turning off the setup app would erase saved networks).
-
----
+- **Settings › Home screen › Original** turns back on everything Shamash turned off and brings back the TV's own
+  home screen and screensaver.
+- **Watchdog**: if Shamash crashes 3 times within 5 minutes, the TV goes back to Original by itself.
+- The switch only turns apps off (`pm disable-user`); it never uninstalls anything, never touches picture, sound,
+  inputs, the tuner, the remote, updates or the Play Store, and never turns off an app that saved your Wi-Fi.
 
 ## Optional keys
 
-All free; Shamash works without them (the parts that need one stay hidden). Enter them in setup or
-**Settings → Keys**. They stay on the TV.
+Free, and only yours. Shamash works without them (the parts that need one stay hidden). Type them in setup or
+**Settings › Keys**, on the TV or from your phone; they stay on the TV.
 
 | Key | What it adds | Where to get it |
 |---|---|---|
-| **TMDB API key** | The carousel, Top 10, Popular on your apps, search across services | themoviedb.org → Settings → API → Create (Developer) |
-| **YouTube OAuth client** (ID + secret) | Sign in to YouTube on the TV: Recommended for you, YouTube search | console.cloud.google.com → APIs & Services → enable *YouTube Data API v3* → OAuth consent screen (External, add yourself as a test user) → Credentials → OAuth client ID → *TVs and Limited Input devices* |
+| **TMDB API key** | The carousel, Top 10, Popular on your apps, search across services | themoviedb.org › Settings › API › Create |
+| **YouTube OAuth client** (ID + secret) | Sign in to YouTube: Recommended for you, YouTube search | console.cloud.google.com › enable *YouTube Data API v3* › OAuth consent screen (External, add yourself as a test user) › Credentials › OAuth client ID › *TVs and Limited Input devices* |
 
-Then **Settings → YouTube → Sign in**: the TV shows a code; open google.com/device on your phone and enter it.
+Then **Settings › YouTube › Sign in**: the TV shows a code to enter at google.com/device on your phone.
 
-## Your phone as a remote
+**Phone remote**: **Settings › Phone remote** shows an address like `http://192.168.1.20:8765` and a 6-digit PIN.
+Open it on your phone (same Wi-Fi), enter the PIN once, and add the page to your phone's home screen.
 
-**Settings → Phone remote** shows an address like `http://192.168.1.20:8765` and a 4-digit PIN. Open the address in
-your phone's browser (same Wi-Fi), enter the PIN once, then paste a YouTube or TOD link — or type a title — and send.
-Add the page to your phone's home screen for one-tap access.
+## Performance
+
+Shamash is built for cheap TVs. The budgets in [docs/specs/performance.md](docs/specs/performance.md), set for a
+TCL with a MediaTek MT5889, 2.7 GB RAM and Android 11:
+
+| ID | Target |
+|---|---|
+| PERF-01 | Cold start to the first frame of Home ≤ 1.5 s; back Home from an app ≤ 300 ms |
+| PERF-02 | Scrolling and moving focus: 90th-percentile frame ≤ 16 ms, janky frames ≤ 5% |
+| PERF-03 | ≤ 120 MB PSS after 10 minutes of browsing |
+| PERF-04 | Images requested at the size they are drawn; the carousel at ≤ 1280×720 |
+| PERF-05 | Data from several sources at once causes one recomposition of the rows |
+
+How it's designed to get there: an R8-minified release build; images loaded at their drawn size with a memory cache
+capped at 20% of the heap; all home data combined off the main thread into one state; one HTTP client with a 20 MB
+disk cache and per-source refresh intervals (TMDB 6 h, YouTube 3 h, weather 30 min...); all network and disk work in
+the background; rows you hid aren't fetched; the app you leave is closed when you come back Home (except the ones
+you keep running). The release APK is about **4.6 MB**.
+
+These are targets and design choices, not numbers measured on your TV. To measure on yours (`am start -W`,
+`dumpsys gfxinfo io.shamash`, `dumpsys meminfo io.shamash`) and share the results, see
+**[docs/PERFORMANCE.md](docs/PERFORMANCE.md)**.
+
+## Privacy and security
+
+- **No account, no analytics, no telemetry.** Shamash talks only to the services whose content it shows (TMDB,
+  JustWatch, YouTube, TOD, ESPN, Open-Meteo, and the add-ons you turn on).
+- **Keys and sign-ins stay on the TV**: never in the source, excluded from Android's cloud backup and device
+  transfer, never written to logs, and requests that carry them skip the HTTP disk cache.
+- **Phone page**: only on your home network, behind a 6-digit PIN; wrong PINs lock it for a while.
+- **Backups are always encrypted** (AES-256-GCM with your passphrase); keys and sign-ins are left out unless you
+  tick the box to include them.
+- Voice search uses the TV's own recognizer; Shamash doesn't store or send audio.
 
 ## Add-ons
 
-- **Cinemana** (off by default): a full Netflix-style app for Cinemana's catalog (browse, previews, title pages, a
-  player with subtitles). Turn it on in **Settings → Add-ons**. It lives entirely in `data/cinemana` and
-  `feature/cinemana`; delete those folders (and its line in `data/Sources.kt`) to remove it from your fork.
-- **Plex, Jellyfin / Emby, IPTV, My feed, podcasts, radio, Twitch / Kick, Trakt / Simkl**: each has its own fields,
-  *Test connection*, the rows it offers and *Remove* in **Settings → Add-ons**.
-- **Write your own**: the [add-on authoring guide](docs/ADDONS.md) and the template in
-  `app/src/main/java/io/shamash/addons/example`. Every add-on can be deleted from a fork by removing its folders and
-  its one line in `data/Sources.kt`, plus any hook line the guide lists (a test checks this).
-
----
+Every add-on is off until you turn it on in **Settings › Add-ons** (Cinemana also comes on when the Watchme+ app is
+installed). Each has its fields, *Test connection*, the rows it offers and *Remove*. To write your own, or to
+delete one from your fork, read the [add-on guide](docs/ADDONS.md).
 
 ## Troubleshooting
 
 | Problem | Fix |
 |---|---|
 | "Allow USB debugging?" never appears | Turn USB debugging off and on, then `adb connect` again |
-| The switch says it can't reach the TV's debugging | Developer options → USB/Network debugging must be on |
-| Pressing Home asks which home screen to use | Another launcher app is installed; uninstall it or pick Shamash → *Always* |
-| No carousel / Popular rows | Add a TMDB key (Settings → Keys) |
-| The remote's Netflix/YouTube buttons stopped working | Settings → Home screen → switch again (Android turns accessibility services off after updates) |
-| Slow full start (TV logo, Google TV animation) | That's the TV booting after a power cut; use the remote's power button (instant on). A small UPS helps where power cuts are common |
+| The switch says it can't reach the TV's debugging | Developer options › USB / Network debugging must be on |
+| The switch stops and talks about Wi-Fi | The TV's first setup saved your Wi-Fi: forget the network in the TV's settings, join it again, switch again |
+| Pressing Home asks which home screen to use | Another launcher app is installed: uninstall it, or pick Shamash › *Always* |
+| No carousel or Popular rows | Add a TMDB key (Settings › Keys) |
+| `adb install` fails with a signature error | The installed copy was signed with another key: see [docs/INSTALL.md](docs/INSTALL.md#updating) |
+| The remote's Netflix / YouTube buttons stopped (TCL) | Shamash re-checks about a minute after a reboot or an update; if not, Settings › Home screen › *Use Shamash* again |
+| Slow full start (TV logo, Google TV animation) | That's the TV booting after a power cut; the remote's power button is instant on |
+
+To see what the switch did: `adb logcat -s Shamash`.
 
 ## For developers
 
-Shamash is **spec-driven**: every capability is a list of numbered requirements in [`docs/specs`](docs/specs) and
-code/tests point back to them (`// SPEC: HOME-04`). Change behavior by changing the spec first.
+Shamash is **spec-driven**: every capability is a list of numbered requirements in [docs/specs](docs/specs/README.md),
+and code and tests point back to them (`// SPEC: HOME-04`, tests named like `` `LAY_04 ...` ``). Change behavior by
+changing the spec first.
 
-```
-app/src/main/java/io/shamash/
-  app/        activity shell, navigation, the Opener, the service locator
-  ui/         design system (theme, focus motion, billboard, rows, cards)
-  feature/    onboarding, home, search, settings, matchcentre, companion, tvcontrol, screensaver, cinemana (add-on)
-  domain/     models, the Provider contract, pure logic (moments, carousel, ranking)
-  data/       TMDB, JustWatch, YouTube, TOD, ESPN, weather, Cinemana, preferences, history
-  addons/     the example add-on template (see docs/ADDONS.md)
+Kotlin and Jetpack Compose for TV, no DI framework. Layers point inward, `feature → domain ← data`: `domain` holds
+the models, the `Provider` contract and pure logic; `data` the sources (HTTP, DataStore, TMDB, YouTube, ESPN,
+add-ons); `feature` one package per capability; `ui` the design system; `app` the activity shell, the `Opener` and
+the `ServiceLocator`. Every source fails soft (an error is an empty row, never an empty home screen), and all
+user-facing text lives in English and Arabic string files.
+
+```bash
+./gradlew testDebugUnitTest      # JVM unit tests
+./gradlew assembleRelease        # the release APK
 ```
 
-- Add a content source: implement `domain.Provider` in `data/<name>/` and list it in `data/Sources.kt`; for an
-  optional one, write an add-on ([docs/ADDONS.md](docs/ADDONS.md)).
-- Add a TV brand: add its promo apps to `feature/tvcontrol/BrandProfiles.kt` (one reason per line).
-- Run the tests: `./gradlew testDebugUnitTest`.
+- New content source: implement `domain.Provider` and list it in `data/Sources.kt`; optional ones are add-ons
+  ([docs/ADDONS.md](docs/ADDONS.md)).
+- New TV brand: add its promo apps to `feature/tvcontrol/BrandProfiles.kt`, one reason per line.
+- The showcase video is code too (Remotion): see [video/README.md](video/README.md) to edit and re-render it.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT, see [LICENSE](LICENSE).

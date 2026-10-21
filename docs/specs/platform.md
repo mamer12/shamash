@@ -8,9 +8,9 @@
   keeping the last 3; excluded from Android backup (ARCH-06).
 
 ## Add-on authoring
-- PLT-04 `docs/addons/README.md` explains a provider in under 150 lines: the Provider contract, `AddOn` registration
+- PLT-04 [`docs/ADDONS.md`](../ADDONS.md) explains a provider in under 150 lines: the Provider contract, `AddOn` registration
   (PEX-01), credentials (PEX-03), row sources (PEX-06), fail-soft and level rules, a test checklist.
-- PLT-05 `docs/addons/template/` is a compilable skeleton package (`data/example`, one fake provider reading a JSON
+- PLT-05 `app/src/main/java/io/shamash/addons/example` is a compilable skeleton package (one fake provider reading a JSON
   fixture, one test, one registration line commented). It is built and tested by CI, so it cannot rot.
 - PLT-06 Rules for an add-on: no network on the main thread, no secrets in logs, ContentLevel honored, strings en+ar,
   works when removed (PEX-31), spec file `docs/specs/addon-<id>.md` with its own IDs.
