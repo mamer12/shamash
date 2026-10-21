@@ -1,0 +1,19 @@
+{
+  "new": [
+    {"id": "n1", "title": "Night Train", "subtitle": "2025 · Drama", "overview": "A sleeper car, six strangers.",
+     "backdrop": "https://img.example/n1-wide.jpg", "poster": "https://img.example/n1.jpg",
+     "link": "https://watch.example/title/n1", "app": "com.example.player", "rating": "PG-13", "kind": "movie"},
+    {"id": "n2", "title": "Little Owls", "backdrop": "https://img.example/n2-wide.jpg",
+     "link": "https://watch.example/title/n2", "rating": "TV-Y", "kind": "series"},
+    {"id": "n3", "title": "Unrated Clip", "backdrop": "http://img.example/n3-wide.jpg",
+     "link": "https://watch.example/title/n3", "kind": "video"},
+    {"id": "n4", "title": "", "link": "https://watch.example/title/n4"},
+    {"id": "n5", "title": "Bad Link", "link": "javascript:alert(1)"},
+    {"title": "No Id", "link": "https://watch.example/title/x"}
+  ],
+  "popular": [
+    {"id": "p1", "title": "Harbour Lights", "poster": "https://img.example/p1.jpg",
+     "link": "https://watch.example/title/p1", "rating": "G", "kind": "movie"},
+    {"id": "n1", "title": "Night Train", "link": "https://watch.example/title/n1", "rating": "PG-13"}
+  ]
+}

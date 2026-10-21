@@ -28,6 +28,7 @@ data class Loaded(
     val recent: List<TvApp> = emptyList(),
     val weather: Weather? = null,
     val started: Boolean = false,
+    val broadcast: io.shamash.feature.matchcentre.BroadcastMap = io.shamash.feature.matchcentre.BroadcastMap(),   // MC-10
 )
 
 /** The inputs of one home state: the profile, what was loaded, what was watched, and the time. */

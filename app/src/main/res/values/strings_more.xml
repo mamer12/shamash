@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Extra providers, batch 2: podcasts, radio, Twitch/Kick live, Trakt/Simkl, Today widgets (PEX-23..27, PEX-30). -->
+<resources>
+    <!-- Podcasts (PEX-23) -->
+    <string name="more_pod_name">Podcasts</string>
+    <string name="more_pod_desc">New episodes from the shows you follow. Episodes open in your podcast app.</string>
+    <string name="more_pod_row_new">New episodes</string>
+    <string name="more_pod_row_subs">Your podcasts</string>
+    <string name="more_pod_player">Podcast app (package)</string>
+    <string name="more_pod_player_hint">Optional, for example au.com.shiftyjelly.pocketcasts. Empty: Android asks which app.</string>
+    <string name="more_pod_test_none">Follow a show first.</string>
+    <string name="more_pod_test_ok">%1$d of %2$d shows work.</string>
+    <string name="more_pod_add">Show feed address</string>
+    <string name="more_pod_add_hint">The RSS address of the show, starting with https://</string>
+    <string name="more_pod_add_button">Follow</string>
+    <string name="more_pod_opml">OPML address</string>
+    <string name="more_pod_opml_hint">An export from your podcast app, at an https:// address</string>
+    <string name="more_pod_opml_button">Import</string>
+    <string name="more_pod_added">Following %s.</string>
+    <string name="more_pod_failed">That did not work. Check the address.</string>
+    <string name="more_pod_opml_done">Done. You follow %d shows.</string>
+    <string name="more_pod_list_title">Shows you follow (%d)</string>
+    <string name="more_pod_remove">OK to stop following</string>
+
+    <!-- Radio (PEX-24) -->
+    <string name="more_radio_name">Radio</string>
+    <string name="more_radio_desc">Internet radio stations from Radio Browser. Stations open in your radio app.</string>
+    <string name="more_radio_row_fav">Favorite stations</string>
+    <string name="more_radio_row_top">Popular stations</string>
+    <string name="more_radio_row_tag">Stations by tag</string>
+    <string name="more_radio_row_tag_named">Radio: %s</string>
+    <string name="more_radio_country">Country code</string>
+    <string name="more_radio_country_hint">Two letters, for example IQ. Empty: your region.</string>
+    <string name="more_radio_tag">Tag</string>
+    <string name="more_radio_tag_hint">Optional, for example news, quran or jazz</string>
+    <string name="more_radio_player">Radio app (package)</string>
+    <string name="more_radio_player_hint">Optional. Empty: Android asks which app.</string>
+    <string name="more_radio_test_none">Connected, but no stations were found.</string>
+    <string name="more_radio_test_ok">Connected to Radio Browser.</string>
+    <string name="more_radio_search">Find a station by name</string>
+    <string name="more_radio_fav_count">%d favorite stations</string>
+
+    <!-- Twitch / Kick (PEX-25) -->
+    <string name="more_live_name">Twitch and Kick</string>
+    <string name="more_live_desc">A Live now row of the streamers you follow. No sign-in.</string>
+    <string name="more_live_row_now">Live now</string>
+    <string name="more_live_twitch_client">Twitch Client ID</string>
+    <string name="more_live_twitch_client_hint">Needed for Twitch only. Make one free at dev.twitch.tv.</string>
+    <string name="more_live_twitch_secret">Twitch Client secret</string>
+    <string name="more_live_twitch_secret_hint">Kept on this TV only.</string>
+    <string name="more_live_test_none">Follow a streamer first.</string>
+    <string name="more_live_test_twitch_client">Add your Twitch Client ID and secret to follow Twitch streamers.</string>
+    <string name="more_live_test_ok">Connected: %1$d of %2$d live now.</string>
+    <string name="more_live_follows">Streamers you follow</string>
+    <string name="more_live_follows_hint">For example twitch:name, kick:name, separated by commas</string>
+    <string name="more_live_save">Save</string>
+    <string name="more_live_saved">Following %d streamers.</string>
+    <string name="more_live_bad">Not understood: %s</string>
+
+    <!-- Trakt / Simkl (PEX-26) -->
+    <string name="more_trakt_name">Trakt</string>
+    <string name="more_trakt_desc">Brings your Trakt watchlist into My List and what you watched into your recommendations.</string>
+    <string name="more_simkl_name">Simkl</string>
+    <string name="more_simkl_desc">Brings your Simkl watchlist into My List and what you watched into your recommendations.</string>
+    <string name="more_trakt_row_watchlist">Watchlist</string>
+    <string name="more_trakt_client_id">Client ID</string>
+    <string name="more_trakt_client_id_hint">From your own app on the service\'s developer page.</string>
+    <string name="more_trakt_client_secret">Client secret</string>
+    <string name="more_trakt_client_secret_hint">Kept on this TV only.</string>
+    <string name="more_trakt_session">Sign-in</string>
+    <string name="more_trakt_session_hint">Filled in by Sign in with a code.</string>
+    <string name="more_trakt_signin">Sign in with a code</string>
+    <string name="more_trakt_code">On your phone, go to %1$s and enter the code %2$s</string>
+    <string name="more_trakt_done">Signed in. Your watchlist is coming to My List.</string>
+    <string name="more_trakt_failed">Sign in did not finish. Try again.</string>
+    <string name="more_trakt_need_client">Save your Client ID (and secret) first.</string>
+    <string name="more_trakt_signed_in">Signed in.</string>
+    <string name="more_trakt_signout">Sign out</string>
+    <string name="more_trakt_writeback">Mark finished movies as watched</string>
+    <string name="more_trakt_writeback_text">Off by default. Movies you finish on this TV are added to your history there.</string>
+    <string name="more_trakt_adults_only">Only for grown-up profiles. Kids and Guest never sync.</string>
+    <string name="more_trakt_test_sign_in">Sign in with a code first.</string>
+    <string name="more_trakt_test_ok">Connected: %d titles on your watchlist.</string>
+
+    <!-- Today widgets (PEX-27) -->
+    <string name="more_w_name">Today</string>
+    <string name="more_w_desc">A row of small cards: prices you follow and news headlines. No sign-in.</string>
+    <string name="more_w_row_today">Today</string>
+    <string name="more_w_stale">Not updated since %s</string>
+    <string name="more_w_test_none">Nothing to show yet. Add a symbol or a news feed.</string>
+    <string name="more_w_test_ok">Connected: %d cards.</string>
+    <string name="more_w_symbols">Prices</string>
+    <string name="more_w_symbols_hint">Coins and currencies, for example BTC, ETH, USD/EUR, USD/IQD</string>
+    <string name="more_w_feeds">News feeds</string>
+    <string name="more_w_feeds_hint">Up to 3 RSS addresses starting with https://, separated by commas</string>
+    <string name="more_w_save">Save</string>
+    <string name="more_w_saved">Saved.</string>
+    <string name="more_w_type_crypto">Coin prices</string>
+    <string name="more_w_type_fx">Currency rates</string>
+    <string name="more_w_type_news">News headlines</string>
+</resources>

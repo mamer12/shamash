@@ -107,7 +107,11 @@ fun BillboardInfo(
         Crossfade(current, animationSpec = tween(A11y.ms(TEXT_FADE_MS)), label = "billboard-text") { HeroText(it) }
         Spacer(Modifier.height(18.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
-            val label = if (current.item.match != null) R.string.watch_on else R.string.open_in
+            val label = when {
+                io.shamash.domain.Carousel.noApp(current.item) -> R.string.match_no_app   // SPEC: MC-10
+                current.item.match != null -> R.string.watch_on
+                else -> R.string.open_in
+            }
             HeroButton(
                 text = stringResource(label, current.appName),
                 description = CardLabel.join(   // PLT-13: "<n> of <m>"

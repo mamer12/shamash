@@ -44,6 +44,7 @@ enum class Section(val title: Int) {
     HOME(R.string.settings_home),
     LAYOUT(R.string.settings_layout),
     PERSONAL(R.string.personal_section),
+    MATCHES(R.string.mcs_section),   // SPEC: MC-07, MC-11..13
     ACCESSIBILITY(R.string.settings_a11y),
     YOU(R.string.settings_you),
     PROFILES(R.string.settings_profiles),
@@ -109,6 +110,7 @@ private fun Panel(section: Section, p: Profile, save: (Profile) -> Unit, locator
             Section.LAYOUT -> io.shamash.feature.layout.LayoutPanel(p, save, locator)
             Section.ACCESSIBILITY -> io.shamash.feature.accessibility.A11yPanel()
             Section.PERSONAL -> io.shamash.feature.personalization.PersonalPanel(locator)
+            Section.MATCHES -> io.shamash.feature.matchcentre.MatchSettingsPanel(p, save, locator)
             Section.YOU -> YouPanel(p, save)
             Section.PROFILES -> ProfilesPanel(locator)
             Section.KEYS -> KeysPanel(p, save)

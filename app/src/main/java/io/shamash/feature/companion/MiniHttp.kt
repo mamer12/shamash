@@ -5,13 +5,20 @@ import java.io.InputStream
 import java.net.URLDecoder
 import java.util.Locale
 
-/** One HTTP request as the phone page sends it; [headers] are keyed in lower case (the first of each kept). */
+/**
+ * One HTTP request as the phone page sends it; [headers] are keyed in lower case (the first of each kept).
+ * [declaredLength] is the Content-Length the client announced, so a route can refuse a body it did not read.
+ */
 data class HttpRequest(
     val method: String,
     val path: String,
     val body: String,
     val headers: Map<String, String> = emptyMap(),
+    val declaredLength: Int = 0,
 )
+
+/** How much of a body is read: up to [max] bytes; a longer one is cut when [cut], else not read at all. */
+data class BodyLimit(val max: Int, val cut: Boolean)
 
 data class HttpReply(
     val status: Int,
@@ -36,6 +43,29 @@ data class HttpReply(
     companion object {
         fun text(status: Int, reason: String, body: String) = HttpReply(status, reason, "text/plain; charset=utf-8", body)
 
+        fun json(status: Int, body: String) = HttpReply(status, reasonOf(status), "application/json; charset=utf-8", body)
+
+        /** A file for the phone to save (the backup); [name] is made by the TV, never taken from the request. */
+        fun attachment(name: String, body: String) = HttpReply(
+            200, "OK", "application/octet-stream", body,
+            mapOf("Content-Disposition" to "attachment; filename=\"$name\""),
+        )
+
+        fun reasonOf(status: Int) = when (status) {
+            200 -> "OK"
+            400 -> "Bad Request"
+            401 -> "Unauthorized"
+            403 -> "Forbidden"
+            404 -> "Not Found"
+            409 -> "Conflict"
+            413 -> "Payload Too Large"
+            423 -> "Locked"
+            429 -> "Too Many Requests"
+            500 -> "Internal Server Error"
+            502 -> "Bad Gateway"
+            else -> "Error"
+        }
+
         /** The page, allowed to run only its own inline script (the one carrying [nonce]). */
         fun html(body: String, nonce: String) = HttpReply(
             200, "OK", "text/html; charset=utf-8", body,
@@ -48,8 +78,9 @@ data class HttpReply(
 }
 
 /**
- * Just enough HTTP/1.1 for one small request per connection; bodies are cut at [MAX_BODY]. A request [accept] turns
- * down is dropped right after its first line; one that runs past [deadline] throws. SPEC: CMP-05
+ * Just enough HTTP/1.1 for one small request per connection; bodies follow [BodyLimit] (by default cut at
+ * [MAX_BODY]). A request [accept] turns down is dropped right after its first line; one that runs past [deadline]
+ * throws. SPEC: CMP-05, CMP-06
  */
 object MiniHttp {
     const val MAX_BODY = 4096
@@ -61,13 +92,20 @@ object MiniHttp {
         input: InputStream,
         deadline: Deadline? = null,
         accept: (method: String, path: String) -> Boolean = { _, _ -> true },
+        limit: (method: String, path: String) -> BodyLimit = { _, _ -> BodyLimit(MAX_BODY, cut = true) },
     ): HttpRequest? {
         val parts = readLine(input, deadline)?.split(' ') ?: return null
         if (parts.size < 2 || !accept(parts[0], parts[1])) return null
         val headers = readHeaders(input, deadline)
-        val length = headers[CONTENT_LENGTH]?.toIntOrNull() ?: 0
-        val body = readUpTo(input, length.coerceIn(0, MAX_BODY), deadline)
-        return HttpRequest(parts[0], parts[1], body.toString(Charsets.UTF_8), headers)
+        val length = headers[CONTENT_LENGTH]?.trim()?.toLongOrNull()?.coerceIn(0, Int.MAX_VALUE.toLong())?.toInt() ?: 0
+        val rule = limit(parts[0], parts[1])
+        val wanted = when {
+            length <= rule.max -> length
+            rule.cut -> rule.max
+            else -> 0                       // too long: not read; the route answers 413
+        }
+        val body = readUpTo(input, wanted, deadline)
+        return HttpRequest(parts[0], parts[1], body.toString(Charsets.UTF_8), headers, length)
     }
 
     private fun readHeaders(input: InputStream, deadline: Deadline?): Map<String, String> {

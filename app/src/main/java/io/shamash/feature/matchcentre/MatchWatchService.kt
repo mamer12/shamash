@@ -14,6 +14,7 @@ import io.shamash.data.Logger
 import io.shamash.data.espn.Polling
 import io.shamash.domain.Match
 import io.shamash.domain.MatchState
+import io.shamash.domain.TvApp
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -59,6 +60,8 @@ class MatchWatchService : Service() {
         var settings = AlertSettings()
         val machine = WatchMachine { MatchAlerts.priority(it, profile, settings) }
         var matches = emptyList<Match>()
+        var where = WhereToWatch(BroadcastMap(), "", emptySet(), emptySet())
+        var apps = emptyList<TvApp>()
         var fetchedAt = 0L
         while (true) {
             val now = System.currentTimeMillis()
@@ -66,12 +69,17 @@ class MatchWatchService : Service() {
                 profile = locator.prefs.current()
                 settings = alerts.load()
                 matches = fetch(locator) ?: matches
+                apps = installedApps(locator) ?: apps
+                val map = withContext(Dispatchers.IO) { BroadcastLoader.load(this@MatchWatchService) }
+                where = WhereToWatch.of(map, profile, apps)   // SPEC: MC-10
                 fetchedAt = now
             }
             val eligible = MatchAlerts.eligible(matches, profile, settings)
             val wait = when (val step = machine.next(now, eligible)) {
                 is WatchStep.Show -> step.recheckInMs.also {
-                    if (MatchAlerts.shows(step.card, step.match, profile, settings, now)) overlay.show(step.match, step.card, now)
+                    if (MatchAlerts.shows(step.card, step.match, profile, settings, now)) {
+                        overlay.show(step.match, step.card, now, WhereToWatch.label(where.app(step.match), apps))
+                    }
                     else overlay.hide()     // state keeps updating, nothing shows (MC-12)
                 }
                 is WatchStep.Hide -> step.recheckInMs.also { overlay.hide() }
@@ -87,6 +95,18 @@ class MatchWatchService : Service() {
     /** A minute, half of it while an F1 session is on (MC-14). */
     private fun fetchEvery(matches: List<Match>): Long =
         matches.filter { it.mine && it.state == MatchState.LIVE }.minOfOrNull { Polling.live(it.sport) } ?: WatchMachine.TICK_MS
+
+    /** The TV's apps, for where to watch; null when they couldn't be read (the last ones are kept). */
+    private suspend fun installedApps(locator: ServiceLocator): List<TvApp>? = withContext(Dispatchers.IO) {
+        try {
+            locator.apps.installed()
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            Logger.w("match watch apps", e)
+            null
+        }
+    }
 
     /** The latest matches, or null when they couldn't be read (the last ones are kept). */
     private suspend fun fetch(locator: ServiceLocator): List<Match>? = withContext(Dispatchers.IO) {

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Match Centre settings, where to watch and card labels (MC-07, MC-09..13, MC-15). -->
+<resources>
+    <string name="mcs_section">Matches</string>
+    <string name="mcs_text">Your teams, players, sports and competitions, and when match cards may show over other apps. All of it stays on this TV.</string>
+    <string name="mcs_follows">Teams and players</string>
+    <string name="mcs_follows_label">Names</string>
+    <string name="mcs_follows_hint">Separate names with commas, e.g. Al Hilal, Real Madrid, Sinner</string>
+    <string name="mcs_sports">Follow a whole sport</string>
+    <string name="mcs_competitions">Competitions</string>
+    <string name="mcs_alerts_none">Follow a team, a player or a sport to set its alerts.</string>
+    <string name="mcs_alerts_text">Kick-off: a reminder 10 minutes before. Goals: goals and the final score. All: the live score too.</string>
+    <string name="mcs_goal_only_text">Key moments only: no live score bubble, just goals (sets won, lead changes, race finish) and the final score.</string>
+    <string name="mcs_quiet_text">In these hours nothing shows over other apps, except matches marked Always. The range may cross midnight.</string>
+    <string name="mcs_quiet_from">From %1$s</string>
+    <string name="mcs_quiet_to">To %1$s</string>
+    <string name="mcs_earlier">Earlier</string>
+    <string name="mcs_later">Later</string>
+    <string name="mcs_days">Days (none picked: every day)</string>
+    <string name="mcs_toggle">%1$s: %2$s</string>
+    <string name="mcs_on">On</string>
+    <string name="mcs_off">Off</string>
+    <string name="mcs_no_app_short">No app</string>
+    <string name="mcs_sport_line">%1$s · %2$s</string>
+    <string name="mcs_note_line">%1$s · %2$s</string>
+    <string name="mcs_starts_in_no_app">Starts in %1$d min</string>
+</resources>

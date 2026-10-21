@@ -74,6 +74,7 @@ fun TextInput(
             Spacer(Modifier.height(6.dp))
             Text(hint, color = Palette.Faint, fontSize = 15.sp)
         }
+        PhoneEntryHook.offer?.invoke(label, secret, onChange)   // SPEC: CMP-08
     }
 }
 

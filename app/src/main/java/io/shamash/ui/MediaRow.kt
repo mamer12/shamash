@@ -63,7 +63,7 @@ fun MediaRow(
 private fun StyledCard(style: ShelfStyle, item: MediaItem, onOpen: OpenAt) {
     val open = { onOpen(item, null) }
     when {
-        item.match != null -> MatchCard(item.match, open)
+        item.match != null -> MatchCard(item, open)
         style == ShelfStyle.VIDEO -> VideoCard(item, open)
         style == ShelfStyle.APPS && item.appPackage != null -> AppTile(item.appPackage, open, label = item.title)
         else -> WideCard(item, open)

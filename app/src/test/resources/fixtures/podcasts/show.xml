@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <title>The <b>Sample</b> Show</title>
+    <itunes:image href="https://img.example/show.jpg"/>
+    <image><url>https://img.example/fallback.jpg</url><title>ignored</title></image>
+    <item>
+      <title>Episode 3: Newest</title>
+      <pubDate>Tue, 06 Jan 2026 10:00:00 +0000</pubDate>
+      <enclosure url="https://cdn.example/ep3.mp3" type="audio/mpeg" length="100"/>
+      <itunes:image href="https://img.example/ep3.jpg"/>
+    </item>
+    <item>
+      <title>A video episode</title>
+      <enclosure url="https://cdn.example/v.mp4" type="video/mp4" length="100"/>
+    </item>
+    <item>
+      <title>Episode 2</title>
+      <pubDate>Mon, 05 Jan 2026 10:00:00 GMT</pubDate>
+      <enclosure url="https://cdn.example/ep2.m4a" type="audio/x-m4a"/>
+    </item>
+    <item>
+      <title></title>
+      <enclosure url="https://cdn.example/notitle.mp3" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>Bad link</title>
+      <enclosure url="file:///etc/passwd" type="audio/mpeg"/>
+    </item>
+  </channel>
+</rss>

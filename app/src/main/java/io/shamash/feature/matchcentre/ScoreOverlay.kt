@@ -16,9 +16,9 @@ internal class ScoreOverlay(private val context: Context) {
     private val windows = context.getSystemService(WindowManager::class.java)
     private var view: ScoreCardView? = null
 
-    fun show(match: Match, card: OverlayCard, now: Long) {
+    fun show(match: Match, card: OverlayCard, now: Long, app: String? = null) {
         val shown = view ?: attach() ?: return
-        shown.bind(match, card, now)
+        shown.bind(match, card, now, app)
     }
 
     fun hide() {

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The template add-on (io.shamash.addons.example). Delete this file with the add-on. SPEC: PLT-05, PEX-30 -->
+<resources>
+    <string name="example_name">إضافة مثال (للمطوّرين)</string>
+    <string name="example_desc">قالب يعرض صفوفًا من فهرس JSON على عنوان تختاره. انسخه لتبني مصدرك الخاص.</string>
+    <string name="example_url">عنوان الفهرس (JSON)</string>
+    <string name="example_url_hint">يبدأ بـ https://‏ (و http://‏ على شبكة المنزل فقط)</string>
+    <string name="example_token">رمز الوصول (اختياري)</string>
+    <string name="example_row_new">جديد في الفهرس</string>
+    <string name="example_row_popular">الأكثر مشاهدة في الفهرس</string>
+    <string name="example_test_bad_address">لا يمكن استخدام هذا العنوان. يجب أن يبدأ بـ https://‏ (و http://‏ على شبكة المنزل فقط).</string>
+    <string name="example_test_ok">تم الاتصال: عُثر على %1$d عنوانًا.</string>
+    <string name="example_test_empty">تم الاتصال، لكن الفهرس لا يحوي أي عنوان.</string>
+    <string name="example_test_failed">تعذّرت قراءة الفهرس. تحقّق من العنوان والرمز.</string>
+</resources>

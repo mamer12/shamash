@@ -35,7 +35,7 @@ object Sources {
             TmdbProvider(tmdb, installed),
             YouTubeProvider(http, youtubeAuth(http, prefs), history, installed),
             TodProvider(http, installed),
-        ) + addOnRegistry.providers { addOn ->
+        ) + listOfNotNull(context?.let(io.shamash.feature.companion.QueueProvider::of)) + addOnRegistry.providers { addOn ->
             DataDeps(
                 credentials(prefs, addOn), prefs::current, installed,
                 listOfNotNull(
@@ -53,6 +53,13 @@ object Sources {
         io.shamash.data.jellyfin.JellyfinProvider.addOn,
         io.shamash.data.iptv.IptvProvider.addOn,
         io.shamash.data.myfeed.MyFeedProvider.addOn,
+        io.shamash.data.podcasts.PodcastProvider.addOn,
+        io.shamash.data.radio.RadioProvider.addOn,
+        io.shamash.data.live.LiveProvider.addOn,
+        io.shamash.data.trakt.TrackerProvider.trakt,
+        io.shamash.data.trakt.TrackerProvider.simkl,
+        io.shamash.data.widgets.WidgetsProvider.addOn,
+        io.shamash.addons.example.ExampleAddOn.addOn,   // the template (docs/ADDONS.md); delete in your fork
     )
 
     val addOnRegistry = AddOnRegistry(addOns)

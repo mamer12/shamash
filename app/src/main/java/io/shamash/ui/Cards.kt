@@ -49,7 +49,7 @@ private const val MIN_PROGRESS = 0.04f
 @Composable
 fun WideCard(item: MediaItem, onClick: () -> Unit, modifier: Modifier = Modifier) {
     if (item.match != null) {
-        MatchCard(item.match, onClick, modifier)
+        MatchCard(item, onClick, modifier)
         return
     }
     val d = LocalCardDims.current

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings -> Add-ons: where the add-on authoring guide lives. SPEC: PEX-08, PLT-04 -->
+<resources>
+    <string name="addons_guide_link">دليل كتابة الإضافات: %1$s</string>
+</resources>

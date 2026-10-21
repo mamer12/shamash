@@ -10,6 +10,7 @@ import io.shamash.domain.PreviewSource
 import io.shamash.domain.Profile
 import io.shamash.domain.Provider
 import io.shamash.domain.RefreshableProvider
+import io.shamash.feature.matchcentre.BroadcastLoader
 import io.shamash.feature.matchcentre.MatchWatch
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -136,7 +137,8 @@ class HomeModel private constructor(private val locator: ServiceLocator) {
 
     private suspend fun loadMatches(profile: Profile) = withContext(Dispatchers.IO) {
         val matches = soft("matches", emptyList()) { Carousel.markMine(locator.matches.matches(profile), profile) }
-        loaded.update { it.copy(matches = matches) }
+        val broadcast = soft("broadcast map", null) { BroadcastLoader.load(locator.appContext) }   // SPEC: MC-10
+        loaded.update { it.copy(matches = matches, broadcast = broadcast ?: it.broadcast) }
         soft("match reminders") { MatchWatch.schedule(locator.appContext, matches) }   // SPEC: MC-04
     }
 

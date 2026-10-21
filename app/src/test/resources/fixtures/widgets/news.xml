@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel><title>World News</title>
+<item><title>Headline <i>one</i></title><link>https://news.example/1</link></item>
+<item><title>Headline two</title><link>https://news.example/2</link></item>
+<item><title>Headline three</title><link>https://news.example/3</link></item>
+<item><title>No link</title></item>
+</channel></rss>

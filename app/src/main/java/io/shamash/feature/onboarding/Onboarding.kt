@@ -16,7 +16,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -48,6 +50,7 @@ import io.shamash.domain.LayoutPreset
 import io.shamash.domain.LayoutPresets
 import io.shamash.domain.Profile
 import io.shamash.feature.layout.PresetPicker
+import io.shamash.feature.matchcentre.CompetitionChips
 import io.shamash.domain.TvApp
 import io.shamash.feature.settings.KeyFields
 import io.shamash.feature.tvcontrol.SwitchPanel
@@ -61,13 +64,6 @@ import io.shamash.ui.TextInput
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
-/** Competitions Match Centre can follow (ESPN's codes → names). */
-val COMPETITIONS = linkedMapOf(
-    "uefa.champions" to "Champions League", "eng.1" to "Premier League", "esp.1" to "LaLiga",
-    "ita.1" to "Serie A", "ger.1" to "Bundesliga", "fra.1" to "Ligue 1", "ksa.1" to "Saudi Pro League",
-    "uefa.europa" to "Europa League",
-)
 
 val GENRES = listOf(
     "Action", "Comedy", "Drama", "Thriller", "Sci-Fi", "Animation", "Documentary", "Romance", "Horror",
@@ -128,9 +124,10 @@ fun Onboarding(start: Profile, done: (Profile) -> Unit) {
             Step.TEAMS -> Page(R.string.setup_teams_title, R.string.setup_teams_text, R.string.setup_next, ::next, ::next) {
                 TextInput(stringResource(R.string.setup_teams_hint), answers.teams, { answers = answers.copy(teams = it) })
                 Spacer(Modifier.height(24.dp))
-                ChipPicker(COMPETITIONS.keys.toList(), answers.competitions, { answers = answers.copy(competitions = it) }) {
-                    COMPETITIONS.getValue(it)
-                }
+                CompetitionChips(   // grouped by sport, scrolled when they don't fit. SPEC: MC-07
+                    answers.competitions, { answers = answers.copy(competitions = it) },
+                    Modifier.verticalScroll(rememberScrollState()),
+                )
             }
             Step.GENRES -> Page(R.string.setup_genres_title, R.string.setup_genres_text, R.string.setup_next, ::next, ::next) {
                 ChipPicker(GENRES, answers.genres, { answers = answers.copy(genres = it) })

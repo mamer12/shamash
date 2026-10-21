@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Extra providers, batch 2 (PEX-23..27, PEX-30). -->
+<resources>
+    <!-- Podcasts -->
+    <string name="more_pod_name">البودكاست</string>
+    <string name="more_pod_desc">الحلقات الجديدة من البرامج التي تتابعها. تفتح الحلقات في تطبيق البودكاست لديك.</string>
+    <string name="more_pod_row_new">حلقات جديدة</string>
+    <string name="more_pod_row_subs">برامجك</string>
+    <string name="more_pod_player">تطبيق البودكاست (اسم الحزمة)</string>
+    <string name="more_pod_player_hint">اختياري، مثل au.com.shiftyjelly.pocketcasts. إن تُرك فارغًا يسألك أندرويد عن التطبيق.</string>
+    <string name="more_pod_test_none">تابع برنامجًا أولًا.</string>
+    <string name="more_pod_test_ok">%1$d من %2$d برامج تعمل.</string>
+    <string name="more_pod_add">عنوان خلاصة البرنامج</string>
+    <string name="more_pod_add_hint">عنوان RSS للبرنامج، يبدأ بـ https://</string>
+    <string name="more_pod_add_button">متابعة</string>
+    <string name="more_pod_opml">عنوان ملف OPML</string>
+    <string name="more_pod_opml_hint">ملف مُصدَّر من تطبيق البودكاست، على عنوان https://</string>
+    <string name="more_pod_opml_button">استيراد</string>
+    <string name="more_pod_added">تتابع الآن %s.</string>
+    <string name="more_pod_failed">لم ينجح ذلك. تحقق من العنوان.</string>
+    <string name="more_pod_opml_done">تم. تتابع %d برامج.</string>
+    <string name="more_pod_list_title">البرامج التي تتابعها (%d)</string>
+    <string name="more_pod_remove">اضغط موافق لإلغاء المتابعة</string>
+
+    <!-- Radio -->
+    <string name="more_radio_name">الراديو</string>
+    <string name="more_radio_desc">محطات راديو الإنترنت من Radio Browser. تفتح المحطات في تطبيق الراديو لديك.</string>
+    <string name="more_radio_row_fav">محطاتك المفضلة</string>
+    <string name="more_radio_row_top">محطات رائجة</string>
+    <string name="more_radio_row_tag">محطات حسب الوسم</string>
+    <string name="more_radio_row_tag_named">راديو: %s</string>
+    <string name="more_radio_country">رمز البلد</string>
+    <string name="more_radio_country_hint">حرفان، مثل IQ. إن تُرك فارغًا تُستخدم منطقتك.</string>
+    <string name="more_radio_tag">الوسم</string>
+    <string name="more_radio_tag_hint">اختياري، مثل news أو quran أو jazz</string>
+    <string name="more_radio_player">تطبيق الراديو (اسم الحزمة)</string>
+    <string name="more_radio_player_hint">اختياري. إن تُرك فارغًا يسألك أندرويد عن التطبيق.</string>
+    <string name="more_radio_test_none">تم الاتصال، لكن لم تُعثر على محطات.</string>
+    <string name="more_radio_test_ok">تم الاتصال بـ Radio Browser.</string>
+    <string name="more_radio_search">ابحث عن محطة بالاسم</string>
+    <string name="more_radio_fav_count">%d محطات مفضلة</string>
+
+    <!-- Twitch / Kick -->
+    <string name="more_live_name">تويتش وكيك</string>
+    <string name="more_live_desc">صف «مباشر الآن» لصنّاع البث الذين تتابعهم. دون تسجيل دخول.</string>
+    <string name="more_live_row_now">مباشر الآن</string>
+    <string name="more_live_twitch_client">معرّف عميل Twitch</string>
+    <string name="more_live_twitch_client_hint">مطلوب لتويتش فقط. أنشئه مجانًا في dev.twitch.tv.</string>
+    <string name="more_live_twitch_secret">سرّ عميل Twitch</string>
+    <string name="more_live_twitch_secret_hint">يُحفظ على هذا التلفاز فقط.</string>
+    <string name="more_live_test_none">تابع صانع بث أولًا.</string>
+    <string name="more_live_test_twitch_client">أضف معرّف عميل Twitch وسرّه لمتابعة صنّاع البث على تويتش.</string>
+    <string name="more_live_test_ok">تم الاتصال: %1$d من %2$d يبثون الآن.</string>
+    <string name="more_live_follows">صنّاع البث الذين تتابعهم</string>
+    <string name="more_live_follows_hint">مثل twitch:name و kick:name، مفصولة بفواصل</string>
+    <string name="more_live_save">حفظ</string>
+    <string name="more_live_saved">تتابع %d من صنّاع البث.</string>
+    <string name="more_live_bad">لم يُفهم: %s</string>
+
+    <!-- Trakt / Simkl -->
+    <string name="more_trakt_name">Trakt</string>
+    <string name="more_trakt_desc">ينقل قائمة المشاهدة في Trakt إلى قائمتي، وما شاهدته إلى اقتراحاتك.</string>
+    <string name="more_simkl_name">Simkl</string>
+    <string name="more_simkl_desc">ينقل قائمة المشاهدة في Simkl إلى قائمتي، وما شاهدته إلى اقتراحاتك.</string>
+    <string name="more_trakt_row_watchlist">قائمة المشاهدة</string>
+    <string name="more_trakt_client_id">معرّف العميل</string>
+    <string name="more_trakt_client_id_hint">من تطبيقك الخاص في صفحة المطوّرين للخدمة.</string>
+    <string name="more_trakt_client_secret">سرّ العميل</string>
+    <string name="more_trakt_client_secret_hint">يُحفظ على هذا التلفاز فقط.</string>
+    <string name="more_trakt_session">تسجيل الدخول</string>
+    <string name="more_trakt_session_hint">يُملأ عبر «تسجيل الدخول برمز».</string>
+    <string name="more_trakt_signin">تسجيل الدخول برمز</string>
+    <string name="more_trakt_code">على هاتفك، اذهب إلى %1$s وأدخل الرمز %2$s</string>
+    <string name="more_trakt_done">تم تسجيل الدخول. قائمة المشاهدة في طريقها إلى قائمتي.</string>
+    <string name="more_trakt_failed">لم يكتمل تسجيل الدخول. حاول مرة أخرى.</string>
+    <string name="more_trakt_need_client">احفظ معرّف العميل (والسرّ) أولًا.</string>
+    <string name="more_trakt_signed_in">تم تسجيل الدخول.</string>
+    <string name="more_trakt_signout">تسجيل الخروج</string>
+    <string name="more_trakt_writeback">تعليم الأفلام المكتملة كمُشاهَدة</string>
+    <string name="more_trakt_writeback_text">متوقف افتراضيًا. الأفلام التي تُكملها على هذا التلفاز تُضاف إلى سجلّك هناك.</string>
+    <string name="more_trakt_adults_only">للملفات الشخصية للكبار فقط. ملفات الأطفال والضيوف لا تُزامَن أبدًا.</string>
+    <string name="more_trakt_test_sign_in">سجّل الدخول برمز أولًا.</string>
+    <string name="more_trakt_test_ok">تم الاتصال: %d عناوين في قائمة المشاهدة.</string>
+
+    <!-- Today widgets -->
+    <string name="more_w_name">اليوم</string>
+    <string name="more_w_desc">صف من البطاقات الصغيرة: الأسعار التي تتابعها وعناوين الأخبار. دون تسجيل دخول.</string>
+    <string name="more_w_row_today">اليوم</string>
+    <string name="more_w_stale">لم يُحدَّث منذ %s</string>
+    <string name="more_w_test_none">لا شيء لعرضه بعد. أضف رمزًا أو خلاصة أخبار.</string>
+    <string name="more_w_test_ok">تم الاتصال: %d بطاقات.</string>
+    <string name="more_w_symbols">الأسعار</string>
+    <string name="more_w_symbols_hint">عملات رقمية وعملات، مثل BTC و ETH و USD/EUR و USD/IQD</string>
+    <string name="more_w_feeds">خلاصات الأخبار</string>
+    <string name="more_w_feeds_hint">حتى 3 عناوين RSS تبدأ بـ https://، مفصولة بفواصل</string>
+    <string name="more_w_save">حفظ</string>
+    <string name="more_w_saved">تم الحفظ.</string>
+    <string name="more_w_type_crypto">أسعار العملات الرقمية</string>
+    <string name="more_w_type_fx">أسعار صرف العملات</string>
+    <string name="more_w_type_news">عناوين الأخبار</string>
+</resources>

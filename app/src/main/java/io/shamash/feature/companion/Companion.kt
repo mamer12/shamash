@@ -16,7 +16,6 @@ import java.net.NetworkInterface
 import java.net.ServerSocket
 import java.net.Socket
 import java.net.SocketTimeoutException
-import java.security.MessageDigest
 import java.security.SecureRandom
 import java.util.Base64
 import java.util.Random
@@ -31,7 +30,8 @@ import kotlin.concurrent.thread
  * The phone companion: a small page on the home network (http://TV:8765) where a link or a title is sent to the TV.
  * A 6-digit PIN, shown in Settings, keeps the rest of the network out; wrong PINs lock the page for a while. It
  * listens only on the TV's home-network address, once setup is done; a few worker threads answer, each request
- * read within [REQUEST_DEADLINE_MS]. SPEC: CMP-01..05
+ * read within [REQUEST_DEADLINE_MS]. The page also edits the active profile's rows, teams and feeds, fills TV text
+ * fields, queues links and makes or restores backups ([PhoneApi]). SPEC: CMP-01..16
  */
 object Companion {
     const val PORT = 8765
@@ -43,10 +43,8 @@ object Companion {
     private const val ADDRESS_CHECK_MS = 60_000            // how often an idle server checks the TV kept its address
     private const val ADDRESS_WAIT_MS = 15_000L
     private const val ADDRESS_TRIES = 20                    // ~5 minutes for the network to come up after boot
-    private const val WRONG_PIN_DELAY_MS = 1_000L           // slows down guessing the PIN
     private const val NONCE_BYTES = 16
     private val running = AtomicBoolean(false)
-    private val guard = PinGuard()
     private val pinLock = Mutex()
     private val random = SecureRandom()
 
@@ -56,6 +54,7 @@ object Companion {
      */
     fun start(locator: ServiceLocator) {
         if (!running.compareAndSet(false, true)) return
+        PhoneOnTv.installFieldOffer()
         thread(name = "companion", isDaemon = true) {
             try {
                 listen(locator)
@@ -64,6 +63,9 @@ object Companion {
             }
         }
     }
+
+    /** True while the server is up (TV text fields offer phone entry only then). */
+    val isRunning: Boolean get() = running.get()
 
     /** The TV's address on the home network (site-local IPv4, e.g. "192.168.1.20"), or null without one. */
     fun address(): String? = runCatching {
@@ -86,7 +88,7 @@ object Companion {
 
     /** Serves on the TV's address; when the TV gets a new one, listens again there. */
     private fun listen(locator: ServiceLocator) {
-        val tv = PhoneActions(locator)
+        val tv = router(locator)
         val workers = ThreadPoolExecutor(WORKERS, WORKERS, 0, TimeUnit.MILLISECONDS, ArrayBlockingQueue(QUEUE)) { r ->
             Thread(r, "companion-worker").apply { isDaemon = true }
         }
@@ -113,7 +115,7 @@ object Companion {
     }
 
     /** Accepts until the TV's address changes (true: listen again there) or the socket fails (false). */
-    private fun serve(locator: ServiceLocator, tv: PhoneActions, workers: ThreadPoolExecutor, address: String): Boolean {
+    private fun serve(locator: ServiceLocator, tv: CompanionRouter, workers: ThreadPoolExecutor, address: String): Boolean {
         val server = ServerSocket()
         try {
             server.reuseAddress = true
@@ -127,7 +129,7 @@ object Companion {
                     continue
                 }
                 val deadline = Deadline.after(REQUEST_DEADLINE_MS)
-                dispatch(workers, socket) { answer(locator, tv, it, address, deadline) }
+                dispatch(workers, socket) { answer(tv, it, address, deadline) }
             }
         } catch (e: IOException) {
             Logger.w("phone page stopped", e)
@@ -146,56 +148,37 @@ object Companion {
         }
     }
 
-    private fun answer(locator: ServiceLocator, tv: PhoneActions, socket: Socket, address: String, deadline: Deadline) {
+    private fun answer(tv: CompanionRouter, socket: Socket, address: String, deadline: Deadline) {
         try {
             socket.soTimeout = READ_TIMEOUT_MS
             val input = BufferedInputStream(socket.getInputStream())
-            val request = MiniHttp.read(input, deadline, CompanionGate::accepts) ?: return
-            val reply = route(locator, tv, request, address)
+            val request = MiniHttp.read(input, deadline, CompanionGate::accepts, CompanionGate::bodyLimit) ?: return
+            val reply = tv.route(request, address, PORT)
             socket.getOutputStream().apply { write(reply.bytes()); flush() }
         } catch (e: Exception) {
             Logger.w("phone page", e)
         }
     }
 
-    private fun route(locator: ServiceLocator, tv: PhoneActions, request: HttpRequest, address: String): HttpReply {
-        if (!CompanionGate.hostAllowed(request.headers["host"], address, PORT)) return forbidden()
-        if (request.method == "GET") {
-            val nonce = Base64.getUrlEncoder().withoutPadding().encodeToString(ByteArray(NONCE_BYTES).also(random::nextBytes))
-            return HttpReply.html(CompanionPage.render(locator.appContext.resources, nonce), nonce)
-        }
-        if (!CompanionGate.isPageSend(request)) return forbidden()
-        return send(locator, tv, request.body)
+    /** The request handling, wired to this TV. */
+    private fun router(locator: ServiceLocator): CompanionRouter {
+        val actions = PhoneActions(locator)
+        val auth = CompanionAuth(object : PinSource {
+            override fun current() = runBlocking { pin(locator.prefs) }
+            override fun rotate() { runBlocking { pinLock.withLock { newPin(locator.prefs) } } }
+        })
+        val api = PhoneApi(auth, AndroidPhoneBackend(locator), PhoneFields.shared)
+        return CompanionRouter(
+            auth, api,
+            page = { language, nonce -> CompanionPage.render(PhoneWords.resources(locator.appContext, language), nonce) },
+            send = { text -> actions.handle(PhoneLink.classify(text)) },
+            words = { word, language ->
+                val res = PhoneWords.resources(locator.appContext, language)
+                res.getString(if (word == SendWord.LOCKED) R.string.companion_locked else R.string.companion_wrong_pin)
+            },
+            nonce = { Base64.getUrlEncoder().withoutPadding().encodeToString(ByteArray(NONCE_BYTES).also(random::nextBytes)) },
+        )
     }
-
-    private fun send(locator: ServiceLocator, tv: PhoneActions, form: String): HttpReply {
-        // Authentication and rotation share one lock: concurrent workers cannot bypass a newly started lockout.
-        val authenticated = synchronized(guard) {
-            if (guard.lockedForMs() > 0) return locked(locator)
-            val expected = runBlocking { pin(locator.prefs) }
-            if (samePin(MiniHttp.field(form, "pin"), expected)) {
-                guard.succeeded()
-                true
-            } else {
-                if (guard.failed() == PinGuard.Verdict.ROTATE) runBlocking { pinLock.withLock { newPin(locator.prefs) } }
-                false
-            }
-        }
-        if (authenticated) {
-            return HttpReply.text(200, "OK", tv.handle(PhoneLink.classify(MiniHttp.field(form, "text"))))
-        }
-        Thread.sleep(WRONG_PIN_DELAY_MS)
-        if (guard.lockedForMs() > 0) return locked(locator)
-        return HttpReply.text(403, "Forbidden", locator.appContext.getString(R.string.companion_wrong_pin))
-    }
-
-    private fun locked(locator: ServiceLocator) =
-        HttpReply.text(429, "Too Many Requests", locator.appContext.getString(R.string.companion_locked))
-
-    private fun forbidden() = HttpReply.text(403, "Forbidden", "")
-
-    private fun samePin(given: String, expected: String) =
-        MessageDigest.isEqual(given.toByteArray(Charsets.UTF_8), expected.toByteArray(Charsets.UTF_8))
 }
 
 /** The PIN's shape: 6 random digits. SPEC: CMP-03 */

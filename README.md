@@ -22,6 +22,27 @@ watch, which apps you pay for, your teams and your tastes — then the whole TV 
 
 ---
 
+## Features
+
+- **Profiles**: a picker on start, a PIN per profile, Kids and Guest profiles, daily limits and bedtime, content levels
+  (All / Family / Kids) checked on every title from every source.
+- **Your Home, your way**: a row editor (hide, pin, rename, reorder), layout presets including Kids, rows that change
+  with the time of day, and a *Quick start* preset in setup ("Netflix and YouTube", "Sports first"...).
+- **Made for you**: recommendations from what you open and like, "Why this?" and "Not for you" on every card, and
+  **one My List** across sources.
+- **Match Centre**: football, F1, tennis, NBA and cricket; follow teams, players or drivers; alerts per follow (off,
+  kick-off, goals, all), quiet hours, goal-only mode, and where each match is on in your region.
+- **Add-ons** (each off until you turn it on): Plex, Jellyfin / Emby, IPTV (M3U + XMLTV guide), My feed (RSS, Atom,
+  JSON), podcasts, radio, Twitch / Kick live, Trakt / Simkl, Cinemana, and an example template for developers.
+  Credentials stay on the TV, out of logs, caches and backups.
+- **Phone companion**: type for the TV, edit rows, teams and feeds, queue titles, back up and restore from your phone.
+- **Backup**: one encrypted file (passphrase on the TV or phone) with profiles, layout and choices, export and import
+  on the TV too.
+- **Voice search** with the remote's mic or the TV assistant, in English and Arabic.
+- **Accessibility**: larger text, high contrast, reduce motion, TalkBack descriptions on every card; full Arabic and
+  right-to-left layout.
+- **Write your own add-on**: see [docs/ADDONS.md](docs/ADDONS.md).
+
 ## Quick start
 
 ### 1. Get the code
@@ -116,6 +137,11 @@ Add the page to your phone's home screen for one-tap access.
 - **Cinemana** (off by default): a full Netflix-style app for Cinemana's catalog (browse, previews, title pages, a
   player with subtitles). Turn it on in **Settings → Add-ons**. It lives entirely in `data/cinemana` and
   `feature/cinemana`; delete those folders (and its line in `data/Sources.kt`) to remove it from your fork.
+- **Plex, Jellyfin / Emby, IPTV, My feed, podcasts, radio, Twitch / Kick, Trakt / Simkl**: each has its own fields,
+  *Test connection*, the rows it offers and *Remove* in **Settings → Add-ons**.
+- **Write your own**: the [add-on authoring guide](docs/ADDONS.md) and the template in
+  `app/src/main/java/io/shamash/addons/example`. Every add-on can be deleted from a fork by removing its folders and
+  its one line in `data/Sources.kt`, plus any hook line the guide lists (a test checks this).
 
 ---
 
@@ -142,9 +168,11 @@ app/src/main/java/io/shamash/
   feature/    onboarding, home, search, settings, matchcentre, companion, tvcontrol, screensaver, cinemana (add-on)
   domain/     models, the Provider contract, pure logic (moments, carousel, ranking)
   data/       TMDB, JustWatch, YouTube, TOD, ESPN, weather, Cinemana, preferences, history
+  addons/     the example add-on template (see docs/ADDONS.md)
 ```
 
-- Add a content source: implement `domain.Provider` in `data/<name>/` and list it in `data/Sources.kt`.
+- Add a content source: implement `domain.Provider` in `data/<name>/` and list it in `data/Sources.kt`; for an
+  optional one, write an add-on ([docs/ADDONS.md](docs/ADDONS.md)).
 - Add a TV brand: add its promo apps to `feature/tvcontrol/BrandProfiles.kt` (one reason per line).
 - Run the tests: `./gradlew testDebugUnitTest`.
 

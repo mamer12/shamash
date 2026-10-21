@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The template add-on (io.shamash.addons.example). Delete this file with the add-on. SPEC: PLT-05, PEX-30 -->
+<resources>
+    <string name="example_name">Example add-on (for developers)</string>
+    <string name="example_desc">A template that shows rows from a JSON catalog at an address you choose. Copy it to build your own source.</string>
+    <string name="example_url">Catalog address (JSON)</string>
+    <string name="example_url_hint">Starts with https:// (http:// only on your home network)</string>
+    <string name="example_token">Access token (optional)</string>
+    <string name="example_row_new">New in the catalog</string>
+    <string name="example_row_popular">Popular in the catalog</string>
+    <string name="example_test_bad_address">That address can\'t be used. It must start with https:// (http:// only on your home network).</string>
+    <string name="example_test_ok">Connected: %1$d titles found.</string>
+    <string name="example_test_empty">Connected, but the catalog has no titles.</string>
+    <string name="example_test_failed">Couldn\'t read the catalog. Check the address and the token.</string>
+</resources>

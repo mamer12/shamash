@@ -33,12 +33,15 @@ internal class ScoreCardView(context: Context) : View(context) {
     private var match: Match? = null
     private var card = OverlayCard.LIVE
     private var now = 0L
+    private var app: String? = null
 
-    fun bind(match: Match, card: OverlayCard, now: Long) {
+    /** [app] is the name of the app the match is on (MC-10); null: none on the TV, the reminder doesn't name one. */
+    fun bind(match: Match, card: OverlayCard, now: Long, app: String? = null) {
         val sizeChanged = card != this.card || this.match == null
         this.match = MatchSides.forDirection(match, context.resources.configuration.layoutDirection == LAYOUT_DIRECTION_RTL)
         this.card = card
         this.now = now
+        this.app = app
         loadCrests(match)
         if (sizeChanged) requestLayout()
         invalidate()
@@ -65,10 +68,9 @@ internal class ScoreCardView(context: Context) : View(context) {
         val x = REMINDER_TEXT_X * k
         val minutes = ceil((m.startsAt - now).coerceAtLeast(0) / MINUTE).toInt()
         small.color = DIM
-        canvas.drawText(
-            context.getString(R.string.match_starts_in, minutes, context.getString(R.string.match_default_app)),
-            x, cy - 10 * k, small,
-        )
+        val startsIn = app?.let { context.getString(R.string.match_starts_in, minutes, it) }
+            ?: context.getString(R.string.mcs_starts_in_no_app, minutes)
+        canvas.drawText(startsIn, x, cy - 10 * k, small)
         big.color = INK
         big.textSize = REMINDER_TEXT * k
         canvas.drawText(context.getString(R.string.match_versus, m.home.shortName, m.away.shortName), x, cy + 28 * k, big)

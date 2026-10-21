@@ -43,16 +43,28 @@ object Carousel {
         if (m.mine || profile.isMyTeam(m.home.name) || profile.isMyTeam(m.away.name)) m.copy(mine = true) else m
     }
 
-    /** A match as a card or billboard item; it opens [app]. */
-    fun matchItem(match: Match, app: String = MATCH_APP): MediaItem = MediaItem(
+    /** Whose items [matchItem] makes. */
+    const val MATCHES = "matches"
+
+    /**
+     * A match as a card or billboard item; it opens [app]. With no app (MC-10: none on the TV shows it) it opens a
+     * search for the match instead, and the card says so ([noApp]).
+     */
+    fun matchItem(match: Match, app: String? = MATCH_APP): MediaItem = MediaItem(
         id = "match:${match.id}",
-        providerId = "matches",
+        providerId = MATCHES,
         title = "${match.home.name} – ${match.away.name}",
         subtitle = match.competitionName,
         kind = Kind.MATCH,
-        open = OpenTarget.App(app),
+        open = if (app != null) OpenTarget.App(app) else OpenTarget.Internal(searchRoute(match)),
         appPackage = app,
         startsAt = match.startsAt,
         match = match,
     )
+
+    /** True for a match item that no app on the TV shows. SPEC: MC-10 */
+    fun noApp(item: MediaItem): Boolean = item.providerId == MATCHES && item.kind == Kind.MATCH && item.appPackage == null
+
+    private fun searchRoute(match: Match): String =
+        "search?q=" + java.net.URLEncoder.encode("${match.home.name} ${match.away.name}", "UTF-8")
 }

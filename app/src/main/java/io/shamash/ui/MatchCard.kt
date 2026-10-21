@@ -27,9 +27,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Text
 import io.shamash.R
+import io.shamash.domain.Carousel
 import io.shamash.domain.Match
 import io.shamash.domain.MatchState
+import io.shamash.domain.MediaItem
+import io.shamash.domain.Sport
 import io.shamash.domain.Team
+import io.shamash.feature.matchcentre.MatchLabels
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -39,12 +43,21 @@ import java.util.Locale
 val MatchCardHeight = 120.dp
 private val CREST = 40.dp
 
+/** A match item's card; it says so when no app on the TV shows the match. SPEC: MC-02, MC-10 */
+@Composable
+fun MatchCard(item: MediaItem, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    val match = item.match ?: return
+    MatchCard(match, onClick, modifier, noApp = Carousel.noApp(item))
+}
+
 /**
- * A match card: the competition on top, both crests with their short names, the kick-off (or the score) between them,
- * the day or the live minute (red) under it; the user's team's matches get a gold edge. SPEC: MC-02
+ * A match card: the competition on top (with the sport, beyond football), both crests with their short names (an F1
+ * session's localized name), the kick-off (or the score) between them, the day or the live minute (red) under it;
+ * the user's team's matches get a gold edge. SPEC: MC-02, MC-08, MC-15
  */
 @Composable
-fun MatchCard(match: Match, onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun MatchCard(match: Match, onClick: () -> Unit, modifier: Modifier = Modifier, noApp: Boolean = false) {
+    val context = LocalContext.current
     val shape = RoundedCornerShape(Dimens.Radius)
     val d = LocalCardDims.current
     FocusCard(onClick, modifier.size(d.wideW, d.matchH), description = mediaMatchLabel(match)) {
@@ -56,27 +69,38 @@ fun MatchCard(match: Match, onClick: () -> Unit, modifier: Modifier = Modifier) 
                 .padding(vertical = 8.dp, horizontal = 10.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            val heading = remember(match.sport, match.competitionName) { competitionLine(context, match) }
             Text(
-                (if (match.mine) "\u2605 " else "") + match.competitionName,   // PLT-15: mine = gold edge + star
+                (if (match.mine) "\u2605 " else "") + heading,   // PLT-15: mine = gold edge + star
                 style = Type.CardSub, maxLines = 1, overflow = TextOverflow.Ellipsis,
             )
             Spacer(Modifier.height(6.dp))
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
                 TeamMark(match.home, CREST)
                 Text(matchMiddle(match), style = Type.Score, maxLines = 1, modifier = Modifier.padding(horizontal = 6.dp))
-                TeamMark(match.away, CREST)
+                TeamMark(match.away, CREST, awayName(context, match))
             }
             Spacer(Modifier.height(4.dp))
-            MatchNote(match)
+            MatchNote(match, extra = if (noApp) stringResource(R.string.mcs_no_app_short) else null)
         }
     }
 }
 
+/** The competition, after the sport's localized name for sports other than football. SPEC: MC-15 */
+private fun competitionLine(context: Context, match: Match): String =
+    if (match.sport == Sport.SOCCER) match.competitionName
+    else context.getString(R.string.mcs_sport_line, MatchLabels.sport(context, match.sport), match.competitionName)
+
+/** An F1 session stands where the away side would: its name, localized (MC-08, MC-15). */
+private fun awayName(context: Context, match: Match): String =
+    if (match.sport == Sport.F1 && match.session.isNotBlank()) MatchLabels.session(context, match.session)
+    else match.away.shortName
+
 @Composable
-private fun TeamMark(team: Team, crest: Dp) {
+private fun TeamMark(team: Team, crest: Dp, name: String = team.shortName) {
     Column(Modifier.width(56.dp), horizontalAlignment = Alignment.CenterHorizontally) {
         Crest(team, crest)
-        Text(team.shortName, style = Type.CardSub, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        Text(name, style = Type.CardSub, maxLines = 1, overflow = TextOverflow.Ellipsis)
     }
 }
 
@@ -88,12 +112,13 @@ fun Crest(team: Team, size: Dp, modifier: Modifier = Modifier) {
     }
 }
 
-/** The day ("Today", "Tomorrow", a weekday) or, while it's on, the minute in red. SPEC: MC-02 */
+/** The day ("Today", "Tomorrow", a weekday) or, while it's on, the minute in red; then [extra] if any. SPEC: MC-02 */
 @Composable
-fun MatchNote(match: Match, style: androidx.compose.ui.text.TextStyle = Type.CardSub) {
+fun MatchNote(match: Match, style: androidx.compose.ui.text.TextStyle = Type.CardSub, extra: String? = null) {
     val live = match.state == MatchState.LIVE
-    val text = if (live) "${stringResource(R.string.a11y_live)} ${match.clock}".trim() else matchDay(match.startsAt)   // PLT-15
-    Text(text, style = style, color = if (live) Palette.Live else Palette.Dim, maxLines = 1)
+    val note = if (live) "${stringResource(R.string.a11y_live)} ${match.clock}".trim() else matchDay(match.startsAt)   // PLT-15
+    val text = if (extra == null) note else stringResource(R.string.mcs_note_line, note, extra)
+    Text(text, style = style, color = if (live) Palette.Live else Palette.Dim, maxLines = 1, overflow = TextOverflow.Ellipsis)
 }
 
 /** The kick-off time before the match, the score once it has started. */

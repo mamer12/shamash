@@ -1,0 +1,8 @@
+[
+  {"stationuuid":"s-1","name":"News FM","url":"http://stream.example/news","url_resolved":"https://stream.example/news.mp3","favicon":"https://img.example/news.png","tags":"news,talk,arabic","countrycode":"IQ","lastcheckok":1},
+  {"stationuuid":"s-2","name":"Quran Radio","url":"https://q.example/live","url_resolved":"","favicon":"","tags":"quran","countrycode":"IQ","lastcheckok":1},
+  {"stationuuid":"s-3","name":"Broken","url":"https://b.example/x","url_resolved":"https://b.example/x","tags":"","countrycode":"IQ","lastcheckok":0},
+  {"stationuuid":"s-4","name":"No stream","url":"rtsp://x","url_resolved":"","tags":"","countrycode":"IQ"},
+  {"stationuuid":"s-1","name":"News FM again","url_resolved":"https://stream.example/news.mp3"},
+  {"name":"no id","url_resolved":"https://x.example"}
+]

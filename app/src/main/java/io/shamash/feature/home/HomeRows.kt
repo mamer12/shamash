@@ -23,6 +23,7 @@ import io.shamash.domain.Shelf
 import io.shamash.domain.ShelfStyle
 import io.shamash.domain.TvApp
 import io.shamash.domain.Weather
+import io.shamash.feature.matchcentre.WhereToWatch
 import io.shamash.ui.Featured
 import io.shamash.ui.ShelfKeys
 import io.shamash.ui.WeatherNow
@@ -50,12 +51,13 @@ object HomeRows {
         val moment = Moment.at(input.hour)
         val names = loaded.installed.associate { it.packageName to it.label }
         val rule = HomeLayout.ruleAt(p, input.now)
-        val laid = HomeLayout.lay(homeRows(p, shelves, matches, history, moment, input.now, input.personal, loaded.order), p, rule)
+        val watch = WhereToWatch.of(loaded.broadcast, p, loaded.installed)::item   // SPEC: MC-10
+        val laid = HomeLayout.lay(homeRows(p, shelves, matches, history, moment, input.now, input.personal, loaded.order, watch), p, rule)
         return HomeUi(
             ready = loaded.started && loaded.pending.isEmpty(),
             greeting = Moments.greeting(moment, p.name),
             moment = moment,
-            featured = featured(loaded, matches, input.now, names, p, rule, data.signals, data.learnOrder),
+            featured = featured(loaded, matches, input.now, names, p, rule, data.signals, data.learnOrder, watch),
             home = laid.shown,
             editableRows = laid.editable,
             discover = discoverRows(shelves),
@@ -93,8 +95,9 @@ object HomeRows {
         loaded: Loaded, matches: List<Match>, now: Long, names: Map<String, String>,
         p: Profile = Profile(), rule: MomentRule? = null,
         signals: List<Signal> = emptyList(), learnOrder: Boolean = true,
+        watch: (Match) -> MediaItem = { Carousel.matchItem(it) },
     ): List<Featured> {
-        val lead = Carousel.matchDay(matches, now)?.let { Carousel.matchItem(it) }
+        val lead = Carousel.matchDay(matches, now)?.let(watch)
         val byProvider = loaded.providers.filterKeys { it !in p.layout.mixOff }.mapValues { it.value.featured }
         val own = rule?.mix?.takeIf { it.isNotEmpty() } ?: p.layout.mix.takeIf { it.isNotEmpty() }
         val order = own ?: Weights.orderProviders(Carousel.ORDER, signals, now, learnOrder)   // SPEC: PER-05
@@ -108,6 +111,7 @@ object HomeRows {
     fun homeRows(
         p: Profile, shelves: List<Shelf>, matches: List<Match>, history: List<MediaItem>, moment: Moment, now: Long,
         personal: PersonalState = PersonalState.EMPTY, order: List<String> = emptyList(),
+        watch: (Match) -> MediaItem = { Carousel.matchItem(it) },   // where each match is watched (MC-10)
     ): List<Shelf> {
         val data = personal.data
         val taste = TasteProfile.genres(p.genres, data.myList.map { it.genres }, data.signals)
@@ -125,13 +129,13 @@ object HomeRows {
         val myList = MyListOps.row(data.myList, order.toSet(), data.muteIndex)
         val momentItems = Moments.row(
             moment,
-            matches = Moments.mineSoon(matches, now).map { Carousel.matchItem(it) },
+            matches = Moments.mineSoon(matches, now).map(watch),
             unfinished = Moments.firstUnfinished(watching),
             personal = personalPick(cinemana, popular, shelves, Weights.momentGenres(data.signals, moment)),
             youtube = youtube.firstOrNull()?.items?.firstOrNull(),
         )
         val own = listOf(
-            Shelf("matches", ShelfKeys.MATCHES, ShelfStyle.MATCH, Carousel.matchRow(matches).map { Carousel.matchItem(it) }),
+            Shelf("matches", ShelfKeys.MATCHES, ShelfStyle.MATCH, Carousel.matchRow(matches).map(watch)),
             Shelf("moment", ShelfKeys.MOMENT_PREFIX + moment.name.lowercase(Locale.ROOT), ShelfStyle.WIDE, momentItems),
             Shelf("continue", ShelfKeys.CONTINUE, ShelfStyle.WIDE, watching),
             Shelf("continue:youtube", ShelfKeys.CONTINUE_YOUTUBE, ShelfStyle.VIDEO, videos.distinctBy { it.id }),

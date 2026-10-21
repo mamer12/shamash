@@ -49,12 +49,18 @@ internal fun AddonsPanel(p: Profile, save: (Profile) -> Unit, locator: ServiceLo
                     "plex" -> io.shamash.feature.plex.PlexExtra(p, locator)
                     "iptv" -> io.shamash.feature.iptv.IptvFavoritesPanel(locator)
                     "myfeed" -> io.shamash.feature.myfeed.FeedEditorPanel(locator)
+                    "podcasts" -> io.shamash.feature.podcasts.PodcastsPanel(locator)
+                    "radio" -> io.shamash.feature.radio.RadioPanel(p, locator)
+                    "live" -> io.shamash.feature.live.LivePanel(locator)
+                    "trakt", "simkl" -> io.shamash.feature.trakt.TrackerPanel(addOn.id, p, locator)
+                    "widgets" -> io.shamash.feature.widgets.WidgetsPanel(locator)
                 }
             }
         }
         Spacer(Modifier.height(12.dp))
     }
     Explain(stringResource(R.string.addons_guide))
+    Explain(stringResource(R.string.addons_guide_link, stringResource(R.string.addons_guide_url)))   // PEX-08
 }
 
 /** What Cinemana may show (CIN-08). */

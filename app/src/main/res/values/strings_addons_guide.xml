@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings -> Add-ons: where the add-on authoring guide lives. SPEC: PEX-08, PLT-04 -->
+<resources>
+    <string name="addons_guide_url" translatable="false">https://github.com/mamer12/shamash/blob/main/docs/ADDONS.md</string>
+    <string name="addons_guide_link">Add-on authoring guide: %1$s</string>
+</resources>

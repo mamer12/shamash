@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Match Centre settings, where to watch and card labels (MC-07, MC-09..13, MC-15). -->
+<resources>
+    <string name="mcs_section">المباريات</string>
+    <string name="mcs_text">فرقك ولاعبوك ورياضاتك وبطولاتك، ومتى تظهر بطاقات المباريات فوق التطبيقات الأخرى. كل ذلك يبقى على هذا التلفاز.</string>
+    <string name="mcs_follows">الفرق واللاعبون</string>
+    <string name="mcs_follows_label">الأسماء</string>
+    <string name="mcs_follows_hint">افصل الأسماء بفواصل، مثل: الهلال، ريال مدريد، سينر</string>
+    <string name="mcs_sports">تابع رياضة كاملة</string>
+    <string name="mcs_competitions">البطولات</string>
+    <string name="mcs_alerts_none">تابع فريقًا أو لاعبًا أو رياضة لتضبط تنبيهاتها.</string>
+    <string name="mcs_alerts_text">البداية: تذكير قبل 10 دقائق. الأهداف: الأهداف والنتيجة النهائية. الكل: والنتيجة المباشرة أيضًا.</string>
+    <string name="mcs_goal_only_text">اللحظات المهمة فقط: بلا فقاعة النتيجة المباشرة، فقط الأهداف (الأشواط المحسومة، تغيّر المتصدر، نهاية السباق) والنتيجة النهائية.</string>
+    <string name="mcs_quiet_text">في هذه الساعات لا يظهر شيء فوق التطبيقات الأخرى، إلا المباريات المعلّمة بـ«دائمًا». يمكن أن يتجاوز النطاق منتصف الليل.</string>
+    <string name="mcs_quiet_from">من %1$s</string>
+    <string name="mcs_quiet_to">إلى %1$s</string>
+    <string name="mcs_earlier">أبكر</string>
+    <string name="mcs_later">لاحقًا</string>
+    <string name="mcs_days">الأيام (بلا اختيار: كل يوم)</string>
+    <string name="mcs_toggle">%1$s: %2$s</string>
+    <string name="mcs_on">مفعّل</string>
+    <string name="mcs_off">متوقف</string>
+    <string name="mcs_no_app_short">لا يوجد تطبيق</string>
+    <string name="mcs_sport_line">%1$s · %2$s</string>
+    <string name="mcs_note_line">%1$s · %2$s</string>
+    <string name="mcs_starts_in_no_app">تبدأ بعد %1$d دقيقة</string>
+</resources>

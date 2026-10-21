@@ -41,7 +41,7 @@ class ServiceLocator private constructor(context: Context) {
             PersonalStore(File(appContext.filesDir, "personal")) { Recording.enabled }, prefs.profile,
             { providers.filterIsInstance<PersonalBridge>() }, CoroutineScope(SupervisorJob() + Dispatchers.Default),
             recordingOn = { Recording.enabled },
-        ).also { it.start() }
+        ).also { it.start(); io.shamash.feature.trakt.TrackerWriteBack.start(it.state, providers) }
     }
     val opener by lazy {
         Opener(appContext, apps, links, history, prefs).also {

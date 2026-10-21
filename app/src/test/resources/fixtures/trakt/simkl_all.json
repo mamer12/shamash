@@ -1,0 +1,13 @@
+{
+  "movies":[
+    {"added_to_watchlist_at":"2026-01-01T10:00:00Z","last_watched_at":null,"status":"plantowatch","movie":{"title":"Dune: Part Two","year":2024,"ids":{"simkl":111,"slug":"dune-part-two","tmdb":"693134","imdb":"tt15239678"}}},
+    {"last_watched_at":"2026-01-05T20:00:00Z","status":"completed","movie":{"title":"Arrival","year":2016,"ids":{"simkl":222,"tmdb":"329865"}}},
+    {"last_watched_at":"2025-06-01T20:00:00Z","status":"completed","movie":{"title":"Old One","year":2010,"ids":{"simkl":333,"tmdb":"27205"}}},
+    {"status":"dropped","last_watched_at":"2026-01-05T20:00:00Z","movie":{"title":"Dropped","ids":{"simkl":444}}}
+  ],
+  "shows":[
+    {"status":"watching","last_watched_at":"2026-01-06T20:00:00Z","show":{"title":"Severance","year":2022,"ids":{"simkl":555,"tmdb":"95396"}}},
+    {"status":"plantowatch","added_to_watchlist_at":"2026-01-02T10:00:00Z","show":{"title":"Shogun","year":2024,"ids":{"simkl":666}}}
+  ],
+  "anime":[]
+}

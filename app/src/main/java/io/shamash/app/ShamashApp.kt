@@ -23,6 +23,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import io.shamash.feature.companion.Companion
+import io.shamash.feature.companion.PhoneOnTv
 import io.shamash.feature.home.HomeScreen
 import io.shamash.feature.onboarding.Onboarding
 import io.shamash.feature.profiles.ProfileGate
@@ -106,6 +107,7 @@ fun ShamashApp(locator: ServiceLocator) {
                 }
             }
         }
+        if (onboarded) PhoneOnTv.Prompts(locator)   // backup questions from the phone. SPEC: CMP-13, CMP-15
     }
 }
 
