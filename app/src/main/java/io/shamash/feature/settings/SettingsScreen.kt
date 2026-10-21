@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +24,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.stringResource
@@ -56,6 +59,12 @@ enum class Section(val title: Int) {
     KEEP(R.string.settings_keep),
     BACKUP(R.string.settings_backup),
     TV(R.string.settings_tv),
+    ;
+
+    companion object {
+        /** The section a link names ("settings?section=layout"), or null. */
+        fun named(name: String?): Section? = entries.firstOrNull { it.name.equals(name, ignoreCase = true) }
+    }
 }
 
 /**
@@ -63,11 +72,12 @@ enum class Section(val title: Int) {
  * Save). Back leaves.
  */
 @Composable
-fun SettingsScreen(locator: ServiceLocator, onBack: () -> Unit) {
+fun SettingsScreen(locator: ServiceLocator, onBack: () -> Unit, start: Section? = null) {
     BackHandler(onBack = onBack)
     val profile by locator.prefs.profile.collectAsState(initial = null)
     val scope = rememberCoroutineScope()
-    var section by rememberSaveable { mutableStateOf(Section.HOME) }
+    var section by rememberSaveable { mutableStateOf(start ?: Section.HOME) }
+    val startFocus = remember { FocusRequester() }
     val sections = remember {
         Section.entries.filter { it != Section.BUTTONS || TvControl.get(locator.appContext).remoteButtonsSupported }
     }
@@ -88,9 +98,11 @@ fun SettingsScreen(locator: ServiceLocator, onBack: () -> Unit) {
                 ListItem(
                     selected = s == section, onClick = { section = s },
                     headlineContent = { Text(stringResource(s.title)) },
-                    modifier = Modifier.onFocusChanged { if (it.isFocused) section = s },
+                    modifier = Modifier.onFocusChanged { if (it.isFocused) section = s }
+                        .then(if (s == start) Modifier.focusRequester(startFocus) else Modifier),
                 )
             }
+            if (start != null) LaunchedEffect(start) { runCatching { startFocus.requestFocus() } }   // LAY-02 shortcut
         }
         Spacer(Modifier.width(56.dp))
         Box(Modifier.weight(1f).fillMaxHeight().verticalScroll(rememberScrollState())) {

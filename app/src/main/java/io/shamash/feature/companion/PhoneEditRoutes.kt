@@ -1,7 +1,6 @@
 package io.shamash.feature.companion
 
 import io.shamash.data.Redact
-import io.shamash.data.myfeed.FeedStore
 import io.shamash.feature.companion.PhoneApi.Companion.answer
 import io.shamash.feature.companion.PhoneApi.Companion.fail
 import io.shamash.feature.companion.PhoneApi.Companion.ok
@@ -51,7 +50,7 @@ internal class PhoneEditRoutes(private val backend: PhoneBackend) {
     private suspend fun feeds(): HttpReply {
         val list = backend.feeds() ?: return fail(404, "no_feeds")
         val out = list.map { FeedOut(it.id, it.title, Redact.host(it.url), it.kind, it.style, it.level) }
-        return ok(FeedsOut.serializer(), FeedsOut(out, FeedStore.MAX))
+        return ok(FeedsOut.serializer(), FeedsOut(out, backend.maxFeeds()))
     }
 
     /** add / remove / try. SPEC: CMP-10 */
@@ -65,7 +64,7 @@ internal class PhoneEditRoutes(private val backend: PhoneBackend) {
             return answer(Answer(true, "removed"))
         }
         if (input.action != ADD && input.action != TRY) return fail(400, "invalid")
-        if (input.action == ADD && list.size >= FeedStore.MAX) return fail(409, FeedRefusal.FULL.code)
+        if (input.action == ADD && list.size >= backend.maxFeeds()) return fail(409, FeedRefusal.FULL.code)
         val id = "f" + backend.now().toString(Character.MAX_RADIX)
         val feed = when (val checked = FeedCheck.feed(input, id, backend::resolve)) {
             is FeedCheck.Result.Refused -> return fail(400, checked.why.code)

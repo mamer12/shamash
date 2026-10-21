@@ -1,10 +1,10 @@
 package io.shamash.ui
 
+import io.shamash.data.Logger
 import android.content.Context
 import android.graphics.SurfaceTexture
 import android.media.MediaPlayer
 import android.net.Uri
-import android.util.Log
 import android.view.Surface
 import android.view.TextureView
 import androidx.compose.foundation.background
@@ -60,7 +60,7 @@ class PreviewController(
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
-            Log.w(TAG, "preview: $e")
+            Logger.w("preview", e)
             null
         } ?: return
         stop(null)
@@ -120,19 +120,18 @@ class PreviewController(
                 if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) renderingId = id
                 false
             }
-            mp.setOnErrorListener { _, what, extra -> Log.w(TAG, "preview error $what/$extra"); stop(id); true }
+            mp.setOnErrorListener { _, what, extra -> Logger.w("preview error $what/$extra"); stop(id); true }
             mp.setOnCompletionListener { stop(id) }
             mp.prepareAsync()
             player = mp
             playingId = id
         } catch (e: Exception) {
-            Log.w(TAG, "preview: $e")
+            Logger.w("preview", e)
             mp.release()
         }
     }
 
     private companion object {
-        const val TAG = "Shamash"
         const val VOLUME = 0.8f
     }
 }

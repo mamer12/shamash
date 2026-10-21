@@ -4,17 +4,24 @@ import io.shamash.R
 import io.shamash.data.Http
 import io.shamash.data.HttpPolicy
 import io.shamash.data.Preferences
+import io.shamash.data.Reach
 import io.shamash.data.Say
+import io.shamash.data.security.PublicArt
 import io.shamash.data.ServerHttp
 import io.shamash.data.ServerProvider
 import io.shamash.data.ServerUrl
 import io.shamash.data.youtube.SecretStore
 import io.shamash.domain.AddOn
 import io.shamash.domain.ContentLevel
+import io.shamash.domain.FeedEditor
+import io.shamash.domain.FeedEntry
+import io.shamash.domain.FeedKind
+import io.shamash.domain.FeedStyle
 import io.shamash.domain.Kind
 import io.shamash.domain.MediaItem
 import io.shamash.domain.OpenTarget
 import io.shamash.domain.Profile
+import io.shamash.domain.ProfileListsOwner
 import io.shamash.domain.RowSource
 import io.shamash.domain.Shelf
 import io.shamash.domain.ShelfStyle
@@ -31,7 +38,7 @@ class MyFeedProvider(
     private val server: ServerHttp,
     say: Say,
     clock: () -> Long = System::currentTimeMillis,
-) : ServerProvider(ID, say, clock) {
+) : ServerProvider(ID, say, clock), FeedEditor, ProfileListsOwner {
     @Volatile private var known: List<UserFeed> = emptyList()
 
     override fun rowSources(): List<RowSource> = known.map { RowSource(it.id, titleText = it.title) }
@@ -47,6 +54,23 @@ class MyFeedProvider(
 
     suspend fun save(feeds: List<UserFeed>): List<UserFeed> = store.save(feeds).also { known = it }
 
+    /** Remove: the active profile's feeds go too. SPEC: PEX-05 */
+    override suspend fun clearProfileLists() {
+        store.clear()
+        known = emptyList()
+    }
+
+    override val maxFeeds: Int get() = FeedStore.MAX
+
+    override suspend fun feedEntries(): List<FeedEntry> = feeds().map { it.entry() }
+
+    override suspend fun saveEntries(entries: List<FeedEntry>) {
+        val old = feeds().associateBy { it.id }
+        save(entries.map { e -> old[e.id]?.merged(e) ?: UserFeed.of(e) })
+    }
+
+    override suspend fun tryEntry(entry: FeedEntry, limit: Int): List<String> = preview(UserFeed.of(entry), limit).map { it.title }
+
     /** The first [limit] cards of [feed] (the editor's "Try it"); throws when the feed can't be read. */
     suspend fun preview(feed: UserFeed, limit: Int = 3): List<FeedItem> = fetch(feed).take(limit)
 
@@ -54,9 +78,9 @@ class MyFeedProvider(
         val url = ServerUrl.parse(feed.url, if (feed.allowHttp) HttpPolicy.ANY else HttpPolicy.NONE) ?: error("address")
         val headers = listOfNotNull(feed.header()).toMap()
         return if (feed.kind == FeedKind.JSON) {
-            FeedParser.json(server.json(url, headers, TIMEOUT_MS, MAX_BYTES), feed.mapping ?: JsonMapping())
+            FeedParser.json(server.json(url, headers, TIMEOUT_MS, MAX_BYTES, reach = Reach.PUBLIC), feed.mapping ?: JsonMapping())
         } else {
-            server.read(url, headers, TIMEOUT_MS, MAX_BYTES) { FeedParser.xml(it) }
+            server.read(url, headers, TIMEOUT_MS, MAX_BYTES, reach = Reach.PUBLIC) { FeedParser.xml(it) }   // SPEC: CMP-10
         }
     }
 
@@ -104,11 +128,12 @@ class MyFeedProvider(
 
         fun card(feed: UserFeed, item: FeedItem): MediaItem {
             val poster = feed.style == FeedStyle.POSTER
+            val art = PublicArt.url(item.image)   // SPEC: CMP-10: a feed's art never points into the LAN
             return MediaItem(
                 id = "$ID:${feed.id}:${item.link.hashCode().toUInt().toString(16)}", providerId = ID,
                 title = item.title, kind = Kind.VIDEO, open = target(item.link), subtitle = item.subtitle,
-                posterUrl = if (poster) item.image else null,
-                backdropUrl = if (poster) null else item.image,
+                posterUrl = if (poster) art else null,
+                backdropUrl = if (poster) null else art,
                 rating = rating(feed.level),
             )
         }

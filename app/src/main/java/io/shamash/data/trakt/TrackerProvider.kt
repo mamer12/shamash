@@ -15,6 +15,7 @@ import io.shamash.domain.MyListEntry
 import io.shamash.domain.PersonalBridge
 import io.shamash.domain.Profile
 import io.shamash.domain.ProfileKind
+import io.shamash.domain.ProfileListsOwner
 import io.shamash.domain.ProviderCredentials
 import io.shamash.domain.RowSource
 import io.shamash.domain.Shelf
@@ -44,7 +45,10 @@ class TrackerProvider(
     private val activeProfile: suspend () -> Profile,
     say: Say,
     private val clock: () -> Long = System::currentTimeMillis,
-) : ServerProvider(id, say, clock), PersonalBridge {
+) : ServerProvider(id, say, clock), PersonalBridge, ProfileListsOwner {
+    /** Remove: the active profile's own list goes too. SPEC: PEX-05 */
+    override suspend fun clearProfileLists() = state.clear()
+
     private val version = MutableStateFlow(0)
     private val finishedFlow = MutableSharedFlow<MediaItem>(extraBufferCapacity = 64)
     private val syncLock = Mutex()

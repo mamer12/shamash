@@ -52,4 +52,5 @@ data class HomeUi(
     val allApps: List<TvApp> = emptyList(),
     val weather: WeatherNow? = null,
     val city: String = "",
+    val autoplay: Boolean = true,   // the billboard advances by itself (LAY-07)
 )

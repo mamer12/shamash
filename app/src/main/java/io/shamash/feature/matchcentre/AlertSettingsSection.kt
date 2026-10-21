@@ -22,12 +22,16 @@ import androidx.tv.material3.Text
 import io.shamash.R
 import io.shamash.app.ServiceLocator
 import io.shamash.data.softly
+import io.shamash.domain.Carousel
+import io.shamash.domain.Match
 import io.shamash.domain.MatchFollows
 import io.shamash.domain.Profile
 import io.shamash.ui.ChipPicker
 import io.shamash.ui.OnePicker
 import io.shamash.ui.Palette
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.DayOfWeek
 import java.time.format.TextStyle
 import java.util.Locale
@@ -49,6 +53,7 @@ internal fun AlertSettingsSection(p: Profile, locator: ServiceLocator) {
     }
     PanelHeading(R.string.alerts_title)
     LevelRows(p, now, update)
+    StarRows(p, locator, now, update)
     PanelNote(stringResource(R.string.mcs_goal_only_text))
     Toggle(R.string.alerts_goal_only, now.goalOnly) { update(now.copy(goalOnly = it)) }
     QuietHoursRows(now.quiet) { update(now.copy(quiet = it)) }
@@ -69,6 +74,34 @@ private fun LevelRows(p: Profile, settings: AlertSettings, update: (AlertSetting
             OnePicker(AlertLevel.entries, settings.levelOf(f), { update(settings.withLevel(f, it)) }) {
                 MatchLabels.level(context, it)
             }
+        }
+    }
+}
+
+/** The follows' coming matches, each with its "Always" star (ignores quiet hours). SPEC: MC-12 */
+@Composable
+private fun StarRows(p: Profile, locator: ServiceLocator, settings: AlertSettings, update: (AlertSettings) -> Unit) {
+    var matches by remember(p.id) { mutableStateOf<List<Match>?>(null) }
+    LaunchedEffect(p.id) {
+        matches = withContext(Dispatchers.IO) {
+            softly("match stars", emptyList()) { Carousel.markMine(locator.matches.matches(p), p) }
+        }
+    }
+    val listed = matches ?: return
+    PanelHeading(R.string.mcs_always_title)
+    val shown = AlertStars.candidates(listed, p, settings)
+    if (shown.isEmpty()) return PanelNote(stringResource(R.string.mcs_always_none))
+    PanelNote(stringResource(R.string.mcs_always_text))
+    shown.forEach { m ->
+        val label = "${m.home.name} – ${m.away.name}".removeSuffix(" – ")
+        val on = m.id in settings.always
+        OutlinedButton(onClick = { update(AlertStars.toggled(settings, m.id, listed)) }) {
+            Text(
+                stringResource(
+                    R.string.mcs_toggle, stringResource(R.string.mcs_always_match, label, AlertStars.whenText(m.startsAt)),
+                    stringResource(if (on) R.string.mcs_on else R.string.mcs_off),
+                ),
+            )
         }
     }
 }

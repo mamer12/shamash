@@ -66,6 +66,7 @@ object HomeRows {
             allApps = loaded.installed,
             weather = loaded.weather?.let { HomeLayout.weather(it, p) },
             city = p.city,
+            autoplay = p.layout.autoplay,
         )
     }
 
@@ -101,7 +102,9 @@ object HomeRows {
         val byProvider = loaded.providers.filterKeys { it !in p.layout.mixOff }.mapValues { it.value.featured }
         val own = rule?.mix?.takeIf { it.isNotEmpty() } ?: p.layout.mix.takeIf { it.isNotEmpty() }
         val order = own ?: Weights.orderProviders(Carousel.ORDER, signals, now, learnOrder)   // SPEC: PER-05
-        return Carousel.mix(lead, byProvider, order = order).map { Featured(it, appName(it, names)) }
+        return Carousel.mix(lead, byProvider, order = order)
+            .filter { ContentGate.allows(it, p.contentLevel) }   // SPEC: PRF-12
+            .map { Featured(it, appName(it, names)) }
     }
 
     /**
@@ -126,7 +129,7 @@ object HomeRows {
         val others = shelves.filter {
             it !in placed && it.titleKey !in DISCOVER_ONLY && it.titleKey != ShelfKeys.CONTINUE && it.id != CINEMANA_LIST
         }
-        val myList = MyListOps.row(data.myList, order.toSet(), data.muteIndex)
+        val myList = ContentGate.filter(MyListOps.row(data.myList, order.toSet(), data.muteIndex), p)   // SPEC: PRF-12
         val momentItems = Moments.row(
             moment,
             matches = Moments.mineSoon(matches, now).map(watch),
@@ -144,6 +147,7 @@ object HomeRows {
         val learned = Weights.orderShelves(youtube + tod + (cinemana - cinemanaList(cinemana)) + popular + others, data.signals, now, data.learnOrder)
         val top = TasteProfile.top(taste)
         return (own + learned)
+            .map { s -> ContentGate.filter(s, p.contentLevel) }   // SPEC: PRF-12: the last gate before the screen, every row
             .map { s -> s.copy(items = s.items.distinctBy { it.id }, reason = Reasons.forShelf(s, top)) }
             .filter { it.items.isNotEmpty() }
             .distinctBy { it.id }
@@ -154,6 +158,9 @@ object HomeRows {
         (shelves.filter { it.titleKey == ShelfKeys.TOP10 } + shelves.filter { it.titleKey == ShelfKeys.POPULAR_ON })
             .filter { it.items.isNotEmpty() }
             .distinctBy { it.id }
+
+    /** Whether the Discover tab reads any of [shelves], so they are fetched even when hidden on Home (LAY-04). */
+    fun readsRows(shelves: List<Shelf>): Boolean = shelves.any { it.titleKey == ShelfKeys.TOP10 || it.titleKey == ShelfKeys.POPULAR_ON }
 
     /** The apps row: subscribed apps first, then the other streaming apps, then recently used. SPEC: HOME-03 */
     fun appsRow(p: Profile, installed: List<TvApp>, recent: List<TvApp>): List<TvApp> {

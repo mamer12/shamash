@@ -85,7 +85,8 @@ object Type {
     private val Sans = FontFamily.SansSerif
 
     val Greeting = TextStyle(fontFamily = Sans, fontWeight = FontWeight.Medium, fontSize = 21.sp, color = Palette.Ink)
-    val HeroLabel = TextStyle(fontFamily = Sans, fontWeight = FontWeight.Bold, fontSize = 12.sp, letterSpacing = 2.sp, color = Palette.Gold)
+    /** Read at draw time: the accent can change while Home is showing (LAY-14). */
+    val HeroLabel get() = TextStyle(fontFamily = Sans, fontWeight = FontWeight.Bold, fontSize = 12.sp, letterSpacing = 2.sp, color = Palette.Gold)
     val HeroTitle = TextStyle(fontFamily = Sans, fontWeight = FontWeight.Bold, fontSize = 36.sp, lineHeight = 40.sp, color = Palette.Ink)
     val HeroMeta get() = TextStyle(fontFamily = Sans, fontWeight = FontWeight.Medium, fontSize = 14.sp, color = Palette.Dim)
     val HeroBody get() = TextStyle(fontFamily = Sans, fontSize = 14.sp, lineHeight = 20.sp, color = Palette.Dim)

@@ -116,7 +116,9 @@ class CinemanaProvider(
 
     /** Watchme+ opens the title's page; the Cinemana app only opens. */
     internal fun open(t: CinemanaTitle): OpenTarget =
-        if (installed(WATCHME)) OpenTarget.AppScreen(WATCHME, WATCHME_SCREEN, mapOf(WATCHME_ID to t.pageId, WATCHME_QUERY to t.title))
+        if (installed(WATCHME)) OpenTarget.AppScreen(
+            WATCHME, WATCHME_SCREEN, mapOf(WATCHME_ID to t.pageId, WATCHME_QUERY to t.title), resumeExtraKey = WATCHME_PLAY_AT,
+        )
         else OpenTarget.App(CINEMANA_APP)
 
     companion object {
@@ -125,7 +127,7 @@ class CinemanaProvider(
         const val WATCHME_SCREEN = "io.freemytv.CinemaActivity"
         const val WATCHME_ID = "io.freemytv.cinemana.ID"
         const val WATCHME_QUERY = "io.freemytv.cinemana.QUERY"
-        const val WATCHME_PLAY_AT = "io.freemytv.cinemana.PLAY_AT"   // long ms; set by Home when a preview was playing
+        const val WATCHME_PLAY_AT = "io.freemytv.cinemana.PLAY_AT"   // long ms; Home sets it through resumeExtraKey
         const val CINEMANA_APP = "com.shabakaty.cbox.cinemana"
         private const val ROW_MAX = 20
         private const val FEATURED_MAX = 8

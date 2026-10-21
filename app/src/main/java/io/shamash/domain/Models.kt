@@ -19,9 +19,18 @@ sealed interface OpenTarget {
     @Serializable
     data class App(val appPackage: String) : OpenTarget
 
-    /** One screen of an app, by class name, with string extras (e.g. a title in Watchme+); falls back to [App]. */
+    /**
+     * One screen of an app, by class name, with string extras (e.g. a title in Watchme+); falls back to [App].
+     * [resumeExtraKey], set by the provider, is the extra that carries a start position in ms (HOME-20), so the core
+     * can resume a preview there without knowing the app.
+     */
     @Serializable
-    data class AppScreen(val appPackage: String, val className: String, val extras: Map<String, String>) : OpenTarget
+    data class AppScreen(
+        val appPackage: String,
+        val className: String,
+        val extras: Map<String, String>,
+        val resumeExtraKey: String? = null,
+    ) : OpenTarget
 
     @Serializable
     data class Video(val youtubeId: String) : OpenTarget

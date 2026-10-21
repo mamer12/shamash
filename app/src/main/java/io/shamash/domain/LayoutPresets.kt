@@ -24,10 +24,14 @@ object LayoutPresets {
         carouselMix = listOf("tod", "youtube", "tmdb", "cinemana"),
     )
 
+    /** Rows whose cards pass the Kids gate (PRF-12): Cinemana's kids level, made-for-kids YouTube, Kids-level feeds. */
     val KIDS = LayoutPreset(
         id = LayoutPreset.KIDS,
-        rows = listOf(PresetRow("continue"), PresetRow("cinemana_*"), PresetRow("matches", hidden = true)),
-        carouselMix = listOf("cinemana"),
+        rows = listOf(
+            PresetRow("continue"), PresetRow("cinemana_*"), PresetRow("yt_recs"), PresetRow("myfeed:*"),
+            PresetRow("matches", hidden = true),
+        ),
+        carouselMix = listOf("cinemana", "youtube"),
         cardSize = CardSize.L,
         hideRest = true,
     )
@@ -37,6 +41,7 @@ object LayoutPresets {
         rows = listOf(PresetRow("continue"), PresetRow("moment")),
         carouselMix = listOf("tmdb"),
         hideRest = true,
+        autoplay = false,
     )
 
     val all: List<LayoutPreset> = listOf(CINEMA, SPORTS, KIDS, MINIMAL)
@@ -52,5 +57,6 @@ object LayoutPresets {
         hideRest = preset.hideRest,
         rules = preset.rules.ifEmpty { from.rules },
         mix = preset.carouselMix,
+        autoplay = preset.autoplay,
     )
 }

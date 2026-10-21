@@ -92,6 +92,9 @@ class LayoutTest {
         val kids = LayoutPresets.apply(LayoutPresets.KIDS)
         assertEquals(CardSize.L, kids.cardSize)
         assertFalse("matches" in LayoutOps.visible(ids, kids))
+        val shown = LayoutOps.visible(listOf("matches", "tod_matches", "tmdb_top10", "yt_recs", "cinemana_kids", "myfeed:f1", "podcasts:new"), kids)
+        assertEquals(listOf("cinemana_kids", "yt_recs", "myfeed:f1"), shown)                 // kids rows only
+        assertEquals(listOf("cinemana", "youtube"), kids.mix)
         assertEquals("sports", LayoutPresets.byId("sports").id)
         assertEquals("cinema", LayoutPresets.byId("nope").id)
     }
@@ -150,5 +153,12 @@ class LayoutTest {
         val text = json.encodeToString(Layout.serializer(), LayoutPresets.apply(LayoutPresets.CINEMA))
         assertFalse(text.contains("key", ignoreCase = true))
         assertNotNull(text)
+    }
+
+    @Test fun LAY_07_minimal_turns_billboard_autoplay_off_and_others_keep_it() {
+        assertFalse(LayoutPresets.apply(LayoutPresets.MINIMAL).autoplay)
+        assertTrue(LayoutPresets.apply(LayoutPresets.CINEMA, LayoutPresets.apply(LayoutPresets.MINIMAL)).autoplay)
+        assertTrue(json.decodeFromString(Layout.serializer(), """{"presetId":"minimal"}""").autoplay)   // old stores
+        assertFalse(LayoutOps.reset(LayoutPresets.apply(LayoutPresets.MINIMAL).copy(autoplay = true)).autoplay)
     }
 }

@@ -19,12 +19,16 @@ import androidx.tv.material3.Switch
 import androidx.tv.material3.Text
 import io.shamash.R
 import io.shamash.app.ServiceLocator
+import io.shamash.data.Logger
 import io.shamash.data.Sources
 import io.shamash.domain.AddOn
 import io.shamash.domain.ContentLevel
 import io.shamash.domain.Profile
+import io.shamash.domain.ProfileListsOwner
+import io.shamash.domain.Provider
 import io.shamash.ui.OnePicker
 import io.shamash.ui.Palette
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
 /**
@@ -79,7 +83,7 @@ private fun CinemanaLevel(p: Profile, save: (Profile) -> Unit) {
     }
 }
 
-/** Remove: forgets the credentials and row choices, turns the add-on off. SPEC: PEX-05 */
+/** Remove: forgets the credentials, row choices and the profile's own lists, turns the add-on off. SPEC: PEX-05 */
 internal fun removed(p: Profile, addOn: AddOn): Profile =
     io.shamash.domain.RowSources.cleared(p.withAddon(addOn.id, false), addOn.id)
 
@@ -90,7 +94,20 @@ internal fun RemoveButton(addOn: AddOn, p: Profile, save: (Profile) -> Unit, loc
     Button(onClick = {
         scope.launch {
             Sources.credentials(locator.prefs, addOn).clear()
+            clearLists(locator.providers, addOn.id)
             save(removed(p, addOn))
         }
     }) { Text(stringResource(R.string.addon_remove)) }
+}
+
+/** The active profile's lists of add-on [id] (favorites, follows, feeds), when it keeps any; fails soft. SPEC: PEX-05 */
+internal suspend fun clearLists(providers: List<Provider>, id: String) {
+    val owner = providers.firstOrNull { it.id == id } as? ProfileListsOwner ?: return
+    try {
+        owner.clearProfileLists()
+    } catch (e: CancellationException) {
+        throw e
+    } catch (e: Exception) {
+        Logger.w("remove $id lists", e)
+    }
 }

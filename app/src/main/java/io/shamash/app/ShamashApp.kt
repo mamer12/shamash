@@ -1,9 +1,9 @@
 package io.shamash.app
 
+import io.shamash.data.Logger
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -29,6 +29,7 @@ import io.shamash.feature.onboarding.Onboarding
 import io.shamash.feature.profiles.ProfileGate
 import io.shamash.feature.profiles.Restrictions
 import io.shamash.feature.search.SearchScreen
+import io.shamash.feature.settings.Section
 import io.shamash.feature.settings.SettingsScreen
 import io.shamash.ui.ProviderPage
 import androidx.compose.runtime.rememberUpdatedState
@@ -39,7 +40,7 @@ import kotlinx.coroutines.launch
 sealed interface Route {
     data object Home : Route
     data class Search(val query: String?) : Route
-    data object Settings : Route
+    data class Settings(val section: String? = null) : Route
     data class Addon(val uri: String) : Route
 
     companion object {
@@ -49,7 +50,7 @@ sealed interface Route {
             return when (uri.host) {
                 "home" -> Home
                 "search" -> Search(uri.getQueryParameter("q")?.takeIf { it.isNotBlank() })
-                "settings" -> Settings
+                "settings" -> Settings(uri.getQueryParameter("section"))   // SPEC: LAY-02 ("settings?section=layout")
                 else -> null
             }
         }
@@ -91,17 +92,17 @@ fun ShamashApp(locator: ServiceLocator) {
         when {
             p == null -> Unit
             !p.onboarded -> Onboarding(p) { answers -> scope.launch { locator.prefs.save(answers) } }
-            else -> ProfileGate(locator.session, onAddProfile = { stack = push(stack, Route.Settings) }) {
+            else -> ProfileGate(locator.session, onAddProfile = { stack = push(stack, Route.Settings()) }) {
                 val pop = { stack = stack.dropLast(1) }
                 BackHandler(enabled = stack.size > 1, onBack = pop)
                 when (val top = stack.last()) {
                     Route.Home -> HomeScreen(locator)
                     is Route.Search -> SearchScreen(locator, top.query, pop)
-                    Route.Settings -> SettingsScreen(locator, pop)
+                    is Route.Settings -> SettingsScreen(locator, pop, Section.named(top.section))
                     is Route.Addon -> {
                         val page = locator.providers.filterIsInstance<ProviderPage>()
                             .firstOrNull { it.available(p) && it.accepts(top.uri) }
-                        if (page != null) page.Content(top.uri, p, { stack = push(stack, Route.Settings) }, pop)
+                        if (page != null) page.Content(top.uri, p, { stack = push(stack, Route.Settings()) }, pop)
                         else LaunchedEffect(top) { pop() }
                     }
                 }
@@ -112,7 +113,7 @@ fun ShamashApp(locator: ServiceLocator) {
 }
 
 /** Kids and Guest never reach Settings, by any route (a link, the phone, a tile). SPEC: PRF-10, PRF-11 */
-private fun allowedRoute(restrictions: Restrictions, route: Route): Boolean = route != Route.Settings || restrictions.settings
+private fun allowedRoute(restrictions: Restrictions, route: Route): Boolean = route !is Route.Settings || restrictions.settings
 
 /** A link from outside (the phone) while another app is in front: Shamash comes forward to show it. */
 private fun bringToFront(context: Context) {
@@ -121,7 +122,7 @@ private fun bringToFront(context: Context) {
     try {
         context.startActivity(intent)
     } catch (e: RuntimeException) {
-        Log.w("Shamash", "bring to front: $e")
+        Logger.w("bring to front", e)
     }
 }
 

@@ -3,7 +3,7 @@ package io.shamash.feature.companion
 import io.shamash.data.backup.BackupOptions
 import io.shamash.data.backup.BackupPayload
 import io.shamash.data.backup.BackupResult
-import io.shamash.data.myfeed.UserFeed
+import io.shamash.domain.FeedEntry
 import io.shamash.domain.Profile
 import java.net.InetAddress
 
@@ -38,12 +38,15 @@ interface PhoneBackend {
     /** Every row Home could show for the active profile, default titles in the TV's language. */
     suspend fun rowChoices(): List<RowChoice>
 
-    /** The active profile's feeds; null when My feed isn't available on this TV. */
-    suspend fun feeds(): List<UserFeed>?
-    suspend fun saveFeeds(feeds: List<UserFeed>)
+    /** The active profile's feeds; null when no feed add-on (a [io.shamash.domain.FeedEditor]) is on this TV. */
+    suspend fun feeds(): List<FeedEntry>?
+    suspend fun saveFeeds(feeds: List<FeedEntry>)
+
+    /** How many feeds a profile can keep. */
+    fun maxFeeds(): Int
 
     /** "Try it": the first three mapped titles; throws when the feed can't be read. */
-    suspend fun tryFeed(feed: UserFeed): List<String>
+    suspend fun tryFeed(feed: FeedEntry): List<String>
 
     /** DNS for the feed address check (CMP-10). */
     fun resolve(host: String): List<InetAddress>

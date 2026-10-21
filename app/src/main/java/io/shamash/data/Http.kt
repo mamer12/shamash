@@ -11,6 +11,8 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import io.shamash.data.security.RedirectGuard
+import io.shamash.data.security.SecretUrls
 import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -30,10 +32,14 @@ object Logger {
 /** The JSON settings every parser uses. SPEC: ARCH-04 */
 val json = Json { ignoreUnknownKeys = true; isLenient = true; explicitNulls = false }
 
-/** One HTTP client for the whole app (shared connection pool and disk cache). SPEC: ARCH-04 */
+/**
+ * One HTTP client for the whole app (shared connection pool and disk cache). Every hop of every call goes through
+ * [RedirectGuard]: no https-to-http downgrade, no app headers sent on to another host. SPEC: ARCH-04, PEX-04
+ */
 class Http(cacheDir: File?) {
     val client: OkHttpClient = OkHttpClient.Builder()
         .addInterceptor { chain -> chain.proceed(HttpPrivacy.request(chain.request())) }
+        .addNetworkInterceptor(RedirectGuard)
         .connectTimeout(8, TimeUnit.SECONDS)
         .readTimeout(15, TimeUnit.SECONDS)
         .apply { if (cacheDir != null) cache(Cache(File(cacheDir, "http"), 20L * 1024 * 1024)) }
@@ -87,14 +93,10 @@ suspend fun <T> softly(what: String, fallback: T, block: suspend () -> T): T =
 internal object HttpPrivacy {
     /** A request carrying this header (any value) is never cached; the header is not sent. SPEC: PEX-04 */
     const val PRIVATE = "X-Shamash-Private"
-    private val SECRET_PARAMS = setOf("api_key", "token", "x-plex-token", "api-key", "apikey", "password", "pw", "auth")
-    private val SECRET_HEADERS = listOf("Authorization", "X-Plex-Token", "X-Emby-Token", "X-MediaBrowser-Token", "X-Api-Key")
 
     fun request(request: Request): Request {
         val tagged = request.header(PRIVATE) != null
-        val sensitive = tagged ||
-            request.url.queryParameterNames.any { it.lowercase() in SECRET_PARAMS } ||
-            SECRET_HEADERS.any { request.header(it) != null }
+        val sensitive = tagged || SecretUrls.hasSecretParam(request.url) || SecretUrls.hasSecretHeader(request)
         if (!sensitive) return request
         return request.newBuilder().removeHeader(PRIVATE)
             .cacheControl(CacheControl.Builder().noCache().noStore().build()).build()

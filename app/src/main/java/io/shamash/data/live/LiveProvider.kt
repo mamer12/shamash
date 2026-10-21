@@ -18,6 +18,7 @@ import io.shamash.domain.Kind
 import io.shamash.domain.MediaItem
 import io.shamash.domain.OpenTarget
 import io.shamash.domain.Profile
+import io.shamash.domain.ProfileListsOwner
 import io.shamash.domain.ProviderCredentials
 import io.shamash.domain.RowSource
 import io.shamash.domain.Shelf
@@ -87,7 +88,10 @@ class LiveProvider(
     private val kick: KickApi,
     say: Say,
     clock: () -> Long = System::currentTimeMillis,
-) : ServerProvider(ID, say, clock, ttl = 5 * Refresh.MINUTE) {
+) : ServerProvider(ID, say, clock, ttl = 5 * Refresh.MINUTE), ProfileListsOwner {
+    /** Remove: the active profile's own list goes too. SPEC: PEX-05 */
+    override suspend fun clearProfileLists() = follows.clear()
+
     @Volatile private var followSalt = ""
 
     override fun rowSources() = listOf(RowSource("now", R.string.more_live_row_now))

@@ -1,8 +1,8 @@
 package io.shamash.feature.companion
 
-import io.shamash.data.myfeed.FeedKind
-import io.shamash.data.myfeed.FeedStyle
 import io.shamash.domain.ContentLevel
+import io.shamash.domain.FeedKind
+import io.shamash.domain.FeedStyle
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 

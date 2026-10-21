@@ -1,12 +1,12 @@
 package io.shamash.feature.home
 
+import io.shamash.data.Logger
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.media.tv.TvContract
 import android.media.tv.TvInputManager
 import android.provider.Settings
-import android.util.Log
 import androidx.compose.runtime.Immutable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -24,7 +24,7 @@ object TvInputs {
                 .filter { it.isPassthroughInput && !it.isHidden(context) }
                 .map { TvInput(it.id, (it.loadCustomLabel(context) ?: it.loadLabel(context)).toString()) }
         } catch (e: Exception) {
-            Log.w("Shamash", "inputs: $e")
+            Logger.w("inputs", e)
             emptyList()
         }
     }
@@ -38,10 +38,10 @@ object TvInputs {
         context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
         true
     } catch (e: ActivityNotFoundException) {
-        Log.w("Shamash", "open: $e")
+        Logger.w("open", e)
         false
     } catch (e: SecurityException) {
-        Log.w("Shamash", "open: $e")
+        Logger.w("open", e)
         false
     }
 }

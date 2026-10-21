@@ -1,10 +1,10 @@
 package io.shamash.feature.home
 
+import io.shamash.data.Logger
 import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.util.Log
 
 /**
  * Back Home from an app: closes that app's process to free memory, unless the user keeps it running, and only while
@@ -17,7 +17,7 @@ class AppCloser(private val context: Context) {
         try {
             context.getSystemService(ActivityManager::class.java)?.killBackgroundProcesses(packageName)
         } catch (e: SecurityException) {
-            Log.w("Shamash", "close $packageName: $e")
+            Logger.w("close $packageName", e)
         }
     }
 

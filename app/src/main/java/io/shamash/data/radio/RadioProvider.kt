@@ -16,6 +16,7 @@ import io.shamash.domain.Kind
 import io.shamash.domain.MediaItem
 import io.shamash.domain.OpenTarget
 import io.shamash.domain.Profile
+import io.shamash.domain.ProfileListsOwner
 import io.shamash.domain.ProviderCredentials
 import io.shamash.domain.RowSource
 import io.shamash.domain.Shelf
@@ -51,7 +52,10 @@ class RadioProvider(
     private val favorites: RadioFavorites,
     say: Say,
     clock: () -> Long = System::currentTimeMillis,
-) : ServerProvider(ID, say, clock) {
+) : ServerProvider(ID, say, clock), ProfileListsOwner {
+    /** Remove: the active profile's own list goes too. SPEC: PEX-05 */
+    override suspend fun clearProfileLists() = favorites.clear()
+
     @Volatile private var favSalt = ""
 
     override fun rowSources() = listOf(

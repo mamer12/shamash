@@ -5,6 +5,7 @@ import io.shamash.data.Http
 import io.shamash.data.HttpPolicy
 import io.shamash.data.Preferences
 import io.shamash.data.ProfileSlot
+import io.shamash.data.Reach
 import io.shamash.data.Refresh
 import io.shamash.data.Say
 import io.shamash.data.ServerHttp
@@ -19,6 +20,7 @@ import io.shamash.domain.Kind
 import io.shamash.domain.MediaItem
 import io.shamash.domain.OpenTarget
 import io.shamash.domain.Profile
+import io.shamash.domain.ProfileListsOwner
 import io.shamash.domain.RowSource
 import io.shamash.domain.Shelf
 import io.shamash.domain.ShelfStyle
@@ -95,7 +97,10 @@ class WidgetsProvider(
     say: Say,
     private val clock: () -> Long = System::currentTimeMillis,
     private val policy: HttpPolicy = HttpPolicy.NONE,   // https news feeds only (PEX-22); tests use a local http server
-) : ServerProvider(ID, say, clock, ttl = 15 * Refresh.MINUTE) {
+) : ServerProvider(ID, say, clock, ttl = 15 * Refresh.MINUTE), ProfileListsOwner {
+    /** Remove: the active profile's own list goes too. SPEC: PEX-05 */
+    override suspend fun clearProfileLists() = store.clear()
+
     private val quotes = LastGood<Quote>()
     private val news = LastGood<List<Headline>>()
     @Volatile private var configSalt = ""
@@ -134,7 +139,7 @@ class WidgetsProvider(
     private suspend fun headlines(url: String, now: Long): List<Pair<Headline, Long>> {
         val fresh = softly("widget news", null as List<Headline>?) {
             val address = ServerUrl.parse(url, policy) ?: return@softly null
-            server.read(address, timeoutMs = 6_000, maxBytes = 1024L * 1024) { Headlines.parse(it, 2) }
+            server.read(address, timeoutMs = 6_000, maxBytes = 1024L * 1024, reach = Reach.PUBLIC) { Headlines.parse(it, 2) }
         }
         if (!fresh.isNullOrEmpty()) news.put(url, fresh, now)
         val (list, at) = news.get(url, now) ?: return emptyList()

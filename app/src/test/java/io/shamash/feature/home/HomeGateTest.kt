@@ -49,4 +49,30 @@ class HomeGateTest {
         assertTrue(ui.home.any { it.id == "matches" })
         assertTrue("unknown" !in ids(ui) && "adult" !in ids(ui))
     }
+
+    @Test fun `PRF_12 My List is gated too, so a title saved at another level never shows to Kids`() {
+        val list = listOf(item("saved-r", "R"), item("saved-g", "G"), item("saved-unrated", null))
+            .mapIndexed { i, it -> io.shamash.domain.MyListEntry.of(it, i.toLong()) }
+        val personal = io.shamash.domain.PersonalState("p", io.shamash.domain.PersonalData(myList = list))
+        val ui = HomeRows.build(
+            HomeInput(Profile(onboarded = true, contentLevel = ContentLevel.KIDS), loaded, emptyList(), 1_700_000_000_000L, 20, personal),
+        )
+        val row = ui.home.firstOrNull { it.id == HomeRows.MY_LIST }?.items.orEmpty().map { it.id }
+        assertTrue("cinemana:saved-r" !in ids(ui) && "cinemana:saved-unrated" !in ids(ui))
+        assertEquals(listOf(io.shamash.domain.ItemKeys.of(item("saved-g", "G"))), row)
+    }
+
+    @Test fun `PRF_12 every row and the billboard pass the last gate, whatever a provider sent`() {
+        // A provider that forgot its own filter: unrated podcast, radio and queue cards are hidden for Family and Kids.
+        val audio = Shelf("podcasts:new", "", ShelfStyle.WIDE, listOf(item("pod", null, Kind.VIDEO), item("pg", "PG")))
+        val leaky = loaded.copy(providers = loaded.providers + ("podcasts" to ProviderContent(listOf(audio), audio.items)))
+        listOf(ContentLevel.FAMILY, ContentLevel.KIDS).forEach { level ->
+            val profile = Profile(onboarded = true, contentLevel = level)
+            val rows = HomeRows.homeRows(profile, HomeRows.providerShelves(leaky), emptyList(), emptyList(), io.shamash.domain.Moment.EVENING, 0L)
+            val shown = rows.flatMap { r -> r.items.map { it.id } }
+            assertTrue("$level", "pod" !in shown && "adult" !in shown && "unknown" !in shown)
+            val billboard = HomeRows.featured(leaky, emptyList(), 0L, emptyMap(), profile).map { it.item.id }
+            assertTrue("$level", billboard.none { it in setOf("pod", "adult", "unknown") })
+        }
+    }
 }

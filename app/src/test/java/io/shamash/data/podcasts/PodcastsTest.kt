@@ -56,6 +56,17 @@ class PodcastsTest {
         assertTrue(secrets.map.isEmpty())
     }
 
+    @Test fun `PEX_05 Remove forgets the profile's subscriptions and only that profile's`() = runBlocking {
+        val secrets = MemorySecrets()
+        PodcastStore(secrets) { "p2" }.add(Subscription("https://e.com/keep"))
+        PodcastStore(secrets) { "p1" }.add(Subscription("https://e.com/1"))
+        val p = provider(secrets)
+        assertEquals(1, p.subscriptions().size)
+        p.clearProfileLists()
+        assertTrue(p.subscriptions().isEmpty())
+        assertEquals(1, PodcastStore(secrets) { "p2" }.list().size)
+    }
+
     private fun server() = FakeServer { r ->
         when (r.requestUrl!!.encodedPath) {
             "/show.xml" -> MockResponse().setBody(Fixtures.read("podcasts/show.xml"))
@@ -69,7 +80,7 @@ class PodcastsTest {
 
     private fun provider(secrets: MemorySecrets = MemorySecrets(), policy: HttpPolicy = HttpPolicy.ANY) = PodcastProvider(
         SecretCredentials(secrets, PodcastProvider.ID, PodcastProvider.fields) { "p1" },
-        PodcastStore(secrets) { "p1" }, ServerHttp(Http(null)), say = { "s$it" }, policy = policy,
+        PodcastStore(secrets) { "p1" }, ServerHttp(Http(null), refused = { false }), say = { "s$it" }, policy = policy,
     )
 
     private val profile = Profile(id = "p1", addons = setOf(PodcastProvider.ID))

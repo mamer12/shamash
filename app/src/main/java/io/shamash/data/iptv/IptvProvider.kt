@@ -19,6 +19,7 @@ import io.shamash.domain.Kind
 import io.shamash.domain.MediaItem
 import io.shamash.domain.OpenTarget
 import io.shamash.domain.Profile
+import io.shamash.domain.ProfileListsOwner
 import io.shamash.domain.ProviderCredentials
 import io.shamash.domain.RowSource
 import io.shamash.domain.RowSources
@@ -44,7 +45,10 @@ class IptvProvider(
     say: Say,
     private val clock: () -> Long = System::currentTimeMillis,
     private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO),
-) : ServerProvider(ID, say, clock, ttl = 5 * Refresh.MINUTE) {
+) : ServerProvider(ID, say, clock, ttl = 5 * Refresh.MINUTE), ProfileListsOwner {
+    /** Remove: the active profile's own list goes too. SPEC: PEX-05 */
+    override suspend fun clearProfileLists() = choices.clear()
+
     private val playlists = TimedCache<String, Playlist?>(clock) { if (it == null || it.channels.isEmpty()) Refresh.RETRY_EMPTY else 2 * Refresh.HOUR }
     private var guide: Deferred<Map<String, NowNext>>? = null
     private var guideAt = 0L

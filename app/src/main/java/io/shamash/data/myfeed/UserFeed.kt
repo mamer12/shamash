@@ -3,12 +3,11 @@ package io.shamash.data.myfeed
 import io.shamash.data.json
 import io.shamash.data.youtube.SecretStore
 import io.shamash.domain.ContentLevel
+import io.shamash.domain.FeedEntry
+import io.shamash.domain.FeedKind
+import io.shamash.domain.FeedStyle
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.ListSerializer
-
-enum class FeedKind { RSS, ATOM, JSON }
-
-enum class FeedStyle { WIDE, VIDEO, POSTER }
 
 /** Where a JSON feed keeps what a card needs: JSON pointers, [items] from the root and the rest from each item. */
 @Serializable
@@ -45,6 +44,19 @@ data class UserFeed(
     }
 
     override fun toString() = "UserFeed(id=$id, host=${io.shamash.data.Redact.host(url)})"
+
+    /** What the phone page sees and edits (CMP-10). */
+    fun entry() = FeedEntry(id, title, url, kind, style, level, allowHttp)
+
+    /** [e] as a feed; the mapping and login header of [old] are kept only while the address and kind are the same. */
+    fun merged(e: FeedEntry): UserFeed {
+        val same = e.url == url && e.kind == kind
+        return UserFeed(e.id, e.title, e.url, e.kind, if (same) mapping else null, e.style, e.level, e.allowHttp, if (same) authHeader else "")
+    }
+
+    companion object {
+        fun of(e: FeedEntry) = UserFeed(e.id, e.title, e.url, e.kind, null, e.style, e.level, e.allowHttp)
+    }
 }
 
 /** The profile's feeds (at most [MAX]), on the TV only. SPEC: PEX-20 */
@@ -62,6 +74,8 @@ class FeedStore(private val store: SecretStore, private val profileId: suspend (
         store.setSecret(key(), if (kept.isEmpty()) null else json.encodeToString(serializer, kept))
         return kept
     }
+
+    suspend fun clear() = store.setSecret(key(), null)
 
     companion object {
         const val MAX = 10

@@ -17,6 +17,10 @@
     <string name="mcs_earlier">Earlier</string>
     <string name="mcs_later">Later</string>
     <string name="mcs_days">Days (none picked: every day)</string>
+    <string name="mcs_always_title">Always</string>
+    <string name="mcs_always_text">A starred match shows its cards even in quiet hours.</string>
+    <string name="mcs_always_none">No upcoming matches of what you follow this week.</string>
+    <string name="mcs_always_match">%1$s ★ %2$s</string>
     <string name="mcs_toggle">%1$s: %2$s</string>
     <string name="mcs_on">On</string>
     <string name="mcs_off">Off</string>

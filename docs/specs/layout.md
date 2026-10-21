@@ -6,7 +6,8 @@ All of it is user preference, stored per profile (PRF-02), with nothing about on
 - LAY-01 Every Home row has a stable `rowId` (`<providerId>:<shelfId>`, e.g. `tmdb:popular-netflix`, `matches`,
   `moment`, `continue`). A `RowPref(rowId, hidden, pinned, title?, order)` is saved per profile. Unknown rowIds in
   saved prefs are kept (a provider may come back) but ignored when drawing.
-- LAY-02 Row editor (Settings -> Home layout, also reachable by long-press OK on a row title): list of every row the
+- LAY-02 Row editor (Settings -> Home layout, also reachable with the Menu key on a Home row: a long OK press there is
+  the card menu, PER-07, and row titles take no focus): list of every row the
   profile could show, each with: move up/down (D-pad, no drag), Hide/Show, Rename (on-screen keyboard, <= 40 chars,
   empty restores the default), Pin to top. Changes apply live on Home and are saved on leaving the editor.
 - LAY-03 Ordering: pinned rows first (by `order`), then the rest by `order`, then rows with no pref in the default
@@ -22,8 +23,8 @@ All of it is user preference, stored per profile (PRF-02), with nothing about on
 - LAY-07 A `LayoutPreset` is data (`id`, ordered `rowId` list with hidden flags, default carousel mix, default
   moment rules, card size, tab set), not code branches. Shipped: **Cinema** (continue, picks, services, Top 10),
   **Sports** (matches, live and upcoming first, team news if a feed exists, then continue), **Kids** (kids rows
-  only, large cards, no matches row, no search-by-voice results beyond the level, see PRF-10), **Minimal** (apps row,
-  continue watching, one pick row, no billboard autoplay).
+  only: continue, Cinemana, YouTube picks and My feed rows, all behind the Kids gate PRF-12; large cards, no matches row, no search-by-voice results beyond the level, see PRF-10), **Minimal** (apps row,
+  continue watching, one pick row, no billboard autoplay: `Layout.autoplay` false, a switch under Look).
 - LAY-08 Onboarding gains a "How should Home look?" step after "What you like" (ONB-02 step 5b): four cards with a
   one-line description, skippable (default Cinema). Choosing applies the preset to the profile once; later edits via
   the row editor win and are never overwritten by preset updates.

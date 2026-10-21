@@ -8,6 +8,10 @@ import io.shamash.data.ServerHttp
 import io.shamash.data.UnsafeXmlException
 import io.shamash.data.json
 import io.shamash.domain.ContentLevel
+import io.shamash.domain.FeedEditor
+import io.shamash.domain.FeedEntry
+import io.shamash.domain.FeedKind
+import io.shamash.domain.FeedStyle
 import io.shamash.domain.OpenTarget
 import io.shamash.domain.Profile
 import kotlinx.coroutines.runBlocking
@@ -105,7 +109,7 @@ class MyFeedTest {
     }
 
     private suspend fun provider(vararg feeds: UserFeed): MyFeedProvider {
-        val p = MyFeedProvider(FeedStore(MemorySecrets()) { "p1" }, ServerHttp(Http(null)), say = { "s$it" })
+        val p = MyFeedProvider(FeedStore(MemorySecrets()) { "p1" }, ServerHttp(Http(null), refused = { false }), say = { "s$it" })
         p.save(feeds.toList())
         return p
     }
@@ -184,5 +188,32 @@ class MyFeedTest {
             assertThrows(Exception::class.java) { runBlocking { p.preview(UserFeed("t", "t", "http://example.com/x")) } }
             assertFalse(provider().test().ok)
         } finally { server.shutdown() }
+    }
+
+    @Test fun `PEX_31 My feed is the phone's FeedEditor and keeps a feed's own extras while its address is unchanged`() = runBlocking {
+        val m = JsonMapping(items = "/data")
+        val kept = UserFeed("j", "Posts", "https://a.example/j.json", FeedKind.JSON, m, authHeader = "Authorization: Bearer x")
+        val moved = UserFeed("r", "Old", "https://a.example/r.xml", authHeader = "Authorization: Bearer y")
+        val editor: FeedEditor = provider(kept, moved)
+        assertEquals(FeedStore.MAX, editor.maxFeeds)
+        val entries = editor.feedEntries()
+        assertEquals(FeedEntry("j", "Posts", "https://a.example/j.json", FeedKind.JSON), entries[0])
+        editor.saveEntries(
+            listOf(entries[0].copy(style = FeedStyle.POSTER), entries[1].copy(url = "https://b.example/r.xml"), FeedEntry("n", "New", "https://c.example/n")),
+        )
+        val saved = (editor as MyFeedProvider).feeds()
+        assertEquals(listOf("j", "r", "n"), saved.map { it.id })
+        assertEquals(m, saved[0].mapping)
+        assertEquals("Authorization: Bearer x", saved[0].authHeader)
+        assertEquals(FeedStyle.POSTER, saved[0].style)
+        assertEquals("", saved[1].authHeader)                     // a login never follows a feed to another address
+        assertFalse(editor.feedEntries().toString().contains("example"))
+    }
+
+    @Test fun `PEX_05 Remove forgets the profile's feeds`() = runBlocking {
+        val p = provider(UserFeed("a", "A", "https://a.example/rss"))
+        p.clearProfileLists()
+        assertTrue(p.feeds().isEmpty())
+        assertTrue(p.rowSources().isEmpty())
     }
 }

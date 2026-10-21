@@ -60,6 +60,14 @@ class AddOnRemovabilityTest {
         assertTrue(Removability.problems("demo", mapOf(Removability.SOURCES to sources)).single().contains("no folder"))
         assertTrue(Removability.problems("demo", clean + ("feature/x/Y.kt" to "io.shamash.data.demos.Z")).isEmpty())   // whole names only
     }
+    @Test fun `PEX_31 Home and the phone page name no add-on, resumes and feeds go through domain hooks`() {
+        val names = Removability.registered(sources.getValue(Removability.SOURCES)).toSet()
+        val core = sources.filterKeys { it.startsWith("feature/home/") || it.startsWith("feature/companion/") }
+        val hits = core.flatMap { (path, text) ->
+            names.filter { Regex("""\bio\.shamash\.(?:data|feature|addons)\.$it\b""").containsMatchIn(text) }.map { "$path -> $it" }
+        }
+        assertTrue("core screens naming an add-on: $hits", hits.isEmpty())
+    }
 }
 
 /** The PEX-31 check over source texts keyed by their path under `io/shamash`. */
@@ -74,20 +82,8 @@ internal object Removability {
     private val HOOKS: Map<String, Set<String>?> = mapOf(
         // Settings -> Add-ons: an add-on's own settings beside the shared panel (`when (addOn.id)` branch).
         "feature/settings/AddonsPanel.kt" to null,
-        // Known debt: Continue watching resumes Watchme+ with Cinemana's constants. Delete the import and its two
-        // branches with Cinemana; to be moved behind an interface.
-        "feature/home/HomeActions.kt" to setOf("cinemana"),
         // Trakt / Simkl write-back starts with the app (one line).
         "app/ServiceLocator.kt" to setOf("trakt"),
-    )
-
-    /**
-     * KNOWN DEBT, not hooks: folders that use an add-on's types freely, so removing that add-on also means editing
-     * them. Listed so the check stays green while it is fixed; never add to it (docs/ADDONS.md, "Removing").
-     */
-    private val DEBT: Map<String, Set<String>> = mapOf(
-        // The phone page's feed editor (CMP-10) uses My feed's types directly; should go through an interface.
-        "feature/companion/" to setOf("myfeed"),
     )
 
     /** The lines of `val addOns = listOf(...)` in Sources.kt. */
@@ -124,7 +120,6 @@ internal object Removability {
         files.filterKeys { path -> own.none { path.startsWith(it) } }.forEach { (path, text) ->
             val hits = text.lines().withIndex().filter { pattern.containsMatchIn(it.value) }
             if (hits.isEmpty()) return@forEach
-            if (DEBT.any { (prefix, names) -> path.startsWith(prefix) && name in names }) return@forEach
             val allowed = path == SOURCES || (path in HOOKS && HOOKS[path].let { it == null || name in it })
             val max = if (path == SOURCES) registrations else 1
             when {

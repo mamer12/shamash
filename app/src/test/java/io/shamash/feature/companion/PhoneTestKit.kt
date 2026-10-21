@@ -5,7 +5,7 @@ import io.shamash.data.backup.BackupOptions
 import io.shamash.data.backup.BackupPayload
 import io.shamash.data.backup.BackupProfile
 import io.shamash.data.backup.BackupResult
-import io.shamash.data.myfeed.UserFeed
+import io.shamash.domain.FeedEntry
 import io.shamash.domain.Profile
 import io.shamash.domain.ProfileKind
 import java.net.InetAddress
@@ -18,7 +18,7 @@ internal class FakeBackend(
     val pins = HashMap<String, String>()
     val checked = ArrayList<String>()
     val saved = ArrayList<Pair<Profile, Changed>>()
-    var feedList: MutableList<UserFeed>? = ArrayList()
+    var feedList: MutableList<FeedEntry>? = ArrayList()
     var dns: Map<String, List<String>> = mapOf("example.org" to listOf("93.184.216.34"))
     var tried = listOf("One", "Two", "Three", "Four")
     val queued = HashMap<String, List<QueueEntry>>()
@@ -41,8 +41,9 @@ internal class FakeBackend(
     override suspend fun saveProfile(profile: Profile, what: Changed) { saved += profile to what; active = profile }
     override suspend fun rowChoices() = listOf(RowChoice("matches", "Matches"), RowChoice("continue", "Continue watching"))
     override suspend fun feeds() = feedList?.toList()
-    override suspend fun saveFeeds(feeds: List<UserFeed>) { feedList = feeds.toMutableList() }
-    override suspend fun tryFeed(feed: UserFeed) = tried
+    override suspend fun saveFeeds(feeds: List<FeedEntry>) { feedList = feeds.toMutableList() }
+    override fun maxFeeds() = 10
+    override suspend fun tryFeed(feed: FeedEntry) = tried
     override fun resolve(host: String): List<InetAddress> =
         dns[host]?.map { InetAddress.getByName(it) } ?: throw java.net.UnknownHostException(host)
     override suspend fun queue(profileId: String) = queued[profileId].orEmpty()

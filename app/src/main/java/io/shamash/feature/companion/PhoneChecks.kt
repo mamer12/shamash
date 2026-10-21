@@ -2,8 +2,8 @@ package io.shamash.feature.companion
 
 import io.shamash.data.HttpPolicy
 import io.shamash.data.ServerUrl
-import io.shamash.data.myfeed.UserFeed
 import io.shamash.domain.Competitions
+import io.shamash.domain.FeedEntry
 import io.shamash.domain.Layout
 import io.shamash.domain.LayoutOps
 import io.shamash.domain.RowPref
@@ -99,12 +99,12 @@ object FeedCheck {
             ?: return Result.Refused(FeedRefusal.ADDRESS)
         if (LanGuard.isLocal(url.host, resolve)) return Result.Refused(FeedRefusal.PRIVATE)
         return Result.Ok(
-            UserFeed(id, title, url.toString(), input.kind, null, input.style, input.level, input.allowHttp),
+            FeedEntry(id, title, url.toString(), input.kind, input.style, input.level, input.allowHttp),
         )
     }
 
     sealed interface Result {
-        data class Ok(val feed: UserFeed) : Result
+        data class Ok(val feed: FeedEntry) : Result
         data class Refused(val why: FeedRefusal) : Result
     }
 }

@@ -10,6 +10,7 @@ import coil3.toBitmap
 import io.shamash.R
 import io.shamash.app.ServiceLocator
 import io.shamash.data.Logger
+import io.shamash.domain.ContentGate
 import io.shamash.domain.MediaItem
 import io.shamash.domain.Profile
 import kotlinx.coroutines.CancellationException
@@ -90,10 +91,7 @@ class ShamashDream : DreamService() {
         locator.providers.filter { it.isEnabled(profile) }
             .map { provider -> async { softly(provider.id) { provider.featured(profile) }.orEmpty() } }
             .awaitAll()
-            .flatten()
-            .filter { !it.backdropUrl.isNullOrBlank() }
-            .distinctBy { it.backdropUrl }
-            .take(MAX_SLIDES)
+            .let { ScreensaverSlides.pick(it, profile, MAX_SLIDES) }
     }
 
     private suspend fun showWeather(locator: ServiceLocator, profile: Profile, screen: DreamView) {
@@ -133,4 +131,13 @@ class ShamashDream : DreamService() {
         private const val IMAGE_WIDTH = 1280      // PERF-04: full-screen art at 1280×720
         private const val IMAGE_HEIGHT = 720
     }
+}
+
+/** The slides: every provider's featured titles through the profile's content level, one per backdrop. SPEC: PRF-12, SCR-01 */
+internal object ScreensaverSlides {
+    fun pick(perProvider: List<List<MediaItem>>, profile: Profile, max: Int): List<MediaItem> =
+        ContentGate.filter(perProvider.flatten(), profile)
+            .filter { !it.backdropUrl.isNullOrBlank() }
+            .distinctBy { it.backdropUrl }
+            .take(max)
 }

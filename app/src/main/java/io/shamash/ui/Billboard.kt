@@ -85,7 +85,8 @@ fun rememberBillboardState(items: List<Featured>): BillboardState {
 
 /**
  * The billboard's words: provider in caps, title (≤ 2 lines), meta, overview (≤ 3 lines), "Open in <app>" and the
- * dots. Advances every 9 s while [active]; ←/→ on the button changes item. SPEC: HOME-02, MC-03
+ * dots. Advances every 9 s while [active] (off for a layout without autoplay, LAY-07); ←/→ on the button changes
+ * item. SPEC: HOME-02, MC-03
  */
 @Composable
 fun BillboardInfo(

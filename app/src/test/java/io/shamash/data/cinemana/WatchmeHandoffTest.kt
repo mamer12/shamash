@@ -18,6 +18,7 @@ class WatchmeHandoffTest {
         assertEquals("42", target.extras["io.freemytv.cinemana.ID"])
         assertEquals("Some Film", target.extras["io.freemytv.cinemana.QUERY"])
         assertFalse(target.extras.containsKey("io.freemytv.cinemana.PLAY_AT"))
+        assertEquals("io.freemytv.cinemana.PLAY_AT", target.resumeExtraKey)       // Home resumes a preview there (HOME-20)
     }
 
     @Test fun `CIN-01 without Watchme+ the Cinemana app opens`() {

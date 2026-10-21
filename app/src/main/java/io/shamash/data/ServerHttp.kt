@@ -3,6 +3,8 @@ package io.shamash.data
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.JsonElement
+import io.shamash.data.security.PrivateNet
+import io.shamash.data.security.PublicSockets
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.MediaType.Companion.toMediaType
@@ -12,11 +14,18 @@ import java.io.BufferedInputStream
 import java.io.FilterInputStream
 import java.io.IOException
 import java.io.InputStream
+import java.net.InetAddress
 import java.util.concurrent.TimeUnit
 import java.util.zip.GZIPInputStream
 
 /** Which addresses may use plain http. SPEC: PEX-12, PEX-22 */
 enum class HttpPolicy { NONE, PRIVATE_ONLY, ANY }
+
+/**
+ * Where a request may connect. [ANY] for the user's own media servers (PEX-12); [PUBLIC] for every other user-supplied
+ * URL (feeds, podcasts, news): checked on the connected address at fetch time, every hop. SPEC: CMP-10, PEX-22
+ */
+enum class Reach { ANY, PUBLIC }
 
 /** Checks an address the user typed. Logs show the host only (see [Redact]). SPEC: PEX-04, PEX-12 */
 object ServerUrl {
@@ -46,18 +55,27 @@ object ServerUrl {
 
 /**
  * Requests to a user's own servers and feeds: tagged private (never cached, SPEC: PEX-04), bounded in time and size,
- * streamed, gzip understood. Errors name the host only. SPEC: PEX-04, PEX-22
+ * streamed, gzip understood, [Reach.PUBLIC] ones kept off the local network. Errors name the host only.
+ * [refused] is the public reach's address rule (tests that serve feeds from localhost relax it). SPEC: PEX-04, PEX-22
  */
-class ServerHttp(private val http: Http) {
+class ServerHttp(
+    private val http: Http,
+    refused: (InetAddress) -> Boolean = PrivateNet::isLocalAddress,
+) {
+    private val publicSockets = PublicSockets(refused)
+
     suspend fun <T> read(
         url: HttpUrl,
         headers: Map<String, String> = emptyMap(),
         timeoutMs: Long = 8_000,
         maxBytes: Long = DEFAULT_MAX,
         body: String? = null,
+        reach: Reach = Reach.ANY,
         block: (InputStream) -> T,
     ): T = withContext(Dispatchers.IO) {
-        val client = http.client.newBuilder().callTimeout(timeoutMs, TimeUnit.MILLISECONDS).build()
+        val builder = http.client.newBuilder().callTimeout(timeoutMs, TimeUnit.MILLISECONDS)
+        if (reach == Reach.PUBLIC) PublicSockets.applyTo(builder, publicSockets)
+        val client = builder.build()
         val request = Request.Builder().url(url).header(HttpPrivacy.PRIVATE, "1")
             .apply {
                 headers.forEach { (k, v) -> header(k, v) }
@@ -72,13 +90,13 @@ class ServerHttp(private val http: Http) {
 
     suspend fun text(
         url: HttpUrl, headers: Map<String, String> = emptyMap(), timeoutMs: Long = 8_000,
-        maxBytes: Long = DEFAULT_MAX, body: String? = null,
-    ): String = read(url, headers, timeoutMs, maxBytes, body) { it.readBytes().toString(Charsets.UTF_8) }
+        maxBytes: Long = DEFAULT_MAX, body: String? = null, reach: Reach = Reach.ANY,
+    ): String = read(url, headers, timeoutMs, maxBytes, body, reach) { it.readBytes().toString(Charsets.UTF_8) }
 
     suspend fun json(
         url: HttpUrl, headers: Map<String, String> = emptyMap(), timeoutMs: Long = 8_000,
-        maxBytes: Long = DEFAULT_MAX, body: String? = null,
-    ): JsonElement = json.parseToJsonElement(text(url, headers, timeoutMs, maxBytes, body))
+        maxBytes: Long = DEFAULT_MAX, body: String? = null, reach: Reach = Reach.ANY,
+    ): JsonElement = json.parseToJsonElement(text(url, headers, timeoutMs, maxBytes, body, reach))
 
     private fun unzipped(raw: InputStream): InputStream {
         val buffered = BufferedInputStream(raw)

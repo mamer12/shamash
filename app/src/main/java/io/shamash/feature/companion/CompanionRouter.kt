@@ -3,7 +3,7 @@ package io.shamash.feature.companion
 import java.util.Locale
 
 /** Words `/send` answers with, in the phone's language. */
-enum class SendWord { WRONG_PIN, LOCKED }
+enum class SendWord { WRONG_PIN, LOCKED, NOT_ALLOWED }
 
 /**
  * Every request after it was read: the door checks first (Host is the TV, a browser Origin is the page's own),
@@ -17,6 +17,8 @@ class CompanionRouter(
     private val send: (text: String) -> String,
     private val words: (SendWord, language: String) -> String,
     private val nonce: () -> String,
+    /** The active profile may use the phone remote (Kids and Guest may not, PRF-10). */
+    private val sendAllowed: () -> Boolean = { true },
 ) {
     fun route(request: HttpRequest, address: String, port: Int): HttpReply {
         if (!CompanionGate.hostAllowed(request.headers["host"], address, port)) return forbidden()
@@ -29,7 +31,9 @@ class CompanionRouter(
         if (CompanionGate.isApiCall(request)) return api.handle(request)
         if (!CompanionGate.isPageSend(request)) return forbidden()
         return when (auth.check(MiniHttp.field(request.body, "pin"))) {
-            CompanionAuth.Verdict.OK -> HttpReply.text(200, "OK", send(MiniHttp.field(request.body, "text")))
+            CompanionAuth.Verdict.OK ->
+                if (!sendAllowed()) HttpReply.text(403, "Forbidden", words(SendWord.NOT_ALLOWED, language))   // SPEC: PRF-10
+                else HttpReply.text(200, "OK", send(MiniHttp.field(request.body, "text")))
             CompanionAuth.Verdict.WRONG -> HttpReply.text(403, "Forbidden", words(SendWord.WRONG_PIN, language))
             CompanionAuth.Verdict.LOCKED -> HttpReply.text(429, "Too Many Requests", words(SendWord.LOCKED, language))
         }

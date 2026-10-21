@@ -49,6 +49,7 @@ object Images {
             ImageLoader.Builder(context)
                 .memoryCache { MemoryCache.Builder().maxSizePercent(context, MEMORY_SHARE).build() }
                 .components {
+                    add(PrivateImages)   // SPEC: PEX-04: token-bearing image URLs never reach the disk cache
                     add(OkHttpNetworkFetcherFactory(callFactory = { client }))
                     add(BannerKeyer(), AppBanner::class)
                     add(BannerFetcher.Factory(banner), AppBanner::class)

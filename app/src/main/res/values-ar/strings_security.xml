@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- SPEC: PRF-10 -->
+    <string name="companion_not_allowed">جهاز التحكم من الهاتف متوقف للملف الشخصي الظاهر على التلفاز الآن.</string>
+</resources>

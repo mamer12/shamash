@@ -14,8 +14,8 @@ import io.shamash.data.backup.BackupOptions
 import io.shamash.data.backup.BackupPayload
 import io.shamash.data.backup.BackupResult
 import io.shamash.data.backup.LocalBackups
-import io.shamash.data.myfeed.MyFeedProvider
-import io.shamash.data.myfeed.UserFeed
+import io.shamash.domain.FeedEditor
+import io.shamash.domain.FeedEntry
 import io.shamash.domain.Profile
 import io.shamash.feature.backup.ApplyResult
 import io.shamash.feature.backup.BackupActions
@@ -28,14 +28,14 @@ import java.time.LocalDate
 
 /**
  * The phone API wired to this TV: the active profile from the profile store, PINs through the profile session
- * (its five-tries lockout), rows from Home's own model, feeds through My feed, the queue store, and backups through
+ * (its five-tries lockout), rows from Home's own model, feeds through the feed add-on (a FeedEditor), the queue store, and backups through
  * the same [BackupActions] the TV's Settings use, after the person at the TV said yes. SPEC: CMP-06..15
  */
 internal class AndroidPhoneBackend(private val locator: ServiceLocator) : PhoneBackend {
     private val context = locator.appContext
     private val session get() = locator.session
     private val queueStore get() = QueueStore.get(context)
-    private val feedProvider get() = locator.providers.firstOrNull { it.id == MyFeedProvider.ID } as? MyFeedProvider
+    private val feedEditor get() = locator.providers.firstNotNullOfOrNull { it as? FeedEditor }
     private val backup by lazy {
         BackupActions(locator.prefs, session.security, Sources.addOns, LocalBackups(File(context.noBackupFilesDir, "local-backups")))
     }
@@ -73,16 +73,17 @@ internal class AndroidPhoneBackend(private val locator: ServiceLocator) : PhoneB
         }
     }
 
-    override suspend fun feeds(): List<UserFeed>? = feedProvider?.feeds()
+    override suspend fun feeds(): List<FeedEntry>? = feedEditor?.feedEntries()
 
-    override suspend fun saveFeeds(feeds: List<UserFeed>) {
-        val provider = feedProvider ?: return
-        provider.save(feeds)
+    override suspend fun saveFeeds(feeds: List<FeedEntry>) {
+        val editor = feedEditor ?: return
+        editor.saveEntries(feeds)
         toast(R.string.cmp_toast_feeds)
     }
 
-    override suspend fun tryFeed(feed: UserFeed): List<String> =
-        feedProvider?.preview(feed)?.map { it.title } ?: emptyList()
+    override fun maxFeeds(): Int = feedEditor?.maxFeeds ?: 0
+
+    override suspend fun tryFeed(feed: FeedEntry): List<String> = feedEditor?.tryEntry(feed, TRY_LIMIT) ?: emptyList()
 
     override fun resolve(host: String): List<InetAddress> = InetAddress.getAllByName(host).toList()
 
@@ -143,5 +144,9 @@ internal class AndroidPhoneBackend(private val locator: ServiceLocator) : PhoneB
         val id = res.getIdentifier(key, "string", context.packageName)
         if (id == 0) return arg.orEmpty()
         return runCatching { if (arg != null) res.getString(id, arg) else res.getString(id) }.getOrDefault(arg.orEmpty())
+    }
+
+    private companion object {
+        const val TRY_LIMIT = 3
     }
 }

@@ -5,7 +5,9 @@ import io.shamash.data.Http
 import io.shamash.data.HttpPolicy
 import io.shamash.data.Preferences
 import io.shamash.data.ProfileSlot
+import io.shamash.data.Reach
 import io.shamash.data.Say
+import io.shamash.data.security.PublicArt
 import io.shamash.data.ServerHttp
 import io.shamash.data.ServerProvider
 import io.shamash.data.ServerUrl
@@ -19,6 +21,7 @@ import io.shamash.domain.Kind
 import io.shamash.domain.MediaItem
 import io.shamash.domain.OpenTarget
 import io.shamash.domain.Profile
+import io.shamash.domain.ProfileListsOwner
 import io.shamash.domain.ProviderCredentials
 import io.shamash.domain.RowSource
 import io.shamash.domain.Shelf
@@ -61,7 +64,13 @@ class PodcastProvider(
     say: Say,
     clock: () -> Long = System::currentTimeMillis,
     private val policy: HttpPolicy = HttpPolicy.NONE,   // https only (PEX-22); tests use a local http server
-) : ServerProvider(ID, say, clock) {
+) : ServerProvider(ID, say, clock), ProfileListsOwner {
+    /** Remove: the active profile's own list goes too. SPEC: PEX-05 */
+    override suspend fun clearProfileLists() {
+        store.clear()
+        known = emptyList()
+    }
+
     @Volatile private var known: List<Subscription> = emptyList()
 
     override fun rowSources() = listOf(
@@ -91,14 +100,14 @@ class PodcastProvider(
     /** Follows every show of an OPML file at [url] (a podcast app's export); gives how many are followed now. */
     suspend fun importOpml(url: String): Int {
         val address = ServerUrl.parse(url, policy) ?: error("address")
-        val found = server.read(address, timeoutMs = TIMEOUT_MS, maxBytes = MAX_BYTES) { Opml.parse(it) }
+        val found = server.read(address, timeoutMs = TIMEOUT_MS, maxBytes = MAX_BYTES, reach = Reach.PUBLIC) { Opml.parse(it) }
         known = store.save(store.list() + found)
         return known.size
     }
 
     suspend fun fetch(sub: Subscription): Podcast {
         val url = ServerUrl.parse(sub.url, policy) ?: error("address")
-        return server.read(url, timeoutMs = TIMEOUT_MS, maxBytes = MAX_BYTES) { PodcastFeed.parse(it) }
+        return server.read(url, timeoutMs = TIMEOUT_MS, maxBytes = MAX_BYTES, reach = Reach.PUBLIC) { PodcastFeed.parse(it) }   // SPEC: CMP-10
     }
 
     override suspend fun build(profile: Profile, wanted: List<RowSource>): List<Shelf> {
@@ -137,7 +146,7 @@ class PodcastProvider(
             shows.flatMap { (_, show) -> show.episodes.map { show to it } }.sortedByDescending { it.second.dateMs ?: Long.MIN_VALUE }
 
         fun card(show: Podcast, ep: Episode, player: String, poster: Boolean = false): MediaItem {
-            val art = ep.image ?: show.image
+            val art = PublicArt.url(ep.image ?: show.image)   // SPEC: CMP-10: a feed's art never points into the LAN
             return MediaItem(
                 id = "$ID:${ep.audioUrl.hashCode().toUInt().toString(16)}", providerId = ID,
                 title = if (poster) show.title.ifEmpty { ep.title } else ep.title, kind = Kind.VIDEO,

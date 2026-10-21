@@ -83,7 +83,8 @@ override fun rowSources() = listOf(
 ```
 
 At most `RowSources.MAX` (12). Home shows them as shelves with id `"<addOnId>:<sourceId>"`; the user's on/off and
-renames are saved as `RowPref`s through `RowSources.withOn/withTitle`, and Remove clears them (`RowSources.cleared`).
+renames are saved as `RowPref`s through `RowSources.withOn/withTitle`; Remove clears them (`RowSources.cleared`) and
+your per-profile favorites, follows or feeds (implement `ProfileListsOwner`).
 Inside `build`, wrap each row in `source(s, style) { ... }` so one slow or failing row doesn't sink the rest.
 
 ## 6. Test connection (`TestableProvider`, PEX-05)
@@ -101,7 +102,8 @@ yourself, in `shelves`, `featured` and `search`.
 ## 8. Opening items (ARCH-11)
 
 Every card has an `OpenTarget`: `AppPage(uri, appPackage)` for a deep link, `App(pkg)`, `Video(youtubeId)`,
-`AppScreen(...)`. The Opener falls back to launching the app. Keep `id` unique (`"<addOnId>:<your id>"`) and
+`AppScreen(...)`; the Opener falls back to launching the app. `AppScreen.resumeExtraKey` names the extra taking a start
+position in ms, so Home resumes a preview there (HOME-20, Watchme+). Keep `id` unique (`"<addOnId>:<your id>"`) and
 `providerId = ID`.
 
 ## 9. Strings (PEX-30)
@@ -136,12 +138,11 @@ folders an add-on's package may appear only on its registration line and on one 
 | Hook | Why |
 |---|---|
 | `feature/settings/AddonsPanel.kt` | a `when (addOn.id)` branch for extra settings beside the shared panel (Plex sign-in, IPTV favorites, feed editor) |
-| `feature/home/HomeActions.kt` (Cinemana only) | known debt: resume in Watchme+; delete the import and its branches with Cinemana |
 | `app/ServiceLocator.kt` (Trakt only) | starts Trakt / Simkl write-back |
-| `feature/companion/` (My feed only) | known debt (`DEBT` in the test): the phone's feed editor uses My feed's types; never add to it |
 
-Add a hook only when there is no other way, list it in that test and here. Prefer optional interfaces the core already
-understands (`RowSourceProvider`, `TestableProvider`, `PreviewSource`, `RefreshableProvider`, `PersonalBridge`).
+Home and the phone page name no add-on (tested): resume uses `AppScreen.resumeExtraKey`, feeds `domain/FeedEditor`.
+Add a hook only when there is no other way, in that test and here. Prefer optional interfaces (`RowSourceProvider`,
+`TestableProvider`, `PreviewSource`, `RefreshableProvider`, `PersonalBridge`, `FeedEditor`, `ProfileListsOwner`).
 
 ## Rules in short (PLT-06)
 

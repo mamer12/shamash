@@ -22,9 +22,7 @@ import io.shamash.R
 import io.shamash.app.ServiceLocator
 import io.shamash.data.HttpPolicy
 import io.shamash.data.ServerUrl
-import io.shamash.data.myfeed.FeedKind
 import io.shamash.data.myfeed.FeedStore
-import io.shamash.data.myfeed.FeedStyle
 import io.shamash.data.myfeed.JsonMapping
 import io.shamash.data.myfeed.MyFeedProvider
 import io.shamash.data.myfeed.UserFeed
@@ -32,6 +30,8 @@ import io.shamash.domain.ContentLevel
 import io.shamash.ui.OnePicker
 import io.shamash.ui.Palette
 import io.shamash.ui.TextInput
+import io.shamash.domain.FeedKind
+import io.shamash.domain.FeedStyle
 import kotlinx.coroutines.launch
 
 /** What the user is typing for a new feed. */

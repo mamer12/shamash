@@ -91,6 +91,7 @@ private fun LookEditor(layout: Layout, onChange: (Layout) -> Unit, providerIds: 
     OnePicker(TempUnit.entries, look.temp, { set(look.copy(temp = it)) }) {
         stringResource(when (it) { TempUnit.AUTO -> R.string.temp_auto; TempUnit.C -> R.string.temp_c; TempUnit.F -> R.string.temp_f })
     }
+    Toggle(R.string.layout_autoplay, layout.autoplay) { onChange(layout.copy(autoplay = it)) }   // LAY-07
     Toggle(R.string.layout_weather_show, look.showWeather) { set(look.copy(showWeather = it)) }
     Toggle(R.string.layout_arabic_layout, look.arabicLayout) { set(look.copy(arabicLayout = it)) }
     Toggle(R.string.layout_arabic_digits, look.arabicDigits) { set(look.copy(arabicDigits = it)) }

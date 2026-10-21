@@ -21,10 +21,10 @@ import io.shamash.R
 import io.shamash.app.ServiceLocator
 import io.shamash.domain.MediaItem
 import io.shamash.domain.Profile
-import io.shamash.domain.ProfileKind
 import io.shamash.domain.Provider
 import io.shamash.domain.RefreshableProvider
 import io.shamash.domain.Shelf
+import io.shamash.feature.profiles.Restrictions
 import io.shamash.domain.ShelfStyle
 import io.shamash.ui.Palette
 import io.shamash.ui.ProviderPage
@@ -46,7 +46,8 @@ class QueueProvider(private val store: QueueStore, private val ownPackage: Strin
     override val entryUri = QueueOps.SCHEME
     override val titleResource = R.string.cmp_queue_row
 
-    override fun isEnabled(profile: Profile) = profile.kind != ProfileKind.GUEST
+    /** Not for Kids or Guest: no phone remote there (PRF-10), so nothing queued may open. */
+    override fun isEnabled(profile: Profile) = Restrictions.of(profile.kind).phoneRemote
 
     override suspend fun shelves(profile: Profile): List<Shelf> {
         val cards = store.list(profile.id).map { QueueOps.card(it, ownPackage) }

@@ -174,9 +174,16 @@ object Companion {
             send = { text -> actions.handle(PhoneLink.classify(text)) },
             words = { word, language ->
                 val res = PhoneWords.resources(locator.appContext, language)
-                res.getString(if (word == SendWord.LOCKED) R.string.companion_locked else R.string.companion_wrong_pin)
+                res.getString(
+                    when (word) {
+                        SendWord.LOCKED -> R.string.companion_locked
+                        SendWord.WRONG_PIN -> R.string.companion_wrong_pin
+                        SendWord.NOT_ALLOWED -> R.string.companion_not_allowed
+                    },
+                )
             },
             nonce = { Base64.getUrlEncoder().withoutPadding().encodeToString(ByteArray(NONCE_BYTES).also(random::nextBytes)) },
+            sendAllowed = { locator.session.restrictions.phoneRemote },   // SPEC: PRF-10: no phone remote for Kids, Guest
         )
     }
 }

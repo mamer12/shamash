@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.focus.FocusRequester
 import io.shamash.app.ServiceLocator
-import io.shamash.data.cinemana.CinemanaProvider
 import io.shamash.domain.MediaItem
 import io.shamash.domain.OpenTarget
 import io.shamash.domain.TvApp
@@ -23,20 +22,9 @@ class HomeActions(
     /** Opens a title; [atMs] (a preview's position) goes along to Shamash's own player routes as `at=`. SPEC: HOME-20 */
     fun open(item: MediaItem, atMs: Long? = null) {
         previews.stop(null)
-        val target = item.open
-        val opened = when {
-            atMs == null -> item
-            target is OpenTarget.Internal -> item.copy(open = OpenTarget.Internal(withAt(target.route, atMs)))
-            target is OpenTarget.AppPage && target.uri.startsWith(OWN_SCHEME) ->
-                item.copy(open = target.copy(uri = withAt(target.uri, atMs)))   // add-ons' own screens (Cinemana)
-            target is OpenTarget.AppScreen && target.appPackage == CinemanaProvider.WATCHME ->
-                item.copy(open = target.copy(extras = target.extras + (CinemanaProvider.WATCHME_PLAY_AT to atMs.toString())))   // Watchme+ resumes there
-            else -> item
-        }
+        val opened = resumedAt(item, atMs)
         scope.launch { locator.opener.open(opened) }
     }
-
-    private fun withAt(route: String, atMs: Long): String = route + (if ('?' in route) '&' else '?') + "at=$atMs"
 
     fun openFeatured(item: MediaItem) = open(item, null)
 
@@ -63,10 +51,36 @@ class HomeActions(
         if (locator.session.restrictions.settings) locator.opener.internal(ROUTE_SETTINGS)
     }
 
-    private companion object {
-        const val ROUTE_SEARCH = "search"
-        const val ROUTE_SETTINGS = "settings"
-        const val OWN_SCHEME = "shamash://"
+    /** The row editor, from Menu on a Home row; Kids and Guest never reach it. SPEC: LAY-02, LAY-21 */
+    fun editRows() {
+        if (locator.session.restrictions.settings) locator.opener.internal(ROUTE_ROW_EDITOR)
+    }
+
+    companion object {
+        private const val ROUTE_SEARCH = "search"
+        private const val ROUTE_SETTINGS = "settings"
+        private const val OWN_SCHEME = "shamash://"
+        const val ROUTE_ROW_EDITOR = "settings?section=layout"
+
+        /**
+         * [item] with [atMs] carried to where it opens: `at=` on Shamash's own routes and add-on screens, or the extra
+         * an app screen names in [OpenTarget.AppScreen.resumeExtraKey] (Watchme+). Anything else opens as it is. SPEC: HOME-20
+         */
+        fun resumedAt(item: MediaItem, atMs: Long?): MediaItem {
+            val target = item.open
+            val key = (target as? OpenTarget.AppScreen)?.resumeExtraKey
+            return when {
+                atMs == null -> item
+                target is OpenTarget.Internal -> item.copy(open = OpenTarget.Internal(withAt(target.route, atMs)))
+                target is OpenTarget.AppPage && target.uri.startsWith(OWN_SCHEME) ->
+                    item.copy(open = target.copy(uri = withAt(target.uri, atMs)))
+                target is OpenTarget.AppScreen && !key.isNullOrBlank() ->
+                    item.copy(open = target.copy(extras = target.extras + (key to atMs.toString())))
+                else -> item
+            }
+        }
+
+        private fun withAt(route: String, atMs: Long): String = route + (if ('?' in route) '&' else '?') + "at=$atMs"
     }
 }
 

@@ -21,6 +21,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
@@ -97,14 +102,17 @@ private fun Hero(
         )
         Box(Modifier.align(Alignment.BottomStart).padding(start = Dimens.Margin, bottom = 20.dp)) {
             when {
-                ui.featured.isNotEmpty() -> BillboardInfo(billboard, active, actions::openFeatured, focus.button)
+                ui.featured.isNotEmpty() -> BillboardInfo(billboard, active && ui.autoplay, actions::openFeatured, focus.button)
                 ui.ready -> EmptyBillboard(actions::settings, focus.button)
             }
         }
     }
 }
 
-/** A lazy list of rows; the focused row's cards sit just under the top. */
+/**
+ * A lazy list of rows; the focused row's cards sit just under the top. Menu on a row opens the row editor: a long OK
+ * press there is already the card menu (PER-07), and row titles take no focus. SPEC: LAY-02
+ */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RowsList(
@@ -116,7 +124,11 @@ fun RowsList(
 ) {
     CompositionLocalProvider(LocalBringIntoViewSpec provides rememberAlignStart(ROW_ANCHOR)) {
         LazyColumn(
-            modifier.fillMaxWidth().height(height),
+            modifier.fillMaxWidth().height(height).onKeyEvent { e ->
+                if (e.key != Key.Menu) return@onKeyEvent false
+                if (e.type == KeyEventType.KeyUp) actions.editRows()
+                true
+            },
             contentPadding = PaddingValues(top = 8.dp, bottom = height / 2),
         ) {
             items(rows, key = { it.id }) { shelf -> MediaRow(shelf, actions::open, previews = previews) }

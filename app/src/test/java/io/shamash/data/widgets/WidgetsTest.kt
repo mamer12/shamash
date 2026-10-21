@@ -79,7 +79,7 @@ class WidgetsTest {
     }
 
     private fun provider(f: Fake, store: WidgetStore = WidgetStore(MemorySecrets()) { "p1" }, clock: () -> Long): WidgetsProvider {
-        val server = ServerHttp(Http(null))
+        val server = ServerHttp(Http(null), refused = { false })
         val prices = PriceApi(server, clock, f.server.url("/simple/price").toHttpUrl(), f.server.url("/rates/").toHttpUrl())
         return WidgetsProvider(store, prices, server, say = { "s$it" }, clock = clock, policy = HttpPolicy.ANY)
     }
@@ -141,7 +141,7 @@ class WidgetsTest {
             assertEquals(WidgetConfig(), WidgetStore(secrets) { "b" }.get())
             val strict = WidgetsProvider(
                 WidgetStore(MemorySecrets()) { "p1" }, PriceApi(ServerHttp(Http(null)), { 0L }, f.server.url("/simple/price").toHttpUrl(), f.server.url("/rates/").toHttpUrl()),
-                ServerHttp(Http(null)), say = { "s$it" }, clock = { 0L },
+                ServerHttp(Http(null), refused = { false }), say = { "s$it" }, clock = { 0L },
             )
             val tiles = strict.tiles(WidgetConfig(symbols = emptyList(), feeds = listOf(f.server.url("/news.xml"))))
             assertTrue(tiles.isEmpty())

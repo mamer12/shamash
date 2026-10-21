@@ -17,6 +17,10 @@
     <string name="mcs_earlier">أبكر</string>
     <string name="mcs_later">لاحقًا</string>
     <string name="mcs_days">الأيام (بلا اختيار: كل يوم)</string>
+    <string name="mcs_always_title">دائمًا</string>
+    <string name="mcs_always_text">المباراة المميّزة بنجمة تظهر بطاقاتها حتى في ساعات الهدوء.</string>
+    <string name="mcs_always_none">لا مباريات قادمة لما تتابعه هذا الأسبوع.</string>
+    <string name="mcs_always_match">%1$s ★ %2$s</string>
     <string name="mcs_toggle">%1$s: %2$s</string>
     <string name="mcs_on">مفعّل</string>
     <string name="mcs_off">متوقف</string>

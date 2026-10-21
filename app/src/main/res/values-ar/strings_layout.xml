@@ -76,6 +76,7 @@
     <string name="temp_auto">حسب المنطقة</string>
     <string name="temp_c">مئوية</string>
     <string name="temp_f">فهرنهايت</string>
+    <string name="layout_autoplay">تتنقّل الواجهة الرئيسية تلقائيًا</string>
     <string name="layout_weather_show">إظهار الطقس</string>
     <string name="layout_arabic_layout">تخطيط عربي (عكس الرئيسية)</string>
     <string name="layout_arabic_digits">الأرقام الهندية</string>

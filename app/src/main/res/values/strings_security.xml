@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- SPEC: PRF-10: the phone remote is off while a Kids or Guest profile is on the TV. -->
+    <string name="companion_not_allowed">The phone remote is off for the profile on the TV now.</string>
+</resources>

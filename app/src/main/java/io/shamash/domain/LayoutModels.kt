@@ -31,6 +31,7 @@ data class Layout(
     val mix: List<String> = emptyList(),     // carousel source order; empty = HOME-10 default (LAY-12)
     val mixOff: Set<String> = emptySet(),    // carousel sources switched off
     val look: Look = Look(),
+    val autoplay: Boolean = true,            // the billboard moves on by itself; Minimal turns it off (LAY-07)
 )
 
 @Serializable
@@ -46,6 +47,7 @@ data class LayoutPreset(
     val tabs: List<String> = emptyList(),
     val hideRest: Boolean = false,
     val rules: List<MomentRule> = emptyList(),
+    val autoplay: Boolean = true,
 ) {
     companion object {
         const val CINEMA = "cinema"

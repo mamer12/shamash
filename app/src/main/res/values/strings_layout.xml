@@ -77,6 +77,7 @@
     <string name="temp_auto">By region</string>
     <string name="temp_c">Celsius</string>
     <string name="temp_f">Fahrenheit</string>
+    <string name="layout_autoplay">Billboard moves on by itself</string>
     <string name="layout_weather_show">Show weather</string>
     <string name="layout_arabic_layout">Arabic layout (mirror Home)</string>
     <string name="layout_arabic_digits">Arabic-Indic digits</string>

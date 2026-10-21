@@ -1,8 +1,9 @@
 package io.shamash.feature.home
 
-import android.util.Log
+import io.shamash.data.Logger
 import io.shamash.app.ServiceLocator
 import io.shamash.domain.Carousel
+import io.shamash.domain.LayoutFetch
 import io.shamash.domain.MatchState
 import io.shamash.domain.MediaItem
 import io.shamash.domain.Preview
@@ -10,6 +11,8 @@ import io.shamash.domain.PreviewSource
 import io.shamash.domain.Profile
 import io.shamash.domain.Provider
 import io.shamash.domain.RefreshableProvider
+import io.shamash.domain.RowSourceProvider
+import io.shamash.domain.RowSources
 import io.shamash.feature.matchcentre.BroadcastLoader
 import io.shamash.feature.matchcentre.MatchWatch
 import kotlinx.coroutines.CancellationException
@@ -94,13 +97,15 @@ class HomeModel private constructor(private val locator: ServiceLocator) {
             lastRun.clear()
             lastProfile = profile
         }
-        val providers = locator.providers.filter { p -> soft("enabled ${p.id}", false) { p.isEnabled(profile) } }
-        val ids = providers.map { it.id }
+        val enabled = locator.providers.filter { p -> soft("enabled ${p.id}", false) { p.isEnabled(profile) } }
+        val ids = enabled.map { it.id }
+        val providers = enabled.filter { p -> soft("layout ${p.id}", true) { fetchNeeded(p, profile) } }   // SPEC: LAY-04
+        val fetched = providers.map { it.id }.toSet()
         loaded.update { old ->
             old.copy(
                 providers = old.providers.filterKeys { it in ids },
                 order = ids,
-                pending = ids.filterNot { it in old.providers }.toSet(),
+                pending = fetched.filterNot { it in old.providers }.toSet(),
                 started = true,
             )
         }
@@ -114,6 +119,17 @@ class HomeModel private constructor(private val locator: ServiceLocator) {
             launch { every("matches", ::matchesInterval) { loadMatches(profile) } }
             launch { every("weather", { Schedule.WEATHER_MS }) { loadWeather(profile) } }
         }
+    }
+
+    /**
+     * A provider whose rows are all hidden is not fetched, unless the billboard or the Discover tab still reads it; its
+     * rows are known from the last fetch or the rows it offers. SPEC: LAY-04
+     */
+    private fun fetchNeeded(p: Provider, profile: Profile): Boolean {
+        val known = loaded.value.providers[p.id]?.shelves.orEmpty()
+        val offered = (p as? RowSourceProvider)?.rowSources().orEmpty()
+            .filter { RowSources.isOn(profile, p.id, it) }.map { RowSources.shelfId(p.id, it.id) }
+        return LayoutFetch.needed(p.id, known.map { it.id } + offered, profile.layout, HomeRows.readsRows(known))
     }
 
     /** Runs [load] now if it's due, then every [interval] (read again after each run). */
@@ -172,7 +188,6 @@ class HomeModel private constructor(private val locator: ServiceLocator) {
     }
 
     companion object {
-        private const val TAG = "Shamash"
         private const val COALESCE_MS = 120L
         private const val MINUTE_MS = 60_000L
         private const val RECENT_LIMIT = 12
@@ -190,14 +205,14 @@ class HomeModel private constructor(private val locator: ServiceLocator) {
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
-            Log.w(TAG, "$what: $e")
+            Logger.w(what, e)
             fallback
         }
 
         private fun <T> soft(what: String, block: () -> T): T? = try {
             block()
         } catch (e: Exception) {
-            Log.w(TAG, "$what: $e")
+            Logger.w(what, e)
             null
         }
     }
