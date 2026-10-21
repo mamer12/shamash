@@ -123,6 +123,8 @@ class LayoutTest {
     @Test fun LAY_16_digits_stay_western_unless_arabic_indic_is_picked() {
         assertEquals("21:30", Digits.localize("21:30", false))
         assertEquals("٢١:٣٠", Digits.localize("21:30", true))
+        assertEquals("11:00 · 29°", Digits.localize("١١:٠٠ · ٢٩°", false))   // an Arabic locale's own formatting
+        assertEquals("21:30", Digits.localize("۲۱:۳۰", false))
     }
 
     @Test fun LAY_17_mirrored_order_and_direction() {

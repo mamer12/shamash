@@ -59,31 +59,6 @@ internal fun YouPanel(p: Profile, save: (Profile) -> Unit) {
     Button(onClick = { save(p.copy(onboarded = false)) }) { Text(stringResource(R.string.settings_redo)) }
 }
 
-/** The optional keys; typed text is hidden, saved on Save. SPEC: ONB-02 step 6 */
-@Composable
-internal fun KeysPanel(p: Profile, save: (Profile) -> Unit) {
-    var keys by remember(p) { mutableStateOf(Keys.of(p)) }
-    KeyFields(keys) { keys = it }
-    Spacer(Modifier.height(16.dp))
-    Button(onClick = { save(keys.into(p)) }) { Text(stringResource(R.string.settings_save)) }
-}
-
-/** The three key fields, shared with setup. */
-@Composable
-internal fun KeyFields(keys: Keys, onChange: (Keys) -> Unit) {
-    Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
-        TextInput(
-            stringResource(R.string.key_tmdb), keys.tmdb, { onChange(keys.copy(tmdb = it)) },
-            secret = true, hint = stringResource(R.string.key_tmdb_where),
-        )
-        TextInput(stringResource(R.string.key_youtube_id), keys.youtubeId, { onChange(keys.copy(youtubeId = it)) }, secret = true)
-        TextInput(
-            stringResource(R.string.key_youtube_secret), keys.youtubeSecret, { onChange(keys.copy(youtubeSecret = it)) },
-            secret = true, hint = stringResource(R.string.key_youtube_where),
-        )
-    }
-}
-
 /** The keys as edited, trimmed when saved. */
 data class Keys(val tmdb: String, val youtubeId: String, val youtubeSecret: String) {
     fun into(p: Profile) = p.copy(tmdbKey = tmdb.trim(), youtubeClientId = youtubeId.trim(), youtubeClientSecret = youtubeSecret.trim())

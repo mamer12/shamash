@@ -146,7 +146,8 @@ private fun Clock(weather: WeatherNow?, city: String, modifier: Modifier) {
                 Symbol(Icons.weather(weather.code, weather.isDay), Palette.Dawn, Modifier.size(13.dp))
                 Spacer(Modifier.width(4.dp))
                 val degrees = Digits.localize(stringResource(R.string.temperature, weather.degrees), look.arabicDigits)
-                Text(if (city.isEmpty()) degrees else stringResource(R.string.weather_line, degrees, city), style = Type.Small, maxLines = 1)
+                val place = city.split(' ').joinToString(" ") { it.replaceFirstChar(Char::titlecase) }   // typed "baghdad"
+                Text(if (place.isEmpty()) degrees else stringResource(R.string.weather_line, degrees, place), style = Type.Small, maxLines = 1)
             }
         }
     }

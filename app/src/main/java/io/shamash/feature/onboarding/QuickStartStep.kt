@@ -1,6 +1,6 @@
 package io.shamash.feature.onboarding
 
-import androidx.compose.foundation.border
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,7 +18,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.tv.material3.Border
 import androidx.tv.material3.Card
+import androidx.tv.material3.CardDefaults
 import androidx.tv.material3.Text
 import io.shamash.R
 import io.shamash.data.TvApps
@@ -50,10 +52,15 @@ internal fun QuickStartStep(answers: Answers, onChange: (Answers) -> Unit) {
         presets.forEach { preset ->
             val (name, desc) = names(preset.id)
             val shape = RoundedCornerShape(12.dp)
+            // The picked mark is the card's own border, so it scales with the focus animation; no hairline otherwise.
+            val isPicked = picked == preset.id
             Card(
                 onClick = { picked = preset.id; onChange(QuickStart.apply(preset, answers.region, installed, answers)) },
-                modifier = Modifier.width(240.dp).border(
-                    if (picked == preset.id) 4.dp else 0.dp, Palette.Gold, shape,
+                modifier = Modifier.width(240.dp),
+                shape = CardDefaults.shape(shape),
+                border = CardDefaults.border(
+                    border = if (isPicked) Border(BorderStroke(3.dp, Palette.Gold), shape = shape) else Border.None,
+                    focusedBorder = Border(BorderStroke(3.dp, if (isPicked) Palette.Gold else Palette.Ink), shape = shape),
                 ),
             ) {
                 Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {

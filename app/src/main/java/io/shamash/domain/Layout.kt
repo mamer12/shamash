@@ -218,9 +218,25 @@ object Accents {
 object Digits {
     private const val ARABIC_ZERO = '٠'
 
-    /** Western digits to Arabic-Indic when [arabicIndic]; anything else untouched. SPEC: LAY-17 */
-    fun localize(text: String, arabicIndic: Boolean): String =
-        if (!arabicIndic) text else text.map { if (it in '0'..'9') ARABIC_ZERO + (it - '0') else it }.joinToString("")
+    private const val PERSIAN_ZERO = '۰'
+
+    /**
+     * All digits to Arabic-Indic when [arabicIndic], else all to Western: the TV's own formatters (an Arabic locale's
+     * clock and `%d`) bring Arabic-Indic digits that must not leak into a Western-digits Home. SPEC: LAY-17
+     */
+    fun localize(text: String, arabicIndic: Boolean): String = text.map { c ->
+        val value = when (c) {
+            in '0'..'9' -> c - '0'
+            in ARABIC_ZERO..ARABIC_ZERO + 9 -> c - ARABIC_ZERO
+            in PERSIAN_ZERO..PERSIAN_ZERO + 9 -> c - PERSIAN_ZERO
+            else -> -1
+        }
+        when {
+            value < 0 -> c
+            arabicIndic -> ARABIC_ZERO + value
+            else -> '0' + value
+        }
+    }.joinToString("")
 
     /** Visual left-to-right order of [items] given the layout direction (RTL puts the first item at the right). SPEC: LAY-17 */
     fun <T> visualOrder(items: List<T>, rtl: Boolean): List<T> = if (rtl) items.reversed() else items

@@ -24,7 +24,10 @@ data class Answers(
     /** The geocoder's answer: its coordinates and country (the region for "where to watch"). */
     fun located(place: Place?): Answers =
         if (place == null) copy(latitude = null, longitude = null)
-        else copy(latitude = place.latitude, longitude = place.longitude, region = place.countryCode.ifBlank { region })
+        else copy(
+            city = place.name.ifBlank { city },   // the geocoder's spelling ("Baghdad", not "baghdad")
+            latitude = place.latitude, longitude = place.longitude, region = place.countryCode.ifBlank { region },
+        )
 
     fun into(start: Profile): Profile = keys.into(start).copy(
         onboarded = true,

@@ -18,22 +18,27 @@ import java.io.File
  * original store under `secret_<key>` (the shared namespace, kept so existing sign-ins and the mode survive).
  * SPEC: ONB-06, ARCH-06, PRF-02
  */
-class Preferences(val stores: DataStores, val profiles: ProfileStore = ProfileStore(stores)) {
+class Preferences(
+    val stores: DataStores,
+    val profiles: ProfileStore = ProfileStore(stores),
+    private val buildKeys: BuildKeys = BuildKeys(),
+) {
     private val secrets = stores.store(ProfileStore.LEGACY)
 
     constructor(context: Context) : this(
         DataStores(File(context.filesDir, "datastore"), CoroutineScope(SupervisorJob() + Dispatchers.IO)),
+        buildKeys = BuildKeys.fromBuild(),
     )
 
     /** The active profile; follows a profile switch. */
     val profile: Flow<Profile> = combine(profiles.active, profiles.profiles) { active, all ->
-        ProfileKeys.effective(active, all.firstOrNull())   // SHARED keys come from the owner (PRF-09)
+        buildKeys.applyTo(ProfileKeys.effective(active, all.firstOrNull()))   // SHARED keys come from the owner (PRF-09)
     }
 
     suspend fun current(): Profile = profile.first()
 
     suspend fun save(p: Profile) =
-        profiles.save(ProfileKeys.stripShared(p, profiles.profiles.first().firstOrNull()))
+        profiles.save(buildKeys.stripFrom(ProfileKeys.stripShared(p, profiles.profiles.first().firstOrNull())))
 
     /** A small secret or value outside the profile (YouTube sign-in, phone PIN…). */
     suspend fun secret(key: String): String? = secrets.data.first()[stringPreferencesKey("secret_$key")]

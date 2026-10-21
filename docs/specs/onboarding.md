@@ -5,7 +5,7 @@
 - ONB-02 Steps, each one screen, D-pad friendly, every step except Welcome skippable with "Skip":
   1. Welcome. 2. About you: first name, city (city is geocoded to latitude/longitude via Open-Meteo geocoding; the
   first match is used and shown for confirmation). 3. Your apps. 4. Your teams and competitions. 5. What you like.
-  6. Keys (optional): TMDB API key, YouTube OAuth client id/secret; each with a one-line "where to get it".
+  6. (Removed: the TMDB key and YouTube OAuth client are build-time values from local.properties, see ARCH and the README; no key screen on the TV.)
   7. Make Shamash your home screen (explains what changes and how to undo; can be done later from Settings).
 - ONB-03 "Your apps" lists the TV's launchable apps with their TV banners, known streaming services first;
   selecting marks "I subscribe". At least one must be selectable with the D-pad only.

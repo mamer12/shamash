@@ -119,9 +119,10 @@ changed later in Settings):
 5. Your teams and competitions
 6. What you like
 7. How should Home look?
-8. Optional keys: TMDB, YouTube (see the [README](../README.md#optional-keys)); typed here, in Settings › Keys, or
-   from your phone
-9. **Make Shamash your home screen**
+8. **Make Shamash your home screen**
+
+(The optional TMDB and YouTube keys aren't asked on the TV: they go in `local.properties` before building, see the
+[README](../README.md#optional-keys).)
 
 The switch (the last step, or later **Settings › Home screen › Use Shamash**) asks the TV once more to allow
 debugging, then:

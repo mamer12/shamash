@@ -1,8 +1,9 @@
 # Shamash: notes for Claude
 
 Shamash is an open-source home screen for Android TV and Google TV (Android 9+), in Kotlin and Jetpack Compose for
-TV, built with Gradle. Package `io.shamash`. Everything the person chooses (name, city, apps, teams, keys) is typed
-on the TV in its first-run setup or Settings, or from the phone page: nothing goes in the source or a config file.
+TV, built with Gradle. Package `io.shamash`. Everything the person chooses (name, city, apps, teams) is typed on the
+TV in its first-run setup or Settings, or from the phone page. The only things in a file are the optional API keys and
+the signing key, both in the git-ignored `local.properties`.
 
 The person you're helping may not be technical. Keep it short and friendly, say what you're about to do on their TV
 before you do it, and let them do the taps on the TV.
@@ -31,6 +32,12 @@ before you do it, and let them do the taps on the TV.
    -keysize 2048 -validity 10000`, run by **them in their own terminal** (it asks for passwords). Then add
    `signing.storeFile`, `signing.keyAlias` to `local.properties` and have them type `signing.storePassword` and
    `signing.keyPassword` there themselves. Passwords never go in the chat. Tell them to back up the keystore.
+   **API keys (optional, before building):** TMDB (themoviedb.org › Settings › API) and a YouTube OAuth client
+   (ID + secret, type *TVs and Limited Input devices*) go in `local.properties` as `tmdb.key=`, `youtube.clientId=`
+   and `youtube.clientSecret=`; the build bakes them in (there is no key screen on the TV). They are the person's
+   and secret: have them paste the values into `local.properties` themselves. Don't ask for keys in the chat, never
+   print them, never commit them. If they paste one in the chat anyway, put it only in `local.properties`. An APK
+   built with keys carries them: don't publish it.
 5. **Build:** `./gradlew assembleRelease` must end with `BUILD SUCCESSFUL`; the APK is
    `app/build/outputs/apk/release/app-release.apk`.
 6. **Install:** `adb connect <IP>:5555`. The TV asks *Allow USB debugging?*: tell them to accept and tick
@@ -53,11 +60,8 @@ before you do it, and let them do the taps on the TV.
    show in Settings: find the ones whose `cname=` is `com.google.android.tungsten.setupwraith` in
    `adb shell dumpsys wifi` (each block starts with its `ID:`), and only with their OK remove them with
    `adb shell cmd wifi forget-network <id>`.
-9. **Keys are theirs and secret.** TMDB (themoviedb.org › Settings › API) and the YouTube OAuth client (ID + secret,
-   type *TVs and Limited Input devices*) are optional. They type them on the TV in setup or **Settings › Keys**, or
-   from their phone: **Settings › Phone remote** shows an address and a 6-digit PIN, and every text field on the TV
-   offers "type it on your phone". Don't ask for keys in the chat, never print them, never put them in a file or a
-   commit. If they paste one in the chat anyway, tell them to type it on the TV and don't repeat it.
+9. **Keys** are in the build (step 4). Without them the parts that need one stay hidden; adding them later means
+   editing `local.properties`, rebuilding and `adb install -r`. Then **Settings › YouTube › Sign in** on the TV.
 10. **Check:** `adb logcat -s Shamash` (the app's one log tag) shows what the switch did and what failed.
 
 ## Updating and undoing

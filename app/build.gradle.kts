@@ -23,6 +23,15 @@ android {
     val local = Properties().apply {
         rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use(::load)
     }
+    // API keys from local.properties (or the environment, for CI), baked into BuildConfig; never in the source or the UI.
+    fun key(name: String, env: String): String =
+        (local.getProperty(name) ?: System.getenv(env) ?: "").trim().replace("\\", "\\\\").replace("\"", "\\\"")
+    defaultConfig {
+        buildConfigField("String", "TMDB_KEY", "\"${key("tmdb.key", "SHAMASH_TMDB_KEY")}\"")
+        buildConfigField("String", "YOUTUBE_CLIENT_ID", "\"${key("youtube.clientId", "SHAMASH_YOUTUBE_CLIENT_ID")}\"")
+        buildConfigField("String", "YOUTUBE_CLIENT_SECRET", "\"${key("youtube.clientSecret", "SHAMASH_YOUTUBE_CLIENT_SECRET")}\"")
+    }
+
     val ownKey = local.getProperty("signing.storeFile")?.let { path ->
         signingConfigs.create("own") {
             storeFile = file(path)
@@ -43,7 +52,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    buildFeatures { compose = true }
+    buildFeatures {
+        compose = true
+        buildConfig = true
+    }
     testOptions { unitTests.isReturnDefaultValues = true }
 }
 

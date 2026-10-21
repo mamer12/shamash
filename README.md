@@ -111,8 +111,17 @@ debugging connection to make the switch.
 
 ## Optional keys
 
-Free, and only yours. Shamash works without them (the parts that need one stay hidden). Type them in setup or
-**Settings › Keys**, on the TV or from your phone; they stay on the TV.
+Free, and only yours. Shamash works without them (the parts that need one stay hidden). Put them in the
+git-ignored `local.properties` before building; the build bakes them in, so there's no key screen on the TV:
+
+```properties
+tmdb.key=...
+youtube.clientId=...
+youtube.clientSecret=...
+```
+
+(CI can use `SHAMASH_TMDB_KEY`, `SHAMASH_YOUTUBE_CLIENT_ID`, `SHAMASH_YOUTUBE_CLIENT_SECRET` instead.) An APK built
+with your keys carries them, so don't publish it.
 
 | Key | What it adds | Where to get it |
 |---|---|---|
@@ -172,7 +181,7 @@ delete one from your fork, read the [add-on guide](docs/ADDONS.md).
 | The switch says it can't reach the TV's debugging | Developer options › USB / Network debugging must be on |
 | The switch stops and talks about Wi-Fi | The TV's first setup saved your Wi-Fi: forget the network in the TV's settings, join it again, switch again |
 | Pressing Home asks which home screen to use | Another launcher app is installed: uninstall it, or pick Shamash › *Always* |
-| No carousel or Popular rows | Add a TMDB key (Settings › Keys) |
+| No carousel or Popular rows | Add `tmdb.key` to `local.properties`, rebuild and reinstall |
 | `adb install` fails with a signature error | The installed copy was signed with another key: see [docs/INSTALL.md](docs/INSTALL.md#updating) |
 | The remote's Netflix / YouTube buttons stopped (TCL) | Shamash re-checks about a minute after a reboot or an update; if not, Settings › Home screen › *Use Shamash* again |
 | Slow full start (TV logo, Google TV animation) | That's the TV booting after a power cut; the remote's power button is instant on |

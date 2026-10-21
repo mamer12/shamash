@@ -59,7 +59,7 @@
     <string name="settings_watchdog">Shamash stopped unexpectedly several times, so the TV went back to its original home screen.</string>
     <string name="settings_youtube_in">Signed in. Recommended for you is on.</string>
     <string name="settings_youtube_out">Sign in for Recommended for you and YouTube search.</string>
-    <string name="settings_youtube_no_client">Add a YouTube OAuth client in Keys first.</string>
+    <string name="settings_youtube_no_client">Set youtube.clientId and youtube.clientSecret in local.properties, then rebuild (see the README).</string>
     <string name="settings_sign_in">Sign in</string>
     <string name="settings_sign_out">Sign out</string>
     <string name="settings_youtube_code">On your phone, open %1$s and enter</string>

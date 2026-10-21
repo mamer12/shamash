@@ -51,7 +51,6 @@ enum class Section(val title: Int) {
     ACCESSIBILITY(R.string.settings_a11y),
     YOU(R.string.settings_you),
     PROFILES(R.string.settings_profiles),
-    KEYS(R.string.settings_keys),
     YOUTUBE(R.string.settings_youtube),
     PHONE(R.string.settings_phone),
     ADDONS(R.string.settings_addons),
@@ -125,7 +124,6 @@ private fun Panel(section: Section, p: Profile, save: (Profile) -> Unit, locator
             Section.MATCHES -> io.shamash.feature.matchcentre.MatchSettingsPanel(p, save, locator)
             Section.YOU -> YouPanel(p, save)
             Section.PROFILES -> ProfilesPanel(locator)
-            Section.KEYS -> KeysPanel(p, save)
             Section.YOUTUBE -> YouTubePanel(p, locator)
             Section.PHONE -> PhonePanel(locator)
             Section.ADDONS -> AddonsPanel(p, save, locator)

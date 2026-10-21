@@ -55,7 +55,7 @@
     <string name="settings_watchdog">توقف شمش بشكل غير متوقع عدة مرات، فعاد التلفاز إلى شاشته الرئيسية الأصلية.</string>
     <string name="settings_youtube_in">تم تسجيل الدخول. «مقترح لك» يعمل.</string>
     <string name="settings_youtube_out">سجّل الدخول لترى «مقترح لك» والبحث في يوتيوب.</string>
-    <string name="settings_youtube_no_client">أضف عميل OAuth ليوتيوب في المفاتيح أولاً.</string>
+    <string name="settings_youtube_no_client">اضبط youtube.clientId وyoutube.clientSecret في local.properties ثم أعد البناء (راجع README).</string>
     <string name="settings_sign_in">تسجيل الدخول</string>
     <string name="settings_sign_out">تسجيل الخروج</string>
     <string name="settings_youtube_code">على هاتفك افتح %1$s وأدخل</string>

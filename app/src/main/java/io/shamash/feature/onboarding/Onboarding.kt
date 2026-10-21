@@ -52,7 +52,6 @@ import io.shamash.domain.Profile
 import io.shamash.feature.layout.PresetPicker
 import io.shamash.feature.matchcentre.CompetitionChips
 import io.shamash.domain.TvApp
-import io.shamash.feature.settings.KeyFields
 import io.shamash.feature.tvcontrol.SwitchPanel
 import io.shamash.feature.tvcontrol.SwitchState
 import io.shamash.feature.tvcontrol.rememberSwitchModel
@@ -71,7 +70,7 @@ val GENRES = listOf(
 )
 
 /** The steps, in order. SPEC: ONB-02 */
-private enum class Step { WELCOME, YOU, QUICK, APPS, TEAMS, GENRES, LOOK, KEYS, HOME }
+private enum class Step { WELCOME, YOU, QUICK, APPS, TEAMS, GENRES, LOOK, HOME }
 
 /**
  * The first run: who you are, the apps you pay for, your teams, what you like, optional keys, then the switch. One
@@ -136,9 +135,6 @@ fun Onboarding(start: Profile, done: (Profile) -> Unit) {
                 PresetPicker(LayoutPresets.all.map { it.id }, answers.preset ?: LayoutPreset.CINEMA) {
                     answers = answers.copy(preset = it)
                 }
-            }
-            Step.KEYS -> Page(R.string.setup_keys_title, R.string.setup_keys_text, R.string.setup_next, ::next, ::next) {
-                KeyFields(answers.keys) { answers = answers.copy(keys = it) }
             }
             Step.HOME -> HomeStep(onDone = { done(answers.into(start)) })
         }
