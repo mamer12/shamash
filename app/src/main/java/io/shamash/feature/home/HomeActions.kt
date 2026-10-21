@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.focus.FocusRequester
 import io.shamash.app.ServiceLocator
+import io.shamash.data.cinemana.CinemanaProvider
 import io.shamash.domain.MediaItem
 import io.shamash.domain.OpenTarget
 import io.shamash.domain.TvApp
@@ -28,6 +29,8 @@ class HomeActions(
             target is OpenTarget.Internal -> item.copy(open = OpenTarget.Internal(withAt(target.route, atMs)))
             target is OpenTarget.AppPage && target.uri.startsWith(OWN_SCHEME) ->
                 item.copy(open = target.copy(uri = withAt(target.uri, atMs)))   // add-ons' own screens (Cinemana)
+            target is OpenTarget.AppScreen && target.appPackage == CinemanaProvider.WATCHME ->
+                item.copy(open = target.copy(extras = target.extras + (CinemanaProvider.WATCHME_PLAY_AT to atMs.toString())))   // Watchme+ resumes there
             else -> item
         }
         scope.launch { locator.opener.open(opened) }

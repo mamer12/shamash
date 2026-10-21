@@ -85,7 +85,10 @@ class Opener(
 
     private fun screen(t: OpenTarget.AppScreen): Intent? {
         val intent = Intent().setClassName(t.appPackage, t.className)
-        t.extras.forEach { (k, v) -> intent.putExtra(k, v) }
+        t.extras.forEach { (k, v) ->
+            // Numeric extras (a resume position in ms) go as longs; the target app reads them with getLongExtra.
+            if (k.endsWith(PLAY_AT)) v.toLongOrNull()?.let { intent.putExtra(k, it) } else intent.putExtra(k, v)
+        }
         return intent.takeIf { it.resolveActivity(context.packageManager) != null }
     }
 
@@ -127,5 +130,6 @@ class Opener(
 
         /** Providers left out of history: links sent from the phone, which have no real title. */
         val OWN_PROGRESS = setOf("phone")
+        const val PLAY_AT = ".PLAY_AT"
     }
 }
